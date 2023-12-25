@@ -20,57 +20,74 @@ class TemplateRow extends StatelessWidget {
             ),
           ],
         ),
-        const Divider(
-          height: 20,
-          thickness: 2,
-          indent: 20,
-          endIndent: 20,
-          color: Colors.black,
-        ),
         Container(
           color: Colors.grey[300],
           child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               const Flexible(
-                child: Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: SizedBox(
-                    width: 30.0,
-                    child: TextField(
-                      textAlign: TextAlign.center,
-                      keyboardType: TextInputType.number,
-                      decoration: InputDecoration(
-                        labelText: 'Set',
-                        border: UnderlineInputBorder(),
-                      ),
+                child: Column(
+                  children: [
+                    Row(
+                      children: [
+                        Flexible(
+                          child: Padding(
+                            padding: EdgeInsets.all(8.0),
+                            child: SizedBox(
+                              width: 30.0,
+                              child: TextField(
+                                textAlign: TextAlign.center,
+                                keyboardType: TextInputType.number,
+                                decoration: InputDecoration(
+                                  labelText: 'Set',
+                                  border: UnderlineInputBorder(),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        Flexible(
+                          child: Padding(
+                            padding: EdgeInsets.all(8.0),
+                            child: TextField(
+                              textAlign: TextAlign.center,
+                              decoration: InputDecoration(
+                                labelText: 'Weight',
+                                border: UnderlineInputBorder(),
+                              ),
+                            ),
+                          ),
+                        ),
+                        Flexible(
+                          child: Padding(
+                            padding: EdgeInsets.all(8.0),
+                            child: TextField(
+                              textAlign: TextAlign.center,
+                              keyboardType: TextInputType.number,
+                              decoration: InputDecoration(
+                                labelText: 'Reps',
+                                border: UnderlineInputBorder(),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
-                  ),
-                ),
-              ),
-              const Flexible(
-                child: Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: TextField(
-                    textAlign: TextAlign.center,
-                    decoration: InputDecoration(
-                      labelText: 'Weight',
-                      border: UnderlineInputBorder(),
+                    Row(
+                      children: [
+                        Flexible(
+                          child: Padding(
+                            padding: EdgeInsets.all(8.0),
+                            child: TextField(
+                              decoration: InputDecoration(
+                                labelText: 'Exercise',
+                                border: UnderlineInputBorder(),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
-                  ),
-                ),
-              ),
-              const Flexible(
-                child: Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: TextField(
-                    textAlign: TextAlign.center,
-                    keyboardType: TextInputType.number,
-                    decoration: InputDecoration(
-                      labelText: 'Reps',
-                      border: UnderlineInputBorder(),
-                    ),
-                  ),
+                  ],
                 ),
               ),
               ElevatedButton(
@@ -81,31 +98,6 @@ class TemplateRow extends StatelessWidget {
               ),
             ],
           ),
-        ),
-        Container(
-          color: Colors.grey[300],
-          child: const Row(
-            children: [
-              Flexible(
-                child: Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: TextField(
-                    decoration: InputDecoration(
-                      labelText: 'Exercise',
-                      border: UnderlineInputBorder(),
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-        const Divider(
-          height: 20,
-          thickness: 2,
-          indent: 20,
-          endIndent: 20,
-          color: Colors.black,
         ),
       ],
     );
