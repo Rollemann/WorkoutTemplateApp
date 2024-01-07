@@ -32,7 +32,7 @@ class MainScreen extends StatelessWidget {
         body: Column(
           children: [
             TemplatesNavigation(allTabs: allTabs),
-            Expanded(
+            const Expanded(
               child: TabBarView(
                 children: [
                   TemplateDetails(),
