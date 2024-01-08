@@ -60,7 +60,7 @@ class _TemplateDetailsState extends State<TemplateDetails> {
 
   void removeRow(int index) {
     setState(() {
-      final removedRow = templateRows[index];
+      //final removedRow = templateRows[index];
       templateRows.removeAt(index);
     });
   }
