@@ -12,11 +12,10 @@ class TemplateDetails extends StatefulWidget {
 }
 
 class _TemplateDetailsState extends State<TemplateDetails> {
-  final listKey = GlobalKey<AnimatedListState>();
   //final controller = AnimatedListController();
   List<String> templateRows = [
+    "test0",
     "test1",
-    "test2",
   ];
 
   @override
@@ -25,8 +24,6 @@ class _TemplateDetailsState extends State<TemplateDetails> {
       alignment: Alignment.bottomRight,
       children: [
         ReorderableListView.builder(
-
-          key: listKey,
           itemCount: templateRows.length,
           onReorder: (oldIndex, newIndex) {
             setState(() {
@@ -38,7 +35,7 @@ class _TemplateDetailsState extends State<TemplateDetails> {
             });
           },
           itemBuilder: (context, index) => TemplateRow(
-              key: ValueKey(templateRows[index]),
+              key: ValueKey(index),
               text: templateRows[index],
               //animation: animation,
               removeRow: () => removeRow(index)),
@@ -53,31 +50,18 @@ class _TemplateDetailsState extends State<TemplateDetails> {
   }
 
   void addRow() {
-    final newIndex = templateRows.length;
-    final newRow = "Test $newIndex";
-    templateRows.insert(0, newRow);
-    log("add");
-    //controller.notifyInsertedRange(0, 1);
-    listKey.currentState!.insertItem(newIndex);
+    setState(() {
+      final newIndex = templateRows.length;
+      final newRow = "Test $newIndex";
+      templateRows.add(newRow);
+      log("add ${templateRows.length}");
+    });
   }
 
   void removeRow(int index) {
-    final removedRow = templateRows[index];
-
-    templateRows.removeAt(index);
-    /* controller.notifyRemovedRange(
-        index,
-        1,
-        (context, index, data) => TemplateRow(
-              text: removedRow[index],
-              removeRow: () {},
-            )); */
-    listKey.currentState!.removeItem(
-        index,
-        (context, animation) => TemplateRow(
-              text: removedRow,
-              //animation: animation,
-              removeRow: () {},
-            ));
+    setState(() {
+      final removedRow = templateRows[index];
+      templateRows.removeAt(index);
+    });
   }
 }

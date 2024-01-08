@@ -16,13 +16,13 @@ class TemplateRow extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(5.0),
-      child: Card(
+      child: Container(
         color: Colors.grey[300],
         child: Padding(
           padding: const EdgeInsets.only(left: 10),
           child: Row(
             children: [
-              Icon(Icons.drag_handle),
+              const Icon(Icons.drag_handle),
               Flexible(
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
@@ -110,22 +110,6 @@ class TemplateRow extends StatelessWidget {
 //////////////// add and remove from reorder list
 /* import 'package:flutter/material.dart';
 
-void main() => runApp(MyApp());
-
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
-    );
-  }
-}
-
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key key, this.title}) : super(key: key);
 
@@ -150,9 +134,6 @@ class _MyHomePageState extends State<MyHomePage> {
             for (final str in listItems)
               Dismissible(
                   key: Key(str),
-                  background: Container(
-                    color: Colors.red,
-                  ),
                   onDismissed: (direction) {
                     var delIndex = listItems.indexOf(str);
                     setState(() {
