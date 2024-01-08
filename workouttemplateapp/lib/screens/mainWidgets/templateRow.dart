@@ -107,6 +107,12 @@ class TemplateRow extends StatelessWidget {
 }
 
 
+/////////////////////////Daten speichern
+/* 
+ListItem als Class definiert (verschiedene Felder)
+Liste von diesen ListItems definiert
+ */
+
 /////////////////////////Drag Lines
 /* import 'dart:ui';
 
