@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 //import 'package:great_list_view/great_list_view.dart';
 import 'package:workouttemplateapp/screens/templateRow.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class TemplateDetails extends StatefulWidget {
   const TemplateDetails({super.key});
