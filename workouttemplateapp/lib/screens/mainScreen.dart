@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:workouttemplateapp/screens/templateDetails.dart';
-import 'package:workouttemplateapp/screens/templatesNavigation.dart';
+import 'package:workouttemplateapp/screens/mainWidgets/templateDetails.dart';
+import 'package:workouttemplateapp/screens/mainWidgets/templatesNavigation.dart';
 
 class MainScreen extends StatelessWidget {
   MainScreen({super.key});
