@@ -1,11 +1,11 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:workouttemplateapp/dbHandler.dart';
 
 class TemplatesNavigation extends StatelessWidget {
-  final List<Tab> allTabs;
-
-  const TemplatesNavigation({required this.allTabs, super.key});
+  final Function addTab;
+  const TemplatesNavigation({super.key, required this.addTab});
 
   @override
   Widget build(BuildContext context) {
@@ -14,11 +14,11 @@ class TemplatesNavigation extends StatelessWidget {
         Expanded(
           flex: 8,
           child: TabBar(
-            tabs: allTabs,
+            tabs: createTabs(),
           ),
         ),
         ElevatedButton(
-          onPressed: () => {log("new Tab")},
+          onPressed: () => {addTab()},
           style: const ButtonStyle(
               shape: MaterialStatePropertyAll(CircleBorder())),
           child: const Icon(Icons.add),
@@ -28,8 +28,19 @@ class TemplatesNavigation extends StatelessWidget {
           style: const ButtonStyle(
               shape: MaterialStatePropertyAll(CircleBorder())),
           child: const Icon(Icons.arrow_downward),
-        )
+        ),
       ],
     );
+  }
+
+  List<Tab> createTabs() {
+    final List<Tab> tabList = [];
+    for (var curTab in AllData.allData) {
+      tabList.add(Tab(
+        icon: curTab.icon,
+        text: curTab.name,
+      ));
+    }
+    return tabList;
   }
 }

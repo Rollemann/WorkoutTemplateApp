@@ -30,16 +30,18 @@ class TemplateRow extends StatelessWidget {
                     const Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Padding(
-                          padding: EdgeInsets.all(8.0),
-                          child: SizedBox(
-                            width: 30.0,
-                            child: TextField(
-                              textAlign: TextAlign.center,
-                              keyboardType: TextInputType.number,
-                              decoration: InputDecoration(
-                                labelText: 'Set',
-                                border: UnderlineInputBorder(),
+                        Flexible(
+                          child: Padding(
+                            padding: EdgeInsets.all(8.0),
+                            child: SizedBox(
+                              width: 30.0,
+                              child: TextField(
+                                textAlign: TextAlign.center,
+                                keyboardType: TextInputType.number,
+                                decoration: InputDecoration(
+                                  labelText: 'Set',
+                                  border: UnderlineInputBorder(),
+                                ),
                               ),
                             ),
                           ),

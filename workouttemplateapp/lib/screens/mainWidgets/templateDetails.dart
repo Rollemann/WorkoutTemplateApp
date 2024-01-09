@@ -3,10 +3,11 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 //import 'package:great_list_view/great_list_view.dart';
 import 'package:workouttemplateapp/screens/mainWidgets/templateRow.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:workouttemplateapp/screens/mainWidgets/templateSettings.dart';
 
 class TemplateDetails extends StatefulWidget {
-  const TemplateDetails({super.key});
+  final VoidCallback removeTab;
+  const TemplateDetails({super.key, required this.removeTab});
 
   @override
   State<TemplateDetails> createState() => _TemplateDetailsState();
@@ -45,6 +46,9 @@ class _TemplateDetailsState extends State<TemplateDetails> {
           onPressed: () => addRow(),
           tooltip: 'Add new Row',
           child: const Icon(Icons.add),
+        ),
+        TemplateSettings(
+          removeTab: widget.removeTab,
         ),
       ],
     );
