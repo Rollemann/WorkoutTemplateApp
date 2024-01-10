@@ -1,12 +1,17 @@
-import 'dart:developer';
 import 'package:flutter/material.dart';
-import 'package:workouttemplateapp/confirmationDialog.dart';
+import 'package:workouttemplateapp/allDialogs.dart';
 
 class TemplateSettings extends StatelessWidget {
   final VoidCallback removeTab;
   final Function addRow;
+  final Function renameTab;
+  final int currentTabId;
   const TemplateSettings(
-      {super.key, required this.removeTab, required this.addRow});
+      {super.key,
+      required this.removeTab,
+      required this.addRow,
+      required this.renameTab,
+      required this.currentTabId});
 
   @override
   Widget build(BuildContext context) {
@@ -24,14 +29,17 @@ class TemplateSettings extends StatelessWidget {
               child: const Icon(Icons.add),
             ),
             ElevatedButton(
-              onPressed: () => {log("expend view")},
+              onPressed: () => {
+                AllDialogs.showEditDialog(
+                    context, "Test", renameTab, currentTabId)
+              },
               style: const ButtonStyle(
                   shape: MaterialStatePropertyAll(CircleBorder())),
               child: const Icon(Icons.edit),
             ),
             ElevatedButton(
               onPressed: () =>
-                  {DeleteDialog.showDeleteDialog(context, "Tab", removeTab)},
+                  {AllDialogs.showDeleteDialog(context, "Tab", removeTab)},
               style: const ButtonStyle(
                   shape: MaterialStatePropertyAll(CircleBorder())),
               child: const Icon(Icons.delete),

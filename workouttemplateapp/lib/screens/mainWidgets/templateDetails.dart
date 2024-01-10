@@ -9,7 +9,13 @@ import 'package:workouttemplateapp/screens/mainWidgets/templateSettings.dart';
 class TemplateDetails extends StatefulWidget {
   final VoidCallback removeTab;
   final int id;
-  const TemplateDetails({super.key, required this.removeTab, required this.id});
+  final Function renameTab;
+  const TemplateDetails({
+    super.key,
+    required this.removeTab,
+    required this.id,
+    required this.renameTab,
+  });
 
   @override
   State<TemplateDetails> createState() => _TemplateDetailsState();
@@ -46,6 +52,8 @@ class _TemplateDetailsState extends State<TemplateDetails> {
         TemplateSettings(
           removeTab: widget.removeTab,
           addRow: addRow,
+          renameTab: widget.renameTab,
+          currentTabId: widget.id,
         ),
       ],
     );

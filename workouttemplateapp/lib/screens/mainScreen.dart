@@ -51,12 +51,19 @@ class _MainScreenState extends State<MainScreen> {
     });
   }
 
+  void renameTab(String newName, int index) {
+    setState(() {
+      AllData.allData[index].name = newName;
+    });
+  }
+
   List<TemplateDetails> createTabViews() {
     final List<TemplateDetails> allTemplateDetails = [];
     for (var i = 0; i < AllData.allData.length; i++) {
       allTemplateDetails.add(TemplateDetails(
         id: i,
         removeTab: () => removeTab(i),
+        renameTab: renameTab,
       ));
     }
     return allTemplateDetails;
