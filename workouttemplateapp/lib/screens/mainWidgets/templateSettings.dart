@@ -1,5 +1,6 @@
 import 'dart:developer';
 import 'package:flutter/material.dart';
+import 'package:workouttemplateapp/confirmationDialog.dart';
 
 class TemplateSettings extends StatelessWidget {
   final VoidCallback removeTab;
@@ -29,7 +30,8 @@ class TemplateSettings extends StatelessWidget {
               child: const Icon(Icons.edit),
             ),
             ElevatedButton(
-              onPressed: () => {removeTab()},
+              onPressed: () =>
+                  {DeleteDialog.showDeleteDialog(context, "Tab", removeTab)},
               style: const ButtonStyle(
                   shape: MaterialStatePropertyAll(CircleBorder())),
               child: const Icon(Icons.delete),
