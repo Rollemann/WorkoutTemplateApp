@@ -21,26 +21,27 @@ class _TemplateDetailsState extends State<TemplateDetails> {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      alignment: Alignment.bottomRight,
+    return Column(
       children: [
-        ReorderableListView.builder(
-          itemCount: templateRows.length,
-          onReorder: (oldIndex, newIndex) {
-            setState(() {
-              if (newIndex > oldIndex) {
-                --newIndex;
-              }
-              final row = AllData.allData[widget.id].rows.removeAt(oldIndex);
-              AllData.allData[widget.id].rows.insert(newIndex, row);
-            });
-          },
-          itemBuilder: (context, index) => TemplateRow(
-              key: ValueKey(index),
-              tabID: widget.id,
-              rowID: index,
-              removeRow: () => removeRow(index)),
-          //animation: animation,
+        Flexible(
+          child: ReorderableListView.builder(
+            itemCount: templateRows.length,
+            onReorder: (oldIndex, newIndex) {
+              setState(() {
+                if (newIndex > oldIndex) {
+                  --newIndex;
+                }
+                final row = AllData.allData[widget.id].rows.removeAt(oldIndex);
+                AllData.allData[widget.id].rows.insert(newIndex, row);
+              });
+            },
+            itemBuilder: (context, index) => TemplateRow(
+                key: ValueKey(index),
+                tabID: widget.id,
+                rowID: index,
+                removeRow: () => removeRow(index)),
+            //animation: animation,
+          ),
         ),
         TemplateSettings(
           removeTab: widget.removeTab,
@@ -51,8 +52,6 @@ class _TemplateDetailsState extends State<TemplateDetails> {
   }
 
   void addRow() {
-    final newIndex = templateRows.length;
-    final newRow = "Test $newIndex";
     setState(() {
       AllData.allData[widget.id].rows.add(RowItemData());
     });
