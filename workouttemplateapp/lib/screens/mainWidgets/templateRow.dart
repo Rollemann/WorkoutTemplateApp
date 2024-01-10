@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:workouttemplateapp/dbHandler.dart';
 
 class TemplateRow extends StatelessWidget {
-  final String text;
-  //final Animation<double> animation;
   final VoidCallback removeRow;
+  final int tabID;
+  final int rowID;
+  //final Animation<double> animation;
 
   const TemplateRow({
     super.key,
-    required this.text,
-    //required this.animation,
+    required this.tabID,
+    required this.rowID,
     required this.removeRow,
+    //required this.animation,
   });
 
   @override
@@ -27,52 +30,73 @@ class TemplateRow extends StatelessWidget {
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    const Row(
+                    Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Flexible(
                           child: Padding(
-                            padding: EdgeInsets.all(8.0),
+                            padding: const EdgeInsets.all(8.0),
                             child: SizedBox(
                               width: 30.0,
                               child: TextField(
                                 textAlign: TextAlign.center,
                                 keyboardType: TextInputType.number,
-                                decoration: InputDecoration(
+                                controller: TextEditingController(
+                                    text:
+                                        AllData.allData[tabID].rows[rowID].set),
+                                decoration: const InputDecoration(
                                   labelText: 'Set',
                                   border: UnderlineInputBorder(),
                                 ),
+                                onChanged: (text) {
+                                  AllData.allData[tabID].rows[rowID].set = text;
+                                },
                               ),
                             ),
                           ),
                         ),
                         Flexible(
                           child: Padding(
-                            padding: EdgeInsets.all(8.0),
-                            child: SizedBox(
-                              width: 70,
-                              child: TextField(
-                                textAlign: TextAlign.center,
-                                decoration: InputDecoration(
-                                  labelText: 'Weight',
-                                  border: UnderlineInputBorder(),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                        Flexible(
-                          child: Padding(
-                            padding: EdgeInsets.all(8.0),
+                            padding: const EdgeInsets.all(8.0),
                             child: SizedBox(
                               width: 70,
                               child: TextField(
                                 textAlign: TextAlign.center,
                                 keyboardType: TextInputType.number,
-                                decoration: InputDecoration(
+                                controller: TextEditingController(
+                                    text: AllData
+                                        .allData[tabID].rows[rowID].weight),
+                                decoration: const InputDecoration(
+                                  labelText: 'Weight',
+                                  border: UnderlineInputBorder(),
+                                ),
+                                onChanged: (text) {
+                                  AllData.allData[tabID].rows[rowID].weight =
+                                      text;
+                                },
+                              ),
+                            ),
+                          ),
+                        ),
+                        Flexible(
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: SizedBox(
+                              width: 70,
+                              child: TextField(
+                                textAlign: TextAlign.center,
+                                keyboardType: TextInputType.number,
+                                controller: TextEditingController(
+                                    text: AllData
+                                        .allData[tabID].rows[rowID].reps),
+                                decoration: const InputDecoration(
                                   labelText: 'Reps',
                                   border: UnderlineInputBorder(),
                                 ),
+                                onChanged: (text) {
+                                  AllData.allData[tabID].rows[rowID].reps =
+                                      text;
+                                },
                               ),
                             ),
                           ),
@@ -83,11 +107,16 @@ class TemplateRow extends StatelessWidget {
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: TextField(
-                          controller: TextEditingController(text: text),
+                          controller: TextEditingController(
+                              text:
+                                  AllData.allData[tabID].rows[rowID].exercise),
                           decoration: const InputDecoration(
                             labelText: 'Exercise',
                             border: UnderlineInputBorder(),
                           ),
+                          onChanged: (text) {
+                            AllData.allData[tabID].rows[rowID].exercise = text;
+                          },
                         ),
                       ),
                     ),
@@ -107,13 +136,6 @@ class TemplateRow extends StatelessWidget {
     );
   }
 }
-
-
-/////////////////////////Daten speichern
-/* 
-ListItem als Class definiert (verschiedene Felder)
-Liste von diesen ListItems definiert
- */
 
 /////////////////////////Drag Lines
 /* import 'dart:ui';

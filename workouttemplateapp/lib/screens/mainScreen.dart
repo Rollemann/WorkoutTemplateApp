@@ -56,6 +56,7 @@ class _MainScreenState extends State<MainScreen> {
     for (var i = 0; i < AllData.allData.length; i++) {
       PlanItemData tab = AllData.allData[i];
       allTemplateDetails.add(TemplateDetails(
+        id: i,
         removeTab: () => removeTab(i),
       ));
     }

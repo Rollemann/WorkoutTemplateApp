@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 
 class TemplateSettings extends StatelessWidget {
   final VoidCallback removeTab;
-  const TemplateSettings({super.key, required this.removeTab});
+  final Function addRow;
+  const TemplateSettings(
+      {super.key, required this.removeTab, required this.addRow});
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +17,7 @@ class TemplateSettings extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             ElevatedButton(
-              onPressed: () => {log("expend view")},
+              onPressed: () => {addRow()},
               style: const ButtonStyle(
                   shape: MaterialStatePropertyAll(CircleBorder())),
               child: const Icon(Icons.add),
