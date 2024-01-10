@@ -12,8 +12,9 @@ class TemplatesNavigation extends StatelessWidget {
     return Row(
       children: [
         Expanded(
-          flex: 8,
           child: TabBar(
+            tabAlignment: TabAlignment.start,
+            isScrollable: true,
             tabs: createTabs(),
           ),
         ),
@@ -22,12 +23,6 @@ class TemplatesNavigation extends StatelessWidget {
           style: const ButtonStyle(
               shape: MaterialStatePropertyAll(CircleBorder())),
           child: const Icon(Icons.add),
-        ),
-        ElevatedButton(
-          onPressed: () => {log("expend view")},
-          style: const ButtonStyle(
-              shape: MaterialStatePropertyAll(CircleBorder())),
-          child: const Icon(Icons.arrow_downward),
         ),
       ],
     );

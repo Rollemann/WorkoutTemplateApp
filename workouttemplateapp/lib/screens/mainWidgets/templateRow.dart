@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:workouttemplateapp/confirmationDialog.dart';
 import 'package:workouttemplateapp/dbHandler.dart';
 
 class TemplateRow extends StatelessWidget {
@@ -124,7 +125,13 @@ class TemplateRow extends StatelessWidget {
                 ),
               ),
               ElevatedButton(
-                onPressed: () => {removeRow()},
+                onPressed: () => {
+                  DeleteDialog.showDeleteDialog(
+                    context,
+                    "Row ${AllData.allData[tabID].rows[rowID].exercise}",
+                    removeRow,
+                  )
+                },
                 style: const ButtonStyle(
                     shape: MaterialStatePropertyAll(CircleBorder())),
                 child: const Icon(Icons.remove),

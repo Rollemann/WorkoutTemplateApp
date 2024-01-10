@@ -40,7 +40,7 @@ class _MainScreenState extends State<MainScreen> {
 
   void addTab() {
     setState(() {
-      AllData.allData.add(PlanItemData("Plan${AllData.allData.length}"));
+      AllData.allData.add(PlanItemData("Plan${AllData.allData.length + 1}"));
       log("add new Tab");
     });
   }
@@ -54,7 +54,6 @@ class _MainScreenState extends State<MainScreen> {
   List<TemplateDetails> createTabViews() {
     final List<TemplateDetails> allTemplateDetails = [];
     for (var i = 0; i < AllData.allData.length; i++) {
-      PlanItemData tab = AllData.allData[i];
       allTemplateDetails.add(TemplateDetails(
         id: i,
         removeTab: () => removeTab(i),

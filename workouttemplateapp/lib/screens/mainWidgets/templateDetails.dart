@@ -9,7 +9,7 @@ import 'package:workouttemplateapp/screens/mainWidgets/templateSettings.dart';
 class TemplateDetails extends StatefulWidget {
   final VoidCallback removeTab;
   final int id;
-  TemplateDetails({super.key, required this.removeTab, required this.id}) {}
+  const TemplateDetails({super.key, required this.removeTab, required this.id});
 
   @override
   State<TemplateDetails> createState() => _TemplateDetailsState();
