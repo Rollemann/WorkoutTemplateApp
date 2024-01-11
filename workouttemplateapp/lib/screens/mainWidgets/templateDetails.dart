@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:workouttemplateapp/dbHandler.dart';
 //import 'package:great_list_view/great_list_view.dart';
@@ -63,14 +61,11 @@ class _TemplateDetailsState extends State<TemplateDetails> {
     setState(() {
       AllData.allData[widget.id].rows.add(RowItemData());
     });
-    log("add ${templateRows.length}");
   }
 
   void removeRow(int index) {
-    log("Index: $index");
-    log("Länge: ${AllData.allData[widget.id].rows.length}");
+    //final removedRow = templateRows[index];
     setState(() {
-      //final removedRow = templateRows[index];
       AllData.allData[widget.id].rows.removeAt(index);
     });
   }

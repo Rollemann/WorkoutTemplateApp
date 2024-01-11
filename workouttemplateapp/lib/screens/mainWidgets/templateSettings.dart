@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:workouttemplateapp/allDialogs.dart';
+import 'package:workouttemplateapp/dbHandler.dart';
 
 class TemplateSettings extends StatelessWidget {
   final VoidCallback removeTab;
@@ -31,15 +32,23 @@ class TemplateSettings extends StatelessWidget {
             ElevatedButton(
               onPressed: () => {
                 AllDialogs.showEditDialog(
-                    context, "Test", renameTab, currentTabId)
+                  context,
+                  "Rename ${AllData.allData[currentTabId].name}",
+                  renameTab,
+                )
               },
               style: const ButtonStyle(
                   shape: MaterialStatePropertyAll(CircleBorder())),
               child: const Icon(Icons.edit),
             ),
             ElevatedButton(
-              onPressed: () =>
-                  {AllDialogs.showDeleteDialog(context, "Tab", removeTab)},
+              onPressed: () => {
+                AllDialogs.showDeleteDialog(
+                  context,
+                  "Tab",
+                  removeTab,
+                )
+              },
               style: const ButtonStyle(
                   shape: MaterialStatePropertyAll(CircleBorder())),
               child: const Icon(Icons.delete),

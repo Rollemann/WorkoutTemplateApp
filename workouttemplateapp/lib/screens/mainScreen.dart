@@ -63,7 +63,7 @@ class _MainScreenState extends State<MainScreen> {
       allTemplateDetails.add(TemplateDetails(
         id: i,
         removeTab: () => removeTab(i),
-        renameTab: renameTab,
+        renameTab: (newName) => renameTab(newName, i),
       ));
     }
     return allTemplateDetails;

@@ -37,8 +37,8 @@ class AllDialogs {
     );
   }
 
-  static showEditDialog(BuildContext context, String text,
-      Function continueAction, int currentTabId) {
+  static showEditDialog(
+      BuildContext context, String title, Function continueAction) {
     String enteredText = "";
     // set up the buttons
     Widget cancelButton = TextButton(
@@ -52,29 +52,22 @@ class AllDialogs {
       child: const Text("Edit"),
       onPressed: () {
         Navigator.of(context).pop();
-        continueAction(enteredText, currentTabId);
+        continueAction(enteredText);
         enteredText = "";
       },
     );
 
     // set up the AlertDialog
     AlertDialog alert = AlertDialog(
-      title: Text("Edit $text"),
-      content: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          const Text("Enter the new Name for the Tab: "),
-          TextField(
-            decoration: const InputDecoration(
-              labelText: 'New Tab Name',
-              border: UnderlineInputBorder(),
-            ),
-            onChanged: (value) {
-              enteredText = value;
-            },
-          ),
-        ],
+      title: Text(title),
+      content: TextField(
+        decoration: const InputDecoration(
+          labelText: 'New Tab Name',
+          border: UnderlineInputBorder(),
+        ),
+        onChanged: (value) {
+          enteredText = value;
+        },
       ),
       actions: [
         cancelButton,
