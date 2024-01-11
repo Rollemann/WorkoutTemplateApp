@@ -45,7 +45,7 @@ class TemplateSettings extends StatelessWidget {
               onPressed: () => {
                 AllDialogs.showDeleteDialog(
                   context,
-                  "Tab",
+                  "Tab ${AllData.allData[currentTabId].name}",
                   removeTab,
                 )
               },
