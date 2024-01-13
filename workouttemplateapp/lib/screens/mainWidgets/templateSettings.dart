@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:workouttemplateapp/allDialogs.dart';
 import 'package:workouttemplateapp/dbHandler.dart';
+import 'package:workouttemplateapp/screens/mainWidgets/templateDetails.dart';
 
-class TemplateSettings extends StatelessWidget {
+class TemplateSettings extends StatefulWidget {
   final VoidCallback removeTab;
   final Function addRow;
   final Function renameTab;
@@ -15,6 +16,18 @@ class TemplateSettings extends StatelessWidget {
       required this.currentTabId});
 
   @override
+  State<TemplateSettings> createState() => _TemplateSettingsState();
+}
+
+class _TemplateSettingsState extends State<TemplateSettings> {
+  String? selectedRowType;
+  List<IconData> menuIcons = [
+    Icons.replay_outlined,
+    Icons.timer_outlined,
+    Icons.hourglass_empty_rounded
+  ];
+
+  @override
   Widget build(BuildContext context) {
     return Container(
       color: Colors.blue,
@@ -23,18 +36,44 @@ class TemplateSettings extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            ElevatedButton(
-              onPressed: () => {addRow()},
-              style: const ButtonStyle(
-                  shape: MaterialStatePropertyAll(CircleBorder())),
-              child: const Icon(Icons.add),
+            MenuAnchor(
+              builder: (context, controller, child) {
+                return ElevatedButton(
+                  onPressed: () {
+                    if (controller.isOpen) {
+                      controller.close();
+                    } else {
+                      controller.open();
+                    }
+                  },
+                  style: const ButtonStyle(
+                      shape: MaterialStatePropertyAll(CircleBorder())),
+                  child: const Icon(Icons.add),
+                );
+              },
+              menuChildren: List<MenuItemButton>.generate(
+                rowTypes.length,
+                (int index) => MenuItemButton(
+                  onPressed: () => setState(() => widget.addRow(index)),
+                  child: Padding(
+                    padding: const EdgeInsets.all(15.0),
+                    child: Row(
+                      children: [
+                        Icon(menuIcons[index]),
+                        Text(rowTypes[index],
+                            textScaler: const TextScaler.linear(2)),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
             ),
             ElevatedButton(
               onPressed: () => {
                 AllDialogs.showEditDialog(
                   context,
-                  "Rename ${AllData.allData[currentTabId].name}",
-                  renameTab,
+                  "Rename ${AllData.allData[widget.currentTabId].name}",
+                  widget.renameTab,
                 )
               },
               style: const ButtonStyle(
@@ -45,8 +84,8 @@ class TemplateSettings extends StatelessWidget {
               onPressed: () => {
                 AllDialogs.showDeleteDialog(
                   context,
-                  "Tab ${AllData.allData[currentTabId].name}",
-                  removeTab,
+                  "Tab ${AllData.allData[widget.currentTabId].name}",
+                  widget.removeTab,
                 )
               },
               style: const ButtonStyle(

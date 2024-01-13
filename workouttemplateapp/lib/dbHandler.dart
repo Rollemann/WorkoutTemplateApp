@@ -7,18 +7,26 @@ class PlanItemData {
   final List<RowItemData> rows = [];
 
   PlanItemData(this.name) {
-    rows.add(RowItemData());
+    rows.add(RowItemData(type: 0));
   }
 }
 
 class RowItemData {
+  int type;
   String set;
   String weight;
   String reps;
   String exercise;
+  String time;
 
-  RowItemData(
-      {this.set = '', this.weight = '', this.reps = '', this.exercise = ''});
+  RowItemData({
+    required this.type,
+    this.set = '',
+    this.weight = '',
+    this.reps = '',
+    this.time = '',
+    this.exercise = '',
+  });
 }
 
 class AllData {

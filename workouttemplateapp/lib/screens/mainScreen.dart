@@ -5,6 +5,7 @@ import 'package:workouttemplateapp/dbHandler.dart';
 import 'package:workouttemplateapp/screens/mainWidgets/templateDetails.dart';
 import 'package:workouttemplateapp/screens/mainWidgets/templatesNavigation.dart';
 
+
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
 

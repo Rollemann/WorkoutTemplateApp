@@ -4,6 +4,8 @@ import 'package:workouttemplateapp/dbHandler.dart';
 import 'package:workouttemplateapp/screens/mainWidgets/templateRow.dart';
 import 'package:workouttemplateapp/screens/mainWidgets/templateSettings.dart';
 
+final List<String> rowTypes = ["Reps", "Time", "Pause"];
+
 class TemplateDetails extends StatefulWidget {
   final VoidCallback removeTab;
   final int id;
@@ -57,9 +59,9 @@ class _TemplateDetailsState extends State<TemplateDetails> {
     );
   }
 
-  void addRow() {
+  void addRow(int rowType) {
     setState(() {
-      AllData.allData[widget.id].rows.add(RowItemData());
+      AllData.allData[widget.id].rows.add(RowItemData(type: rowType));
     });
   }
 

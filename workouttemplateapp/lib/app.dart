@@ -40,6 +40,6 @@ class App extends StatelessWidget {
   - Ton / Vibration wenn Timer Ende ist
   (- Confirm Deletion ein und ausschlaten können)
 
-
+(Sprachen)
 
  */

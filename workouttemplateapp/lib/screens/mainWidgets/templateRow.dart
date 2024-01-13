@@ -86,13 +86,20 @@ class TemplateRow extends StatelessWidget {
                               width: 70,
                               child: TextField(
                                 textAlign: TextAlign.center,
-                                keyboardType: TextInputType.number,
+                                keyboardType:
+                                    AllData.allData[tabID].rows[rowID].type == 0
+                                        ? TextInputType.number
+                                        : TextInputType.datetime,
                                 controller: TextEditingController(
                                     text: AllData
                                         .allData[tabID].rows[rowID].reps),
-                                decoration: const InputDecoration(
-                                  labelText: 'Reps',
-                                  border: UnderlineInputBorder(),
+                                decoration: InputDecoration(
+                                  labelText:
+                                      AllData.allData[tabID].rows[rowID].type ==
+                                              0
+                                          ? 'Reps'
+                                          : 'Time',
+                                  border: const UnderlineInputBorder(),
                                 ),
                                 onChanged: (text) {
                                   AllData.allData[tabID].rows[rowID].reps =
