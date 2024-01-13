@@ -16,7 +16,7 @@ class TemplateRow extends StatelessWidget {
     //required this.animation,
   });
 
-  late RowItemData curRowData = AllData.allData[tabID].rows[rowID];
+  late final RowItemData curRowData = AllData.allData[tabID].rows[rowID];
 
   @override
   Widget build(BuildContext context) {
