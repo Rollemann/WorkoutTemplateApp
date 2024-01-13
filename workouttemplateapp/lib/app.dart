@@ -26,7 +26,7 @@ class App extends StatelessWidget {
   - Popup wo Zeit läuft?
 
 - Daten persistent speichern
-- Anzahl Pläne und Reihen beschränken
+- Anzahl Pläne und Reihen beschränken Und text input
 - Extra Fenster zum Pläne in der Reihenfolge zu ändern.
 
 - Pläne teilen über verschiedene Kanäle (extra Fenster wo man anhaken kann welche)

@@ -8,13 +8,15 @@ class TemplateRow extends StatelessWidget {
   final int rowID;
   //final Animation<double> animation;
 
-  const TemplateRow({
+  TemplateRow({
     super.key,
     required this.tabID,
     required this.rowID,
     required this.removeRow,
     //required this.animation,
   });
+
+  late RowItemData curRowData = AllData.allData[tabID].rows[rowID];
 
   @override
   Widget build(BuildContext context) {
@@ -42,15 +44,14 @@ class TemplateRow extends StatelessWidget {
                               child: TextField(
                                 textAlign: TextAlign.center,
                                 keyboardType: TextInputType.number,
-                                controller: TextEditingController(
-                                    text:
-                                        AllData.allData[tabID].rows[rowID].set),
+                                controller:
+                                    TextEditingController(text: curRowData.set),
                                 decoration: const InputDecoration(
                                   labelText: 'Set',
                                   border: UnderlineInputBorder(),
                                 ),
                                 onChanged: (text) {
-                                  AllData.allData[tabID].rows[rowID].set = text;
+                                  curRowData.set = text;
                                 },
                               ),
                             ),
@@ -65,15 +66,13 @@ class TemplateRow extends StatelessWidget {
                                 textAlign: TextAlign.center,
                                 keyboardType: TextInputType.number,
                                 controller: TextEditingController(
-                                    text: AllData
-                                        .allData[tabID].rows[rowID].weight),
+                                    text: curRowData.weight),
                                 decoration: const InputDecoration(
                                   labelText: 'Weight',
                                   border: UnderlineInputBorder(),
                                 ),
                                 onChanged: (text) {
-                                  AllData.allData[tabID].rows[rowID].weight =
-                                      text;
+                                  curRowData.weight = text;
                                 },
                               ),
                             ),
@@ -86,24 +85,18 @@ class TemplateRow extends StatelessWidget {
                               width: 70,
                               child: TextField(
                                 textAlign: TextAlign.center,
-                                keyboardType:
-                                    AllData.allData[tabID].rows[rowID].type == 0
-                                        ? TextInputType.number
-                                        : TextInputType.datetime,
+                                keyboardType: curRowData.type == 0
+                                    ? TextInputType.number
+                                    : TextInputType.datetime,
                                 controller: TextEditingController(
-                                    text: AllData
-                                        .allData[tabID].rows[rowID].reps),
+                                    text: curRowData.reps),
                                 decoration: InputDecoration(
                                   labelText:
-                                      AllData.allData[tabID].rows[rowID].type ==
-                                              0
-                                          ? 'Reps'
-                                          : 'Time',
+                                      curRowData.type == 0 ? 'Reps' : 'Time',
                                   border: const UnderlineInputBorder(),
                                 ),
                                 onChanged: (text) {
-                                  AllData.allData[tabID].rows[rowID].reps =
-                                      text;
+                                  curRowData.reps = text;
                                 },
                               ),
                             ),
@@ -117,13 +110,13 @@ class TemplateRow extends StatelessWidget {
                         child: TextField(
                           controller: TextEditingController(
                               text:
-                                  AllData.allData[tabID].rows[rowID].exercise),
+                                  curRowData.exercise),
                           decoration: const InputDecoration(
                             labelText: 'Exercise',
                             border: UnderlineInputBorder(),
                           ),
                           onChanged: (text) {
-                            AllData.allData[tabID].rows[rowID].exercise = text;
+                            curRowData.exercise = text;
                           },
                         ),
                       ),
@@ -135,7 +128,7 @@ class TemplateRow extends StatelessWidget {
                 onPressed: () => {
                   AllDialogs.showDeleteDialog(
                     context,
-                    "Row ${AllData.allData[tabID].rows[rowID].exercise}",
+                    "Row ${curRowData.exercise}",
                     removeRow,
                   )
                 },

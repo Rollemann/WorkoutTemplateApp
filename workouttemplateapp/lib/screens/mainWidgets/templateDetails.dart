@@ -22,7 +22,6 @@ class TemplateDetails extends StatefulWidget {
 }
 
 class _TemplateDetailsState extends State<TemplateDetails> {
-  late List<RowItemData> templateRows = AllData.allData[widget.id].rows;
   //final controller = AnimatedListController();
 
   @override
@@ -31,7 +30,7 @@ class _TemplateDetailsState extends State<TemplateDetails> {
       children: [
         Flexible(
           child: ReorderableListView.builder(
-            itemCount: templateRows.length,
+            itemCount: AllData.allData[widget.id].rows.length,
             onReorder: (oldIndex, newIndex) {
               setState(() {
                 if (newIndex > oldIndex) {
