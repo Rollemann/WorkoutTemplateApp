@@ -41,10 +41,11 @@ class _TemplateDetailsState extends State<TemplateDetails> {
               });
             },
             itemBuilder: (context, index) => TemplateRow(
-                key: ValueKey(index),
-                tabID: widget.id,
-                rowID: index,
-                removeRow: () => removeRow(index)),
+              key: ObjectKey(AllData.allData[widget.id].rows[index]),
+              tabID: widget.id,
+              rowID: index,
+              removeRow: () => removeRow(index),
+            ),
             //animation: animation,
           ),
         ),

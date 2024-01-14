@@ -1,14 +1,17 @@
+import 'dart:async';
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:workouttemplateapp/allDialogs.dart';
 import 'package:workouttemplateapp/dbHandler.dart';
 
-class TemplateRow extends StatelessWidget {
+class TemplateRow extends StatefulWidget {
   final VoidCallback removeRow;
   final int tabID;
   final int rowID;
-  //final Animation<double> animation;
 
-  TemplateRow({
+  const TemplateRow({
     super.key,
     required this.tabID,
     required this.rowID,
@@ -16,7 +19,16 @@ class TemplateRow extends StatelessWidget {
     //required this.animation,
   });
 
-  late final RowItemData curRowData = AllData.allData[tabID].rows[rowID];
+  @override
+  State<TemplateRow> createState() => _TemplateRowState();
+}
+
+class _TemplateRowState extends State<TemplateRow> {
+  Timer? timer;
+  int seconds = 10;
+
+  late final RowItemData curRowData =
+      AllData.allData[widget.tabID].rows[widget.rowID];
 
   @override
   Widget build(BuildContext context) {
@@ -27,109 +39,177 @@ class TemplateRow extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.only(left: 10),
           child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               const Icon(Icons.drag_handle),
-              Flexible(
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Flexible(
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: SizedBox(
-                              width: 30.0,
+              curRowData.type < 2
+                  ? (Flexible(
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Flexible(
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: SizedBox(
+                                    width: 30.0,
+                                    child: TextField(
+                                      textAlign: TextAlign.center,
+                                      keyboardType: TextInputType.number,
+                                      controller: TextEditingController(
+                                          text: curRowData.set),
+                                      decoration: const InputDecoration(
+                                        labelText: 'Set',
+                                        border: UnderlineInputBorder(),
+                                      ),
+                                      onChanged: (text) {
+                                        curRowData.set = text;
+                                      },
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              Flexible(
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: SizedBox(
+                                    width: 70,
+                                    child: TextField(
+                                      textAlign: TextAlign.center,
+                                      keyboardType: TextInputType.number,
+                                      controller: TextEditingController(
+                                          text: curRowData.weight),
+                                      decoration: const InputDecoration(
+                                        labelText: 'Weight',
+                                        border: UnderlineInputBorder(),
+                                      ),
+                                      onChanged: (text) {
+                                        curRowData.weight = text;
+                                      },
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              Flexible(
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: SizedBox(
+                                    width: 70,
+                                    child: TextField(
+                                      textAlign: TextAlign.center,
+                                      keyboardType: curRowData.type == 0
+                                          ? TextInputType.number
+                                          : TextInputType.datetime,
+                                      controller: TextEditingController(
+                                          text: curRowData.reps),
+                                      decoration: InputDecoration(
+                                        labelText: curRowData.type == 0
+                                            ? 'Reps'
+                                            : 'Time',
+                                        border: const UnderlineInputBorder(),
+                                      ),
+                                      onChanged: (text) {
+                                        curRowData.reps = text;
+                                      },
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                          Flexible(
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
                               child: TextField(
-                                textAlign: TextAlign.center,
-                                keyboardType: TextInputType.number,
-                                controller:
-                                    TextEditingController(text: curRowData.set),
+                                controller: TextEditingController(
+                                    text: curRowData.exercise),
                                 decoration: const InputDecoration(
-                                  labelText: 'Set',
+                                  labelText: 'Exercise',
                                   border: UnderlineInputBorder(),
                                 ),
                                 onChanged: (text) {
-                                  curRowData.set = text;
+                                  curRowData.exercise = text;
                                 },
                               ),
                             ),
                           ),
-                        ),
-                        Flexible(
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: SizedBox(
-                              width: 70,
-                              child: TextField(
-                                textAlign: TextAlign.center,
-                                keyboardType: TextInputType.number,
-                                controller: TextEditingController(
-                                    text: curRowData.weight),
-                                decoration: const InputDecoration(
-                                  labelText: 'Weight',
-                                  border: UnderlineInputBorder(),
-                                ),
-                                onChanged: (text) {
-                                  curRowData.weight = text;
-                                },
-                              ),
-                            ),
-                          ),
-                        ),
-                        Flexible(
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: SizedBox(
-                              width: 70,
-                              child: TextField(
-                                textAlign: TextAlign.center,
-                                keyboardType: curRowData.type == 0
-                                    ? TextInputType.number
-                                    : TextInputType.datetime,
-                                controller: TextEditingController(
-                                    text: curRowData.reps),
-                                decoration: InputDecoration(
-                                  labelText:
-                                      curRowData.type == 0 ? 'Reps' : 'Time',
-                                  border: const UnderlineInputBorder(),
-                                ),
-                                onChanged: (text) {
-                                  curRowData.reps = text;
-                                },
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    Flexible(
+                        ],
+                      ),
+                    ))
+                  : Flexible(
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: TextField(
-                          controller: TextEditingController(
-                              text:
-                                  curRowData.exercise),
-                          decoration: const InputDecoration(
-                            labelText: 'Exercise',
-                            border: UnderlineInputBorder(),
-                          ),
-                          onChanged: (text) {
-                            curRowData.exercise = text;
-                          },
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            const Text(
+                              "Pause:",
+                              textScaler: TextScaler.linear(1.5),
+                            ),
+                            Flexible(
+                              child: TextField(
+                                keyboardType: TextInputType.number,
+                                controller: TextEditingController(
+                                    text: (seconds ~/ 60).toString()),
+                                textAlign: TextAlign.center,
+                                decoration: const InputDecoration(
+                                  labelText: 'Min',
+                                  border: UnderlineInputBorder(),
+                                ),
+                                inputFormatters: [
+                                  FilteringTextInputFormatter.digitsOnly
+                                ],
+                                onSubmitted: (value) {
+                                  int tempMinValue = 0;
+                                  if (value != "") {
+                                    int intValue = int.parse(value);
+                                    tempMinValue =
+                                        intValue < 999 ? intValue : 999;
+                                  } else {
+                                    tempMinValue = 0;
+                                  }
+                                  setState(() {
+                                    seconds =
+                                        (tempMinValue * 60) + (seconds % 60);
+                                  });
+                                  log(tempMinValue.toString());
+                                  log(seconds.toString());
+                                },
+                              ),
+                            ),
+                            const Text(":"),
+                            Flexible(
+                              child: TextField(
+                                keyboardType: TextInputType.number,
+                                controller: TextEditingController(
+                                    text: (seconds % 60)
+                                        .toString()
+                                        .padLeft(2, "0")),
+                                textAlign: TextAlign.center,
+                                decoration: const InputDecoration(
+                                  labelText: 'Sec',
+                                  border: UnderlineInputBorder(),
+                                ),
+                              ),
+                            ),
+                            ElevatedButton(
+                                onPressed: startTimer,
+                                style: const ButtonStyle(
+                                    shape: MaterialStatePropertyAll(
+                                        CircleBorder())),
+                                child: const Icon(Icons.play_arrow_rounded)),
+                          ],
                         ),
                       ),
                     ),
-                  ],
-                ),
-              ),
               ElevatedButton(
                 onPressed: () => {
                   AllDialogs.showDeleteDialog(
                     context,
                     "Row ${curRowData.exercise}",
-                    removeRow,
+                    widget.removeRow,
                   )
                 },
                 style: const ButtonStyle(
@@ -142,6 +222,20 @@ class TemplateRow extends StatelessWidget {
       ),
     );
   }
+
+  void startTimer() {
+    timer = Timer.periodic(const Duration(seconds: 1), (_) {
+      setState(() {
+        --seconds;
+      });
+    });
+  }
+
+  /* String secondsToTimeString(int sec) {
+    final String minStr = (sec ~/ 60).toString().padLeft(2, "0");
+    final String secStr = (sec % 60).toString().padLeft(2, "0");
+    return "$minStr:$secStr";
+  } */
 }
 
 /////////////////////////Drag Lines

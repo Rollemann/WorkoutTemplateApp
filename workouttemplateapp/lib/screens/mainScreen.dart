@@ -16,24 +16,32 @@ class MainScreen extends StatefulWidget {
 class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
-    return DefaultTabController(
-      length: AllData.allData.length,
-      child: Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.amber,
-          title: const Text("Test"),
-        ),
-        body: Column(
-          children: [
-            TemplatesNavigation(
-              addTab: addTab,
-            ),
-            Expanded(
-              child: TabBarView(
-                children: createTabViews(),
+    return GestureDetector(
+      onTap: () {
+        FocusManager.instance.primaryFocus?.unfocus();
+        setState(() {
+          AllData.allData;
+        });
+      },
+      child: DefaultTabController(
+        length: AllData.allData.length,
+        child: Scaffold(
+          appBar: AppBar(
+            backgroundColor: Colors.amber,
+            title: const Text("Test"),
+          ),
+          body: Column(
+            children: [
+              TemplatesNavigation(
+                addTab: addTab,
               ),
-            ),
-          ],
+              Expanded(
+                child: TabBarView(
+                  children: createTabViews(),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
