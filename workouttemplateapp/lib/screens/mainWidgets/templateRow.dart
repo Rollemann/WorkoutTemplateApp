@@ -146,91 +146,104 @@ class _TemplateRowState extends State<TemplateRow> {
                     ))
                   : Flexible(
                       child: Padding(
-                        padding: const EdgeInsets.fromLTRB(5, 8, 0, 8),
+                        padding: const EdgeInsets.all(8.0),
                         child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            const Text(
-                              "Pause:",
-                              textScaler: TextScaler.linear(1.5),
-                            ),
-                            Flexible(
-                              child: TextField(
-                                keyboardType: TextInputType.number,
-                                controller: TextEditingController(
-                                    text:
-                                        (curRowData.seconds ~/ 60).toString()),
-                                textAlign: TextAlign.center,
-                                decoration: const InputDecoration(
-                                  labelText: 'Min',
-                                  border: UnderlineInputBorder(),
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                const Text(
+                                  "Pause:",
+                                  textScaler: TextScaler.linear(1.5),
                                 ),
-                                inputFormatters: [
-                                  FilteringTextInputFormatter.digitsOnly
-                                ],
-                                onSubmitted: (value) {
-                                  int tempMinValue = 0;
-                                  if (value != "") {
-                                    int intValue = int.parse(value);
-                                    tempMinValue =
-                                        intValue < 999 ? intValue : 999;
-                                  } else {
-                                    tempMinValue = 0;
-                                  }
-                                  setState(() {
-                                    curRowData.seconds = (tempMinValue * 60) +
-                                        (curRowData.seconds % 60);
-                                  });
-                                },
-                              ),
-                            ),
-                            const Text(":"),
-                            Flexible(
-                              child: TextField(
-                                keyboardType: TextInputType.number,
-                                controller: TextEditingController(
-                                    text: (curRowData.seconds % 60)
-                                        .toString()
-                                        .padLeft(2, "0")),
-                                textAlign: TextAlign.center,
-                                decoration: const InputDecoration(
-                                  labelText: 'Sec',
-                                  border: UnderlineInputBorder(),
+                                Row(
+                                  children: [
+                                    Flexible(
+                                      child: TextField(
+                                        keyboardType: TextInputType.number,
+                                        controller: TextEditingController(
+                                            text: (curRowData.seconds ~/ 60)
+                                                .toString()),
+                                        textAlign: TextAlign.center,
+                                        decoration: const InputDecoration(
+                                          labelText: 'Min',
+                                          border: UnderlineInputBorder(),
+                                        ),
+                                        inputFormatters: [
+                                          FilteringTextInputFormatter.digitsOnly
+                                        ],
+                                        onSubmitted: (value) {
+                                          int tempMinValue = 0;
+                                          if (value != "") {
+                                            int intValue = int.parse(value);
+                                            tempMinValue =
+                                                intValue < 999 ? intValue : 999;
+                                          } else {
+                                            tempMinValue = 0;
+                                          }
+                                          setState(() {
+                                            curRowData.seconds =
+                                                (tempMinValue * 60) +
+                                                    (curRowData.seconds % 60);
+                                          });
+                                        },
+                                      ),
+                                    ),
+                                    const Text(":"),
+                                    Flexible(
+                                      child: TextField(
+                                        keyboardType: TextInputType.number,
+                                        controller: TextEditingController(
+                                            text: (curRowData.seconds % 60)
+                                                .toString()
+                                                .padLeft(2, "0")),
+                                        textAlign: TextAlign.center,
+                                        decoration: const InputDecoration(
+                                          labelText: 'Sec',
+                                          border: UnderlineInputBorder(),
+                                        ),
+                                        inputFormatters: [
+                                          FilteringTextInputFormatter.digitsOnly
+                                        ],
+                                        onSubmitted: (value) {
+                                          int tempSecValue = 0;
+                                          if (value != "") {
+                                            int intValue = int.parse(value);
+                                            tempSecValue =
+                                                intValue < 60 ? intValue : 00;
+                                          } else {
+                                            tempSecValue = 0;
+                                          }
+                                          setState(() {
+                                            curRowData.seconds =
+                                                (curRowData.seconds ~/ 60) *
+                                                        60 +
+                                                    tempSecValue;
+                                          });
+                                        },
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                                inputFormatters: [
-                                  FilteringTextInputFormatter.digitsOnly
-                                ],
-                                onSubmitted: (value) {
-                                  int tempSecValue = 0;
-                                  if (value != "") {
-                                    int intValue = int.parse(value);
-                                    tempSecValue =
-                                        intValue < 60 ? intValue : 00;
-                                  } else {
-                                    tempSecValue = 0;
-                                  }
-                                  setState(() {
-                                    curRowData.seconds =
-                                        (curRowData.seconds ~/ 60) * 60 +
-                                            tempSecValue;
-                                  });
-                                },
-                              ),
+                              ],
                             ),
                             ElevatedButton(
-                                onPressed: () {
-                                  AllDialogs.showCountdownDialog(
-                                      context,
-                                      "Pause",
-                                      timer,
-                                      events,
-                                      curRowData.seconds);
-                                  startTimer();
-                                },
-                                style: const ButtonStyle(
-                                    shape: MaterialStatePropertyAll(
-                                        CircleBorder())),
-                                child: const Icon(Icons.play_arrow_rounded)),
+                              onPressed: () {
+                                AllDialogs.showCountdownDialog(
+                                    context,
+                                    curRowData.type > 1
+                                        ? "Pause"
+                                        : curRowData.exercise,
+                                    timer,
+                                    events,
+                                    curRowData.seconds);
+                                startTimer();
+                              },
+                              style: const ButtonStyle(
+                                  shape:
+                                      MaterialStatePropertyAll(CircleBorder())),
+                              child: const Icon(Icons.play_arrow_rounded),
+                            ),
                           ],
                         ),
                       ),

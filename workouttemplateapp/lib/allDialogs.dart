@@ -96,7 +96,9 @@ class AllDialogs {
     Widget endButton = TextButton(
       child: const Text("End"),
       onPressed: () {
-        timer!.cancel();
+        if (timer != null) {
+          timer.cancel();
+        }
         Navigator.of(context).pop();
       },
     );
