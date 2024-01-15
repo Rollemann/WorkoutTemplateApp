@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -25,7 +24,14 @@ class TemplateRow extends StatefulWidget {
 
 class _TemplateRowState extends State<TemplateRow> {
   Timer? timer;
-  int seconds = 10;
+  StreamController<int> events = StreamController<int>.broadcast();
+  late int curSeconds = 0;
+
+  @override
+  void initState() {
+    events.add(0);
+    super.initState();
+  }
 
   late final RowItemData curRowData =
       AllData.allData[widget.tabID].rows[widget.rowID];
@@ -140,9 +146,9 @@ class _TemplateRowState extends State<TemplateRow> {
                     ))
                   : Flexible(
                       child: Padding(
-                        padding: const EdgeInsets.all(8.0),
+                        padding: const EdgeInsets.fromLTRB(5, 8, 0, 8),
                         child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             const Text(
                               "Pause:",
@@ -152,7 +158,8 @@ class _TemplateRowState extends State<TemplateRow> {
                               child: TextField(
                                 keyboardType: TextInputType.number,
                                 controller: TextEditingController(
-                                    text: (seconds ~/ 60).toString()),
+                                    text:
+                                        (curRowData.seconds ~/ 60).toString()),
                                 textAlign: TextAlign.center,
                                 decoration: const InputDecoration(
                                   labelText: 'Min',
@@ -171,11 +178,9 @@ class _TemplateRowState extends State<TemplateRow> {
                                     tempMinValue = 0;
                                   }
                                   setState(() {
-                                    seconds =
-                                        (tempMinValue * 60) + (seconds % 60);
+                                    curRowData.seconds = (tempMinValue * 60) +
+                                        (curRowData.seconds % 60);
                                   });
-                                  log(tempMinValue.toString());
-                                  log(seconds.toString());
                                 },
                               ),
                             ),
@@ -184,7 +189,7 @@ class _TemplateRowState extends State<TemplateRow> {
                               child: TextField(
                                 keyboardType: TextInputType.number,
                                 controller: TextEditingController(
-                                    text: (seconds % 60)
+                                    text: (curRowData.seconds % 60)
                                         .toString()
                                         .padLeft(2, "0")),
                                 textAlign: TextAlign.center,
@@ -192,10 +197,36 @@ class _TemplateRowState extends State<TemplateRow> {
                                   labelText: 'Sec',
                                   border: UnderlineInputBorder(),
                                 ),
+                                inputFormatters: [
+                                  FilteringTextInputFormatter.digitsOnly
+                                ],
+                                onSubmitted: (value) {
+                                  int tempSecValue = 0;
+                                  if (value != "") {
+                                    int intValue = int.parse(value);
+                                    tempSecValue =
+                                        intValue < 60 ? intValue : 00;
+                                  } else {
+                                    tempSecValue = 0;
+                                  }
+                                  setState(() {
+                                    curRowData.seconds =
+                                        (curRowData.seconds ~/ 60) * 60 +
+                                            tempSecValue;
+                                  });
+                                },
                               ),
                             ),
                             ElevatedButton(
-                                onPressed: startTimer,
+                                onPressed: () {
+                                  AllDialogs.showCountdownDialog(
+                                      context,
+                                      "Pause",
+                                      timer,
+                                      events,
+                                      curRowData.seconds);
+                                  startTimer();
+                                },
                                 style: const ButtonStyle(
                                     shape: MaterialStatePropertyAll(
                                         CircleBorder())),
@@ -224,10 +255,16 @@ class _TemplateRowState extends State<TemplateRow> {
   }
 
   void startTimer() {
+    if (timer != null) {
+      timer!.cancel();
+    }
+    curSeconds = AllData.allData[widget.tabID].rows[widget.rowID].seconds;
     timer = Timer.periodic(const Duration(seconds: 1), (_) {
-      setState(() {
-        --seconds;
-      });
+      if (--curSeconds >= 0) {
+        events.add(curSeconds);
+      } else {
+        timer!.cancel();
+      }
     });
   }
 

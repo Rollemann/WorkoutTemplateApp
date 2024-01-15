@@ -41,5 +41,6 @@ class App extends StatelessWidget {
   (- Confirm Deletion ein und ausschlaten können)
 
 (Sprachen)
+(Wenn Zeit ende: Lied anhalten oder so (Wiedergabe stoppen))
 
  */

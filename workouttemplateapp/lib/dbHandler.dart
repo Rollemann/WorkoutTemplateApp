@@ -17,14 +17,14 @@ class RowItemData {
   String weight;
   String reps;
   String exercise;
-  String time;
+  int seconds;
 
   RowItemData({
     required this.type,
     this.set = '',
     this.weight = '',
     this.reps = '',
-    this.time = '',
+    this.seconds = 0,
     this.exercise = '',
   });
 }

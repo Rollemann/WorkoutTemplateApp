@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 
 class AllDialogs {
@@ -72,6 +74,50 @@ class AllDialogs {
       actions: [
         cancelButton,
         continueButton,
+      ],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+
+  static showCountdownDialog(BuildContext context, String title, Timer? timer,
+      StreamController<int> events, int initialTime) {
+    // set up the buttons
+    Widget pauseButton = TextButton(
+      child: Text(title),
+      onPressed: () {},
+    );
+    Widget endButton = TextButton(
+      child: const Text("End"),
+      onPressed: () {
+        timer!.cancel();
+        Navigator.of(context).pop();
+      },
+    );
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: Text(title),
+      content: StreamBuilder<int>(
+        stream: events.stream,
+        builder: (context, snapshot) {
+          if (snapshot.data != null) {
+            return Text(
+                "${(snapshot.data! ~/ 60).toString().padLeft(2, "0")}:${(snapshot.data! % 60).toString().padLeft(2, "0")}");
+          }
+          return Text(
+              "${(initialTime ~/ 60).toString().padLeft(2, "0")}:${(initialTime % 60).toString().padLeft(2, "0")}");
+        },
+      ),
+      actions: [
+        pauseButton,
+        endButton,
       ],
     );
 
