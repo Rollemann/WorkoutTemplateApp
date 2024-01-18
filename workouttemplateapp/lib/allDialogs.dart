@@ -89,12 +89,11 @@ class AllDialogs {
   static showCountdownDialog(BuildContext context, String title, Timer? timer,
       StreamController<int> events, int initialTime) {
     // set up the buttons
-    Widget pauseButton = TextButton(
-      child: Text(title),
-      onPressed: () {},
-    );
     Widget endButton = TextButton(
-      child: const Text("End"),
+      child: const Text(
+        "Continue",
+        textScaler: TextScaler.linear(1.5),
+      ),
       onPressed: () {
         if (timer != null) {
           timer.cancel();
@@ -105,22 +104,25 @@ class AllDialogs {
 
     // set up the AlertDialog
     AlertDialog alert = AlertDialog(
-      title: Text(title),
+      title: Text(title, textAlign: TextAlign.center),
       content: StreamBuilder<int>(
-        stream: events.stream,
-        builder: (context, snapshot) {
-          if (snapshot.data != null) {
+          stream: events.stream,
+          builder: (context, snapshot) {
             return Text(
-                "${(snapshot.data! ~/ 60).toString().padLeft(2, "0")}:${(snapshot.data! % 60).toString().padLeft(2, "0")}");
-          }
-          return Text(
-              "${(initialTime ~/ 60).toString().padLeft(2, "0")}:${(initialTime % 60).toString().padLeft(2, "0")}");
-        },
-      ),
+              snapshot.data != null
+                  ? "${snapshot.data! < 0 ? "-" : ""}${((snapshot.data!).abs() ~/ 60).toString().padLeft(2, "0")}:${((snapshot.data!).abs() % 60).toString().padLeft(2, "0")}"
+                  : "${(initialTime ~/ 60).toString().padLeft(2, "0")}:${(initialTime % 60).toString().padLeft(2, "0")}",
+              textAlign: TextAlign.center,
+              textScaler: const TextScaler.linear(2.5),
+              style: snapshot.data != null && snapshot.data! < 0
+                  ? const TextStyle(color: Colors.red)
+                  : null,
+            );
+          }),
       actions: [
-        pauseButton,
         endButton,
       ],
+      actionsAlignment: MainAxisAlignment.spaceAround,
     );
 
     // show the dialog

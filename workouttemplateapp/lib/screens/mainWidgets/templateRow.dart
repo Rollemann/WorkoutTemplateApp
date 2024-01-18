@@ -27,6 +27,13 @@ class _TemplateRowState extends State<TemplateRow> {
   StreamController<int> events = StreamController<int>.broadcast();
   late int curSeconds = 0;
   late final RowItemData curRowData;
+  bool editMode = false;
+  String tempSet = "";
+  String tempWeight = "";
+  String tempReps = "";
+  String tempExercise = "";
+  int tempMinutes = 0;
+  int tempSeconds = 0;
 
   @override
   void initState() {
@@ -34,184 +41,6 @@ class _TemplateRowState extends State<TemplateRow> {
     curRowData = AllData.allData[widget.tabID].rows[widget.rowID];
     super.initState();
   }
-
-  late Widget repsBody = Flexible(
-    child: Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Flexible(
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: SizedBox(
-                  width: 30.0,
-                  child: TextField(
-                    textAlign: TextAlign.center,
-                    keyboardType: TextInputType.number,
-                    controller: TextEditingController(text: curRowData.set),
-                    decoration: const InputDecoration(
-                      labelText: 'Set',
-                      border: UnderlineInputBorder(),
-                    ),
-                    onChanged: (text) {
-                      curRowData.set = text;
-                    },
-                  ),
-                ),
-              ),
-            ),
-            Flexible(
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: SizedBox(
-                  width: 70,
-                  child: TextField(
-                    textAlign: TextAlign.center,
-                    keyboardType: TextInputType.number,
-                    controller: TextEditingController(text: curRowData.weight),
-                    decoration: const InputDecoration(
-                      labelText: 'Weight',
-                      border: UnderlineInputBorder(),
-                    ),
-                    onChanged: (text) {
-                      curRowData.weight = text;
-                    },
-                  ),
-                ),
-              ),
-            ),
-            Flexible(
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: SizedBox(
-                  width: 70,
-                  child: TextField(
-                    textAlign: TextAlign.center,
-                    keyboardType: curRowData.type == 0
-                        ? TextInputType.number
-                        : TextInputType.datetime,
-                    controller: TextEditingController(text: curRowData.reps),
-                    decoration: InputDecoration(
-                      labelText: curRowData.type == 0 ? 'Reps' : 'Time',
-                      border: const UnderlineInputBorder(),
-                    ),
-                    onChanged: (text) {
-                      curRowData.reps = text;
-                    },
-                  ),
-                ),
-              ),
-            ),
-          ],
-        ),
-        Flexible(
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: TextField(
-              controller: TextEditingController(text: curRowData.exercise),
-              decoration: const InputDecoration(
-                labelText: 'Exercise',
-                border: UnderlineInputBorder(),
-              ),
-              onChanged: (text) {
-                curRowData.exercise = text;
-              },
-            ),
-          ),
-        ),
-      ],
-    ),
-  );
-
-  late Widget pauseBody = Flexible(
-    child: Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const Text(
-            "Pause:",
-            textScaler: TextScaler.linear(1.5),
-          ),
-          Row(
-            children: [
-              Flexible(
-                child: TextField(
-                  keyboardType: TextInputType.number,
-                  controller: TextEditingController(
-                      text: (curRowData.seconds ~/ 60).toString()),
-                  textAlign: TextAlign.center,
-                  decoration: const InputDecoration(
-                    labelText: 'Min',
-                    border: UnderlineInputBorder(),
-                  ),
-                  inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                  onSubmitted: (value) {
-                    int tempMinValue = 0;
-                    if (value != "") {
-                      int intValue = int.parse(value);
-                      tempMinValue = intValue < 999 ? intValue : 999;
-                    } else {
-                      tempMinValue = 0;
-                    }
-                    setState(() {
-                      curRowData.seconds =
-                          (tempMinValue * 60) + (curRowData.seconds % 60);
-                    });
-                  },
-                ),
-              ),
-              const Text(":", textScaler: TextScaler.linear(2.0)),
-              Flexible(
-                child: TextField(
-                  keyboardType: TextInputType.number,
-                  controller: TextEditingController(
-                      text:
-                          (curRowData.seconds % 60).toString().padLeft(2, "0")),
-                  textAlign: TextAlign.center,
-                  decoration: const InputDecoration(
-                    labelText: 'Sec',
-                    border: UnderlineInputBorder(),
-                  ),
-                  inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                  onSubmitted: (value) {
-                    int tempSecValue = 0;
-                    if (value != "") {
-                      int intValue = int.parse(value);
-                      tempSecValue = intValue < 60 ? intValue : 00;
-                    } else {
-                      tempSecValue = 0;
-                    }
-                    setState(() {
-                      curRowData.seconds =
-                          (curRowData.seconds ~/ 60) * 60 + tempSecValue;
-                    });
-                  },
-                ),
-              ),
-              ElevatedButton(
-                onPressed: () {
-                  AllDialogs.showCountdownDialog(
-                      context,
-                      curRowData.type > 1 ? "Pause" : curRowData.exercise,
-                      timer,
-                      events,
-                      curRowData.seconds);
-                  startTimer();
-                },
-                style: const ButtonStyle(
-                    shape: MaterialStatePropertyAll(CircleBorder())),
-                child: const Icon(Icons.play_arrow_rounded),
-              ),
-            ],
-          ),
-        ],
-      ),
-    ),
-  );
 
   @override
   Widget build(BuildContext context) {
@@ -224,19 +53,325 @@ class _TemplateRowState extends State<TemplateRow> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const Icon(Icons.drag_handle),
-              curRowData.type < 2 ? repsBody : pauseBody,
-              ElevatedButton(
-                onPressed: () => {
-                  AllDialogs.showDeleteDialog(
-                    context,
-                    "Row ${curRowData.exercise}",
-                    widget.removeRow,
-                  )
-                },
-                style: const ButtonStyle(
-                    shape: MaterialStatePropertyAll(CircleBorder())),
-                child: const Icon(Icons.remove),
+              const Icon(
+                // Start drag handler
+                Icons.drag_handle,
+              ),
+              editMode
+                  ? curRowData.type < 2
+                      ? Flexible(
+                          //reps / time
+                          child: Padding(
+                            padding: const EdgeInsets.only(left: 12.0),
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Flexible(
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: SizedBox(
+                                          width: 30.0,
+                                          child: TextField(
+                                            textAlign: TextAlign.center,
+                                            keyboardType: TextInputType.number,
+                                            controller: TextEditingController(
+                                                text: tempSet),
+                                            decoration: const InputDecoration(
+                                              labelText: 'Set',
+                                              border: UnderlineInputBorder(),
+                                            ),
+                                            inputFormatters: [
+                                              FilteringTextInputFormatter
+                                                  .digitsOnly
+                                            ],
+                                            onChanged: (text) {
+                                              tempSet = text;
+                                            },
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    Flexible(
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: TextField(
+                                          textAlign: TextAlign.center,
+                                          controller: TextEditingController(
+                                              text: tempWeight),
+                                          decoration: const InputDecoration(
+                                            labelText: 'Weight',
+                                            border: UnderlineInputBorder(),
+                                          ),
+                                          onChanged: (text) {
+                                            tempWeight = text;
+                                          },
+                                        ),
+                                      ),
+                                    ),
+                                    Flexible(
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: TextField(
+                                          textAlign: TextAlign.center,
+                                          keyboardType: TextInputType.number,
+                                          controller: TextEditingController(
+                                              text: tempReps),
+                                          decoration: InputDecoration(
+                                            labelText: curRowData.type == 0
+                                                ? 'Reps'
+                                                : 'Seconds',
+                                            border:
+                                                const UnderlineInputBorder(),
+                                          ),
+                                          inputFormatters: [
+                                            if (curRowData.type == 0)
+                                              FilteringTextInputFormatter
+                                                  .digitsOnly
+                                          ],
+                                          onChanged: (text) {
+                                            tempReps = text;
+                                          },
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                Flexible(
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: TextField(
+                                      controller: TextEditingController(
+                                          text: tempExercise),
+                                      decoration: const InputDecoration(
+                                        labelText: 'Exercise',
+                                        border: UnderlineInputBorder(),
+                                      ),
+                                      onChanged: (text) {
+                                        tempExercise = text;
+                                      },
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        )
+                      : Flexible(
+                          // pause
+                          child: Padding(
+                            padding: const EdgeInsets.fromLTRB(20, 8, 0, 8),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const Text(
+                                  "Pause:",
+                                  textScaler: TextScaler.linear(1.5),
+                                ),
+                                Row(
+                                  children: [
+                                    Flexible(
+                                      child: TextField(
+                                        keyboardType: TextInputType.number,
+                                        controller: TextEditingController(
+                                            text: (tempMinutes).toString()),
+                                        textAlign: TextAlign.center,
+                                        decoration: const InputDecoration(
+                                          labelText: 'Min',
+                                          border: UnderlineInputBorder(),
+                                        ),
+                                        inputFormatters: [
+                                          FilteringTextInputFormatter.digitsOnly
+                                        ],
+                                        onChanged: (value) {
+                                          if (value != "") {
+                                            int intValue = int.parse(value);
+                                            tempMinutes =
+                                                intValue < 999 ? intValue : 999;
+                                          } else {
+                                            tempMinutes = 0;
+                                          }
+                                        },
+                                      ),
+                                    ),
+                                    const Padding(
+                                      padding:
+                                          EdgeInsets.symmetric(horizontal: 8.0),
+                                      child: Text(":",
+                                          textScaler: TextScaler.linear(2.0)),
+                                    ),
+                                    Flexible(
+                                      child: TextField(
+                                        keyboardType: TextInputType.number,
+                                        controller: TextEditingController(
+                                            text: (tempSeconds).toString()),
+                                        textAlign: TextAlign.center,
+                                        decoration: const InputDecoration(
+                                          labelText: 'Sec',
+                                          border: UnderlineInputBorder(),
+                                        ),
+                                        inputFormatters: [
+                                          FilteringTextInputFormatter.digitsOnly
+                                        ],
+                                        onChanged: (value) {
+                                          if (value != "") {
+                                            int intValue = int.parse(value);
+                                            tempSeconds =
+                                                intValue < 60 ? intValue : 0;
+                                          } else {
+                                            tempSeconds = 0;
+                                          }
+                                        },
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                        )
+                  : curRowData.type < 2
+                      ? Expanded(
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 8.0),
+                                child: Text(
+                                  curRowData.set == "" ? "-" : curRowData.set,
+                                  textScaler: const TextScaler.linear(2.5),
+                                ),
+                              ),
+                              Column(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceAround,
+                                children: [
+                                  Text(
+                                    curRowData.exercise == ""
+                                        ? "Exercise"
+                                        : curRowData.exercise,
+                                    textScaler: const TextScaler.linear(1.3),
+                                  ),
+                                  Row(
+                                    mainAxisSize: MainAxisSize.max,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.fromLTRB(
+                                            8.0, 8, 8, 1),
+                                        child: curRowData.type == 0
+                                            ? Text("Reps: ${curRowData.reps}x")
+                                            : Text(
+                                                "Time: ${(curRowData.seconds ~/ 60).toString().padLeft(2, "0")}:${(curRowData.seconds % 60).toString().padLeft(2, "0")}"),
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.fromLTRB(
+                                            8.0, 8, 8, 0),
+                                        child: Text(
+                                            "Weight: ${curRowData.weight}"),
+                                      ),
+                                    ],
+                                  )
+                                ],
+                              )
+                            ],
+                          ),
+                        )
+                      : Expanded(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              ElevatedButton(
+                                onPressed: () {
+                                  AllDialogs.showCountdownDialog(
+                                      context,
+                                      curRowData.type > 1
+                                          ? "Pause"
+                                          : curRowData.exercise,
+                                      timer,
+                                      events,
+                                      curRowData.seconds);
+                                  startTimer();
+                                },
+                                style: const ButtonStyle(
+                                    shape: MaterialStatePropertyAll(
+                                        CircleBorder())),
+                                child: const Icon(Icons.play_arrow_rounded),
+                              ),
+                              Text(
+                                "${(curRowData.seconds ~/ 60).toString().padLeft(2, "0")}:${(curRowData.seconds % 60).toString().padLeft(2, "0")} Pause",
+                                textScaler: const TextScaler.linear(1.5),
+                              )
+                            ],
+                          ),
+                        ),
+              Column(
+                // End buttons
+                children: [
+                  if (editMode)
+                    ElevatedButton(
+                        onPressed: () {
+                          setState(() {
+                            editMode = !editMode;
+                            //TODO: die sachen hier speichern
+                            curRowData.set = tempSet;
+                            curRowData.weight = tempWeight;
+                            curRowData.reps = tempReps;
+                            curRowData.exercise = tempExercise;
+                            curRowData.seconds =
+                                (tempMinutes * 60) + (tempSeconds % 60);
+                            resetEditFields();
+                          });
+                        },
+                        style: const ButtonStyle(
+                          shape: MaterialStatePropertyAll(CircleBorder()),
+                        ),
+                        child: const Icon(Icons.save)),
+                  ElevatedButton(
+                    onPressed: () {
+                      setState(() {
+                        editMode = !editMode;
+                        if (editMode) {
+                          tempSet = curRowData.set;
+                          tempWeight = curRowData.weight;
+                          tempReps = curRowData.reps;
+                          tempExercise = curRowData.exercise;
+                          tempMinutes = curRowData.seconds ~/ 60;
+                          tempSeconds = curRowData.seconds % 60;
+                        } else {
+                          resetEditFields();
+                        }
+                      });
+                    },
+                    style: const ButtonStyle(
+                      shape: MaterialStatePropertyAll(CircleBorder()),
+                    ),
+                    child: editMode
+                        ? const Icon(Icons.cancel)
+                        : const Icon(Icons.edit),
+                  ),
+                  if (editMode)
+                    ElevatedButton(
+                      onPressed: () => {
+                        AllDialogs.showDeleteDialog(
+                          context,
+                          "Row ${curRowData.exercise}",
+                          widget.removeRow,
+                        )
+                      },
+                      style: const ButtonStyle(
+                        shape: MaterialStatePropertyAll(CircleBorder()),
+                      ),
+                      child: const Icon(Icons.delete),
+                    ),
+                ],
               ),
             ],
           ),
@@ -251,12 +386,17 @@ class _TemplateRowState extends State<TemplateRow> {
     }
     curSeconds = AllData.allData[widget.tabID].rows[widget.rowID].seconds;
     timer = Timer.periodic(const Duration(seconds: 1), (_) {
-      if (--curSeconds >= 0) {
-        events.add(curSeconds);
-      } else {
-        timer!.cancel();
-      }
+      events.add(--curSeconds);
     });
+  }
+
+  void resetEditFields() {
+    tempSet = "";
+    tempWeight = "";
+    tempReps = "";
+    tempExercise = "";
+    tempMinutes = 0;
+    tempSeconds = 0;
   }
 
   /* String secondsToTimeString(int sec) {

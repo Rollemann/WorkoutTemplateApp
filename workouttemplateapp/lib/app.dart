@@ -20,7 +20,6 @@ class App extends StatelessWidget {
 
 /* TODO
 - Rows:
-  - Row für Pause
   - Row für Exercise auf Zeit
   (- Animation beim löschen und hinzugfügen von Rows)
   - Popup wo Zeit läuft?
