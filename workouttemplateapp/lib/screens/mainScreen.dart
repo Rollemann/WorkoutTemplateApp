@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:workouttemplateapp/dbHandler.dart';
 import 'package:workouttemplateapp/screens/mainWidgets/templateDetails.dart';
 import 'package:workouttemplateapp/screens/mainWidgets/templatesNavigation.dart';
-
+import 'package:workouttemplateapp/screens/settingsScreen.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -29,6 +29,18 @@ class _MainScreenState extends State<MainScreen> {
           appBar: AppBar(
             backgroundColor: Colors.amber,
             title: const Text("Test"),
+            actions: [
+              IconButton(
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const SettingsScreen(),
+                      ));
+                },
+                icon: const Icon(Icons.settings),
+              )
+            ],
           ),
           body: Column(
             children: [

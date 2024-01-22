@@ -20,20 +20,17 @@ class App extends StatelessWidget {
 
 /* TODO
 - Rows:
-  - Row für Exercise auf Zeit
+  - Row für Exercise auf Zeit (Start Knopf)
   (- Animation beim löschen und hinzugfügen von Rows)
-  - Popup wo Zeit läuft?
 
 - Daten persistent speichern
-- Anzahl Pläne und Reihen beschränken Und text input
+- Anzahl Pläne und Reihen beschränken und text input Länge
 - Extra Fenster zum Pläne in der Reihenfolge zu ändern.
 
 - Pläne teilen über verschiedene Kanäle (extra Fenster wo man anhaken kann welche)
 - Pläne auch wieder öffnen können mit der App.
 
 - Settings: 
-  - Settings Knopf in Appbar
-  - Settingsseite
   - Donations
   - Tag/Nacht Modus
   - Ton / Vibration wenn Timer Ende ist
