@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:workouttemplateapp/dbHandler.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
@@ -9,6 +10,7 @@ class SettingsScreen extends StatefulWidget {
 
 class _SettingsScreenState extends State<SettingsScreen> {
   bool lightMode = true;
+  DeletionConfirmation? deletionType = DeletionConfirmation.always;
   bool vibration = true;
   double volume = 0;
 
@@ -53,6 +55,60 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   lightMode = value;
                 });
               },
+            ),
+            const Padding(
+              padding: EdgeInsets.only(top: 30.0),
+              child: Text("Confirm Deletion"),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                OutlinedButton(
+                  onPressed: () {
+                    setState(() {
+                      deletionType = DeletionConfirmation.always;
+                    });
+                  },
+                  child: Text(
+                    "Always",
+                    style: TextStyle(
+                      color: (deletionType == DeletionConfirmation.always)
+                          ? Colors.green
+                          : Colors.black,
+                    ),
+                  ),
+                ),
+                OutlinedButton(
+                  onPressed: () {
+                    setState(() {
+                      deletionType = DeletionConfirmation.plans;
+                    });
+                  },
+                  child: Text(
+                    "Just Plans",
+                    style: TextStyle(
+                      color: (deletionType == DeletionConfirmation.plans)
+                          ? Colors.green
+                          : Colors.black,
+                    ),
+                  ),
+                ),
+                OutlinedButton(
+                  onPressed: () {
+                    setState(() {
+                      deletionType = DeletionConfirmation.never;
+                    });
+                  },
+                  child: Text(
+                    "Never",
+                    style: TextStyle(
+                      color: (deletionType == DeletionConfirmation.never)
+                          ? Colors.green
+                          : Colors.black,
+                    ),
+                  ),
+                ),
+              ],
             ),
             const Padding(
               padding: EdgeInsets.only(top: 30.0),

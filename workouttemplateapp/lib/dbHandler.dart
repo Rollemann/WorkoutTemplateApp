@@ -34,3 +34,5 @@ class AllData {
     PlanItemData("Plan1"),
   ];
 }
+
+enum DeletionConfirmation { always, plans, never }
