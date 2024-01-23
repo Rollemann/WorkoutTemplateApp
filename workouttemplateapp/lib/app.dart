@@ -34,7 +34,6 @@ class App extends StatelessWidget {
   - Donations
   - Tag/Nacht Modus
   - Ton / Vibration wenn Timer Ende ist
-  (- Confirm Deletion ein und ausschlaten können)
 
 (Sprachen)
 (Wenn Zeit ende: Lied anhalten oder so (Wiedergabe stoppen))
