@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+//import 'package:shared_preferences/shared_preferences.dart';
 
 class PlanItemData {
   String name;
@@ -27,6 +27,13 @@ class RowItemData {
     this.seconds = 0,
     this.exercise = '',
   });
+}
+
+class SettingsData {
+  static bool lightMode = true;
+  static DeletionConfirmation? deletionType = DeletionConfirmation.always;
+  static bool vibration = true;
+  static double volume = 0;
 }
 
 class AllData {

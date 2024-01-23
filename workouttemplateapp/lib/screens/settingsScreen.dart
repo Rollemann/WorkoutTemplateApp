@@ -9,11 +9,6 @@ class SettingsScreen extends StatefulWidget {
 }
 
 class _SettingsScreenState extends State<SettingsScreen> {
-  bool lightMode = true;
-  DeletionConfirmation? deletionType = DeletionConfirmation.always;
-  bool vibration = true;
-  double volume = 0;
-
   final MaterialStateProperty<Icon?> thumbIconLightDark =
       MaterialStateProperty.resolveWith<Icon?>(
     (Set<MaterialState> states) {
@@ -49,10 +44,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
             ),
             Switch(
               thumbIcon: thumbIconLightDark,
-              value: lightMode,
+              value: SettingsData.lightMode,
               onChanged: (bool value) {
                 setState(() {
-                  lightMode = value;
+                  SettingsData.lightMode = value;
                 });
               },
             ),
@@ -66,13 +61,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 OutlinedButton(
                   onPressed: () {
                     setState(() {
-                      deletionType = DeletionConfirmation.always;
+                      SettingsData.deletionType = DeletionConfirmation.always;
                     });
                   },
                   child: Text(
                     "Always",
                     style: TextStyle(
-                      color: (deletionType == DeletionConfirmation.always)
+                      color: (SettingsData.deletionType ==
+                              DeletionConfirmation.always)
                           ? Colors.green
                           : Colors.black,
                     ),
@@ -81,13 +77,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 OutlinedButton(
                   onPressed: () {
                     setState(() {
-                      deletionType = DeletionConfirmation.plans;
+                      SettingsData.deletionType = DeletionConfirmation.plans;
                     });
                   },
                   child: Text(
                     "Just Plans",
                     style: TextStyle(
-                      color: (deletionType == DeletionConfirmation.plans)
+                      color: (SettingsData.deletionType ==
+                              DeletionConfirmation.plans)
                           ? Colors.green
                           : Colors.black,
                     ),
@@ -96,13 +93,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 OutlinedButton(
                   onPressed: () {
                     setState(() {
-                      deletionType = DeletionConfirmation.never;
+                      SettingsData.deletionType = DeletionConfirmation.never;
                     });
                   },
                   child: Text(
                     "Never",
                     style: TextStyle(
-                      color: (deletionType == DeletionConfirmation.never)
+                      color: (SettingsData.deletionType ==
+                              DeletionConfirmation.never)
                           ? Colors.green
                           : Colors.black,
                     ),
@@ -116,10 +114,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
             ),
             Switch(
               thumbIcon: thumbIconVibration,
-              value: vibration,
+              value: SettingsData.vibration,
               onChanged: (bool value) {
                 setState(() {
-                  vibration = value;
+                  SettingsData.vibration = value;
                 });
               },
             ),
@@ -133,30 +131,33 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   tooltip: "Mute",
                   onPressed: () {
                     setState(() {
-                      volume = 0;
+                      SettingsData.volume = 0;
                     });
                   },
                   icon: const Icon(Icons.volume_off),
                 ),
                 Expanded(
                   child: Slider(
-                    value: volume,
+                    value: SettingsData.volume,
                     max: 100,
                     divisions: 10,
                     onChanged: (value) {
                       setState(() {
-                        volume = value;
+                        SettingsData.volume = value;
                       });
                     },
-                    label:
-                        volume.round().toString(), //volume.round().toString(),
+                    label: SettingsData.volume
+                        .round()
+                        .toString(), //volume.round().toString(),
                   ),
                 ),
                 IconButton(
                   tooltip: "Max",
                   onPressed: () {
                     setState(() {
-                      volume = volume <= 90 ? volume + 10 : 100;
+                      SettingsData.volume = SettingsData.volume <= 90
+                          ? SettingsData.volume + 10
+                          : 100;
                     });
                   },
                   icon: const Icon(Icons.volume_up),

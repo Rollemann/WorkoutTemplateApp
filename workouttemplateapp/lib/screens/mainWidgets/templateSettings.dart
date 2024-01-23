@@ -81,12 +81,16 @@ class _TemplateSettingsState extends State<TemplateSettings> {
               child: const Icon(Icons.edit),
             ),
             ElevatedButton(
-              onPressed: () => {
-                AllDialogs.showDeleteDialog(
-                  context,
-                  "Tab ${AllData.allData[widget.currentTabId].name}",
-                  widget.removeTab,
-                )
+              onPressed: () {
+                if (SettingsData.deletionType != DeletionConfirmation.never) {
+                  AllDialogs.showDeleteDialog(
+                    context,
+                    "Tab ${AllData.allData[widget.currentTabId].name}",
+                    widget.removeTab,
+                  );
+                } else {
+                  widget.removeTab();
+                }
               },
               style: const ButtonStyle(
                   shape: MaterialStatePropertyAll(CircleBorder())),

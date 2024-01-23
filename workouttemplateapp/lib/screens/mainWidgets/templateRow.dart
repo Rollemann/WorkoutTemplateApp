@@ -529,12 +529,17 @@ class _TemplateRowState extends State<TemplateRow> {
                   ),
                   if (editMode)
                     ElevatedButton(
-                      onPressed: () => {
-                        AllDialogs.showDeleteDialog(
-                          context,
-                          "Row ${curRowData.exercise}",
-                          widget.removeRow,
-                        )
+                      onPressed: () {
+                        if (SettingsData.deletionType ==
+                            DeletionConfirmation.always) {
+                          AllDialogs.showDeleteDialog(
+                            context,
+                            "Row ${curRowData.exercise}",
+                            widget.removeRow,
+                          );
+                        } else {
+                          widget.removeRow();
+                        }
                       },
                       style: const ButtonStyle(
                         shape: MaterialStatePropertyAll(CircleBorder()),
