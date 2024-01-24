@@ -59,7 +59,6 @@ class _TemplateRowState extends State<TemplateRow> {
               ),
               if (editMode && curRowData.type == 0) //EDIT REPS
                 Flexible(
-                  //reps / time
                   child: Padding(
                     padding: const EdgeInsets.only(left: 12.0),
                     child: Column(
@@ -154,7 +153,6 @@ class _TemplateRowState extends State<TemplateRow> {
                 ),
               if (editMode && curRowData.type == 1) //EDIT TIME
                 Flexible(
-                  //reps / time
                   child: Padding(
                     padding: const EdgeInsets.only(left: 12.0),
                     child: Column(
@@ -284,7 +282,6 @@ class _TemplateRowState extends State<TemplateRow> {
                 ),
               if (editMode && curRowData.type == 2) //EDIT PAUSE
                 Flexible(
-                  // pause
                   child: Padding(
                     padding: const EdgeInsets.fromLTRB(20, 8, 0, 8),
                     child: Column(
@@ -357,129 +354,180 @@ class _TemplateRowState extends State<TemplateRow> {
                 ),
               if (!editMode && curRowData.type == 0) //VIEW REPS
                 Expanded(
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                        child: Text(
-                          curRowData.set == "" ? "-" : curRowData.set,
-                          textScaler: const TextScaler.linear(2.5),
-                        ),
-                      ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(left: 8.0),
-                            child: Text(
-                              curRowData.exercise == ""
-                                  ? "Exercise"
-                                  : curRowData.exercise,
-                              textScaler: const TextScaler.linear(1.3),
-                            ),
+                  child: SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                          child: Text(
+                            curRowData.set == "" ? "-" : curRowData.set,
+                            textScaler: const TextScaler.linear(2.5),
                           ),
-                          Row(
-                            mainAxisSize: MainAxisSize.max,
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              Padding(
-                                padding:
-                                    const EdgeInsets.fromLTRB(8.0, 8, 8, 1),
-                                child: Text("Reps: ${curRowData.reps}x"),
+                        ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(left: 8.0),
+                              child: Text(
+                                curRowData.exercise == ""
+                                    ? "Exercise"
+                                    : curRowData.exercise,
+                                textScaler: const TextScaler.linear(1.3),
                               ),
-                              Padding(
-                                padding:
-                                    const EdgeInsets.fromLTRB(8.0, 8, 8, 0),
-                                child: Text("Weight: ${curRowData.weight}"),
-                              ),
-                            ],
-                          )
-                        ],
-                      )
-                    ],
+                            ),
+                            Row(
+                              mainAxisSize: MainAxisSize.max,
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                Padding(
+                                  padding:
+                                      const EdgeInsets.fromLTRB(8.0, 8, 8, 1),
+                                  child: Row(
+                                    children: [
+                                      const Icon(Icons.replay_rounded),
+                                      Text(
+                                        curRowData.reps == ""
+                                            ? "0x"
+                                            : "${curRowData.reps}x",
+                                        textScaler:
+                                            const TextScaler.linear(1.2),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                Padding(
+                                  padding:
+                                      const EdgeInsets.fromLTRB(8.0, 8, 8, 0),
+                                  child: Row(
+                                    children: [
+                                      const Icon(Icons.fitness_center),
+                                      Text(
+                                        curRowData.weight == ""
+                                            ? "0"
+                                            : curRowData.weight,
+                                        textScaler:
+                                            const TextScaler.linear(1.2),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            )
+                          ],
+                        )
+                      ],
+                    ),
                   ),
                 ),
               if (!editMode && curRowData.type == 1) //VIEW TIME
                 Expanded(
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                        child: Text(
-                          curRowData.set == "" ? "-" : curRowData.set,
-                          textScaler: const TextScaler.linear(2.5),
-                        ),
-                      ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                  child: GestureDetector(
+                    onDoubleTap: () {
+                      AllDialogs.showCountdownDialog(
+                        context,
+                        curRowData.exercise,
+                        timer,
+                        events,
+                        curRowData.seconds,
+                      );
+                      startTimer();
+                    },
+                    child: SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           Padding(
-                            padding: const EdgeInsets.only(left: 8.0),
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 8.0),
                             child: Text(
-                              curRowData.exercise == ""
-                                  ? "Exercise"
-                                  : curRowData.exercise,
-                              textScaler: const TextScaler.linear(1.3),
+                              curRowData.set == "" ? "-" : curRowData.set,
+                              textScaler: const TextScaler.linear(2.5),
                             ),
                           ),
-                          Row(
-                            mainAxisSize: MainAxisSize.max,
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Padding(
-                                padding:
-                                    const EdgeInsets.fromLTRB(8.0, 8, 8, 1),
+                                padding: const EdgeInsets.only(left: 8.0),
                                 child: Text(
-                                    "Time: ${secondsToTimeString(curRowData.seconds)}"),
+                                  curRowData.exercise == ""
+                                      ? "Exercise"
+                                      : curRowData.exercise,
+                                  textScaler: const TextScaler.linear(1.3),
+                                ),
                               ),
-                              Padding(
-                                padding:
-                                    const EdgeInsets.fromLTRB(8.0, 8, 8, 0),
-                                child: Text("Weight: ${curRowData.weight}"),
-                              ),
+                              Row(
+                                mainAxisSize: MainAxisSize.max,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  Padding(
+                                    padding:
+                                        const EdgeInsets.fromLTRB(8.0, 8, 8, 1),
+                                    child: Row(
+                                      children: [
+                                        const Icon(Icons.timer_outlined),
+                                        Text(
+                                          secondsToTimeString(
+                                              curRowData.seconds),
+                                          textScaler:
+                                              const TextScaler.linear(1.2),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding:
+                                        const EdgeInsets.fromLTRB(8.0, 8, 8, 0),
+                                    child: Row(
+                                      children: [
+                                        const Icon(Icons.fitness_center),
+                                        Text(
+                                          curRowData.weight,
+                                          textScaler:
+                                              const TextScaler.linear(1.2),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              )
                             ],
-                          )
+                          ),
                         ],
-                      )
-                    ],
+                      ),
+                    ),
                   ),
                 ),
               if (!editMode && curRowData.type == 2) //VIEW PAUSE
                 Expanded(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      const Padding(
-                        padding: EdgeInsets.only(left: 8.0),
+                  child: GestureDetector(
+                    onDoubleTap: () {
+                      AllDialogs.showCountdownDialog(
+                        context,
+                        "Pause",
+                        timer,
+                        events,
+                        curRowData.seconds,
+                      );
+                      startTimer();
+                    },
+                    child: SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 8.0),
                         child: Text(
-                          "Pause:",
-                          textScaler: TextScaler.linear(1.5),
+                          "Pause: ${secondsToTimeString(curRowData.seconds)}",
+                          textScaler: const TextScaler.linear(1.5),
                         ),
                       ),
-                      ElevatedButton(
-                        onPressed: () {
-                          AllDialogs.showCountdownDialog(
-                            context,
-                            "Pause",
-                            timer,
-                            events,
-                            curRowData.seconds,
-                          );
-                          startTimer();
-                        },
-                        style: const ButtonStyle(
-                            shape: MaterialStatePropertyAll(CircleBorder())),
-                        child: const Icon(Icons.play_arrow_rounded),
-                      ),
-                      Text(
-                        secondsToTimeString(curRowData.seconds),
-                        textScaler: const TextScaler.linear(1.5),
-                      )
-                    ],
+                    ),
                   ),
                 ),
               Column(

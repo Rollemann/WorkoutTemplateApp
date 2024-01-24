@@ -20,7 +20,7 @@ class App extends StatelessWidget {
 
 /* TODO
 - Rows:
-  - Row für Exercise auf Zeit (Start Knopf)
+  - Hint für Double Tap um Timer zu starten
   (- Animation beim löschen und hinzugfügen von Rows)
 
 - Daten persistent speichern
