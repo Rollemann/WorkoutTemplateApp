@@ -2,10 +2,12 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:workouttemplateapp/allDialogs.dart';
 import 'package:workouttemplateapp/dbHandler.dart';
+import 'package:workouttemplateapp/main.dart';
 
-class TemplateRow extends StatefulWidget {
+class TemplateRow extends ConsumerStatefulWidget {
   final VoidCallback removeRow;
   final int tabID;
   final int rowID;
@@ -19,10 +21,10 @@ class TemplateRow extends StatefulWidget {
   });
 
   @override
-  State<TemplateRow> createState() => _TemplateRowState();
+  ConsumerState<TemplateRow> createState() => _TemplateRowState();
 }
 
-class _TemplateRowState extends State<TemplateRow> {
+class _TemplateRowState extends ConsumerState<TemplateRow> {
   Timer? timer;
   StreamController<int> events = StreamController<int>.broadcast();
   late int curSeconds = 0;
@@ -44,6 +46,8 @@ class _TemplateRowState extends State<TemplateRow> {
 
   @override
   Widget build(BuildContext context) {
+    final DeletionConfirmationTypes deletionType =
+        ref.watch(deletionConfirmationProvider);
     return Padding(
       padding: const EdgeInsets.all(5.0),
       child: Container(
@@ -578,8 +582,7 @@ class _TemplateRowState extends State<TemplateRow> {
                   if (editMode)
                     ElevatedButton(
                       onPressed: () {
-                        if (SettingsData.deletionType ==
-                            DeletionConfirmation.always) {
+                        if (deletionType == DeletionConfirmationTypes.always) {
                           AllDialogs.showDeleteDialog(
                             context,
                             "Row ${curRowData.exercise}",

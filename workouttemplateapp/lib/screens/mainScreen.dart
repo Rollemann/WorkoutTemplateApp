@@ -1,25 +1,34 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:workouttemplateapp/dbHandler.dart';
+import 'package:workouttemplateapp/main.dart';
 import 'package:workouttemplateapp/screens/mainWidgets/templateDetails.dart';
 import 'package:workouttemplateapp/screens/mainWidgets/templatesNavigation.dart';
 import 'package:workouttemplateapp/screens/settingsScreen.dart';
 
-class MainScreen extends StatefulWidget {
+class MainScreen extends ConsumerStatefulWidget {
   const MainScreen({super.key});
 
   @override
-  State<MainScreen> createState() => _MainScreenState();
+  ConsumerState<MainScreen> createState() => _MainScreenState();
 }
 
-class _MainScreenState extends State<MainScreen> {
+class _MainScreenState extends ConsumerState<MainScreen> {
+  @override
+  void initState() {
+    SettingsData.loadData();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
         FocusManager.instance.primaryFocus?.unfocus();
         setState(() {
+          //TODO: AS
           AllData.allData;
         });
       },
@@ -27,7 +36,8 @@ class _MainScreenState extends State<MainScreen> {
         length: AllData.allData.length,
         child: Scaffold(
           appBar: AppBar(
-            backgroundColor: Colors.amber,
+            backgroundColor:
+                ref.watch(lightModeProvider) ? Colors.amber : Colors.brown,
             title: const Text("Test"),
             actions: [
               IconButton(

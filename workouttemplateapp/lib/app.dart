@@ -19,6 +19,15 @@ class App extends StatelessWidget {
 
 
 /* TODO
+States: 
+- Tabs (Namen AS, Position AS, deleted AS, Liste mit Rows AS)
+- Rows (intere Daten AS, für Details und rows, editable ist ES)
+- LightMode (An oder aus) AS
+- Deletion Confirmation AS
+- Vibration AS
+- Volume AS
+
+
 - Rows:
   - Hint für Double Tap um Timer zu starten
   (- Animation beim löschen und hinzugfügen von Rows)

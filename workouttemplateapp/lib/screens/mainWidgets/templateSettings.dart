@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:workouttemplateapp/allDialogs.dart';
 import 'package:workouttemplateapp/dbHandler.dart';
+import 'package:workouttemplateapp/main.dart';
 import 'package:workouttemplateapp/screens/mainWidgets/templateDetails.dart';
 
-class TemplateSettings extends StatefulWidget {
+class TemplateSettings extends ConsumerStatefulWidget {
   final VoidCallback removeTab;
   final Function addRow;
   final Function renameTab;
@@ -16,10 +18,10 @@ class TemplateSettings extends StatefulWidget {
       required this.currentTabId});
 
   @override
-  State<TemplateSettings> createState() => _TemplateSettingsState();
+  ConsumerState<TemplateSettings> createState() => _TemplateSettingsState();
 }
 
-class _TemplateSettingsState extends State<TemplateSettings> {
+class _TemplateSettingsState extends ConsumerState<TemplateSettings> {
   String? selectedRowType;
   List<IconData> menuIcons = [
     Icons.replay_outlined,
@@ -29,6 +31,8 @@ class _TemplateSettingsState extends State<TemplateSettings> {
 
   @override
   Widget build(BuildContext context) {
+    final DeletionConfirmationTypes deletionType =
+        ref.watch(deletionConfirmationProvider);
     return Container(
       color: Colors.blue,
       child: Padding(
@@ -82,7 +86,7 @@ class _TemplateSettingsState extends State<TemplateSettings> {
             ),
             ElevatedButton(
               onPressed: () {
-                if (SettingsData.deletionType != DeletionConfirmation.never) {
+                if (deletionType != DeletionConfirmationTypes.never) {
                   AllDialogs.showDeleteDialog(
                     context,
                     "Tab ${AllData.allData[widget.currentTabId].name}",

@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:workouttemplateapp/dbHandler.dart';
+import 'package:workouttemplateapp/main.dart';
 
-class SettingsScreen extends StatefulWidget {
+class SettingsScreen extends ConsumerStatefulWidget {
   const SettingsScreen({super.key});
 
   @override
-  State<SettingsScreen> createState() => _SettingsScreenState();
+  ConsumerState<SettingsScreen> createState() => _SettingsScreenState();
 }
 
-class _SettingsScreenState extends State<SettingsScreen> {
+class _SettingsScreenState extends ConsumerState<SettingsScreen> {
   final double dividerIndent = 50;
+
   final MaterialStateProperty<Icon?> thumbIconLightDark =
       MaterialStateProperty.resolveWith<Icon?>(
     (Set<MaterialState> states) {
@@ -32,6 +35,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final bool lightMode = ref.watch(lightModeProvider);
+    final DeletionConfirmationTypes deletionType =
+        ref.watch(deletionConfirmationProvider);
     return Scaffold(
       appBar: AppBar(
         title: const Text("Settings"),
@@ -49,11 +55,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
               ),
               Switch(
                 thumbIcon: thumbIconLightDark,
-                value: SettingsData.lightMode,
+                value: lightMode,
                 onChanged: (bool value) {
-                  setState(() {
-                    SettingsData.lightMode = value;
-                  });
+                  ref.read(lightModeProvider.notifier).state = value;
+                  //_changeLightMode(value);
                 },
               ),
               Padding(
@@ -75,31 +80,30 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 children: [
                   OutlinedButton(
                     onPressed: () {
-                      setState(() {
-                        SettingsData.deletionType = DeletionConfirmation.always;
-                      });
+                      ref.read(deletionConfirmationProvider.notifier).state =
+                          DeletionConfirmationTypes.always;
+                      //_changeDeletionType(DeletionConfirmationTypes.always);
                     },
                     child: Text(
                       "Always",
                       style: TextStyle(
-                        color: (SettingsData.deletionType ==
-                                DeletionConfirmation.always)
-                            ? Colors.green
-                            : Colors.black,
+                        color:
+                            (deletionType == DeletionConfirmationTypes.always)
+                                ? Colors.green
+                                : Colors.black,
                       ),
                     ),
                   ),
                   OutlinedButton(
                     onPressed: () {
-                      setState(() {
-                        SettingsData.deletionType = DeletionConfirmation.plans;
-                      });
+                      ref.read(deletionConfirmationProvider.notifier).state =
+                          DeletionConfirmationTypes.plans;
+                      //_changeDeletionType(DeletionConfirmationTypes.plans);
                     },
                     child: Text(
                       "Just Plans",
                       style: TextStyle(
-                        color: (SettingsData.deletionType ==
-                                DeletionConfirmation.plans)
+                        color: (deletionType == DeletionConfirmationTypes.plans)
                             ? Colors.green
                             : Colors.black,
                       ),
@@ -107,15 +111,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   ),
                   OutlinedButton(
                     onPressed: () {
-                      setState(() {
-                        SettingsData.deletionType = DeletionConfirmation.never;
-                      });
+                      ref.read(deletionConfirmationProvider.notifier).state =
+                          DeletionConfirmationTypes.never;
+                      //_changeDeletionType(DeletionConfirmationTypes.never);
                     },
                     child: Text(
                       "Never",
                       style: TextStyle(
-                        color: (SettingsData.deletionType ==
-                                DeletionConfirmation.never)
+                        color: (deletionType == DeletionConfirmationTypes.never)
                             ? Colors.green
                             : Colors.black,
                       ),
@@ -141,9 +144,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 thumbIcon: thumbIconVibration,
                 value: SettingsData.vibration,
                 onChanged: (bool value) {
-                  setState(() {
-                    SettingsData.vibration = value;
-                  });
+                  _changeVibration(value);
                 },
               ),
               Padding(
@@ -165,9 +166,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   IconButton(
                     tooltip: "Mute",
                     onPressed: () {
-                      setState(() {
-                        SettingsData.volume = 0;
-                      });
+                      _changeVolume(0);
                     },
                     icon: const Icon(Icons.volume_off),
                   ),
@@ -177,9 +176,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       max: 100,
                       divisions: 10,
                       onChanged: (value) {
-                        setState(() {
-                          SettingsData.volume = value;
-                        });
+                        _changeVolume(value);
                       },
                       label: SettingsData.volume
                           .round()
@@ -190,9 +187,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     tooltip: "Max",
                     onPressed: () {
                       setState(() {
-                        SettingsData.volume = SettingsData.volume <= 90
-                            ? SettingsData.volume + 10
-                            : 100;
+                        SettingsData.volume <= 90
+                            ? _changeVolume(SettingsData.volume + 10)
+                            : _changeVolume(100);
                       });
                     },
                     icon: const Icon(Icons.volume_up),
@@ -215,5 +212,33 @@ class _SettingsScreenState extends State<SettingsScreen> {
         ),
       ),
     );
+  }
+
+  void _changeLightMode(bool value) async {
+    setState(() {
+      SettingsData.lightMode = value;
+    });
+    SettingsData.saveData();
+  }
+
+  void _changeDeletionType(DeletionConfirmationTypes value) async {
+    setState(() {
+      SettingsData.deletionType = value;
+    });
+    SettingsData.saveData();
+  }
+
+  void _changeVibration(bool value) {
+    setState(() {
+      SettingsData.vibration = value;
+    });
+    SettingsData.saveData();
+  }
+
+  void _changeVolume(double value) {
+    setState(() {
+      SettingsData.volume = value;
+    });
+    SettingsData.saveData();
   }
 }

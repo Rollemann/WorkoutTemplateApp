@@ -28,7 +28,7 @@ class _TemplateDetailsState extends State<TemplateDetails> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Flexible(
+        Expanded(
           child: ReorderableListView.builder(
             itemCount: AllData.allData[widget.id].rows.length,
             onReorder: (oldIndex, newIndex) {
