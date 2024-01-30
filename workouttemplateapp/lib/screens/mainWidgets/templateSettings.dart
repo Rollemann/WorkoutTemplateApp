@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:workouttemplateapp/allDialogs.dart';
 import 'package:workouttemplateapp/dbHandler.dart';
-import 'package:workouttemplateapp/main.dart';
 import 'package:workouttemplateapp/screens/mainWidgets/templateDetails.dart';
 
 class TemplateSettings extends ConsumerStatefulWidget {
@@ -31,8 +30,7 @@ class _TemplateSettingsState extends ConsumerState<TemplateSettings> {
 
   @override
   Widget build(BuildContext context) {
-    final DeletionConfirmationTypes deletionType =
-        ref.watch(deletionConfirmationProvider);
+    final DeletionTypes deletionType = ref.watch(deletionTypeProvider);
     return Container(
       color: Colors.blue,
       child: Padding(
@@ -86,7 +84,7 @@ class _TemplateSettingsState extends ConsumerState<TemplateSettings> {
             ),
             ElevatedButton(
               onPressed: () {
-                if (deletionType != DeletionConfirmationTypes.never) {
+                if (deletionType != DeletionTypes.never) {
                   AllDialogs.showDeleteDialog(
                     context,
                     "Tab ${AllData.allData[widget.currentTabId].name}",

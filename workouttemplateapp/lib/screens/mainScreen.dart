@@ -3,7 +3,6 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:workouttemplateapp/dbHandler.dart';
-import 'package:workouttemplateapp/main.dart';
 import 'package:workouttemplateapp/screens/mainWidgets/templateDetails.dart';
 import 'package:workouttemplateapp/screens/mainWidgets/templatesNavigation.dart';
 import 'package:workouttemplateapp/screens/settingsScreen.dart';
@@ -18,12 +17,12 @@ class MainScreen extends ConsumerStatefulWidget {
 class _MainScreenState extends ConsumerState<MainScreen> {
   @override
   void initState() {
-    SettingsData.loadData();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    final bool lightMode = ref.watch(lightModeProvider);
     return GestureDetector(
       onTap: () {
         FocusManager.instance.primaryFocus?.unfocus();
@@ -36,8 +35,7 @@ class _MainScreenState extends ConsumerState<MainScreen> {
         length: AllData.allData.length,
         child: Scaffold(
           appBar: AppBar(
-            backgroundColor:
-                ref.watch(lightModeProvider) ? Colors.amber : Colors.brown,
+            backgroundColor: lightMode ? Colors.amber : Colors.brown,
             title: const Text("Test"),
             actions: [
               IconButton(

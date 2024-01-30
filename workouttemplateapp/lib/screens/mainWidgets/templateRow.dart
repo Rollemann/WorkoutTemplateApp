@@ -5,7 +5,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:workouttemplateapp/allDialogs.dart';
 import 'package:workouttemplateapp/dbHandler.dart';
-import 'package:workouttemplateapp/main.dart';
 
 class TemplateRow extends ConsumerStatefulWidget {
   final VoidCallback removeRow;
@@ -46,8 +45,7 @@ class _TemplateRowState extends ConsumerState<TemplateRow> {
 
   @override
   Widget build(BuildContext context) {
-    final DeletionConfirmationTypes deletionType =
-        ref.watch(deletionConfirmationProvider);
+    final DeletionTypes deletionType = ref.watch(deletionTypeProvider);
     return Padding(
       padding: const EdgeInsets.all(5.0),
       child: Container(
@@ -582,7 +580,7 @@ class _TemplateRowState extends ConsumerState<TemplateRow> {
                   if (editMode)
                     ElevatedButton(
                       onPressed: () {
-                        if (deletionType == DeletionConfirmationTypes.always) {
+                        if (deletionType == DeletionTypes.always) {
                           AllDialogs.showDeleteDialog(
                             context,
                             "Row ${curRowData.exercise}",

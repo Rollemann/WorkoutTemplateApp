@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:workouttemplateapp/dbHandler.dart';
-import 'package:workouttemplateapp/main.dart';
 
 class SettingsScreen extends ConsumerStatefulWidget {
   const SettingsScreen({super.key});
@@ -35,9 +34,10 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    //final bool lightMode = ref.watch(LightMode.provider);
     final bool lightMode = ref.watch(lightModeProvider);
-    final DeletionConfirmationTypes deletionType =
-        ref.watch(deletionConfirmationProvider);
+    final DeletionTypes deletionType = ref.watch(deletionTypeProvider);
+    //final SettingsData settings = ref.watch(settingsDataProvider);
     return Scaffold(
       appBar: AppBar(
         title: const Text("Settings"),
@@ -80,30 +80,13 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                 children: [
                   OutlinedButton(
                     onPressed: () {
-                      ref.read(deletionConfirmationProvider.notifier).state =
-                          DeletionConfirmationTypes.always;
-                      //_changeDeletionType(DeletionConfirmationTypes.always);
+                      ref.read(deletionTypeProvider.notifier).state =
+                          DeletionTypes.always;
                     },
                     child: Text(
                       "Always",
                       style: TextStyle(
-                        color:
-                            (deletionType == DeletionConfirmationTypes.always)
-                                ? Colors.green
-                                : Colors.black,
-                      ),
-                    ),
-                  ),
-                  OutlinedButton(
-                    onPressed: () {
-                      ref.read(deletionConfirmationProvider.notifier).state =
-                          DeletionConfirmationTypes.plans;
-                      //_changeDeletionType(DeletionConfirmationTypes.plans);
-                    },
-                    child: Text(
-                      "Just Plans",
-                      style: TextStyle(
-                        color: (deletionType == DeletionConfirmationTypes.plans)
+                        color: (deletionType == DeletionTypes.always)
                             ? Colors.green
                             : Colors.black,
                       ),
@@ -111,14 +94,27 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                   ),
                   OutlinedButton(
                     onPressed: () {
-                      ref.read(deletionConfirmationProvider.notifier).state =
-                          DeletionConfirmationTypes.never;
-                      //_changeDeletionType(DeletionConfirmationTypes.never);
+                      ref.read(deletionTypeProvider.notifier).state =
+                          DeletionTypes.plans;
+                    },
+                    child: Text(
+                      "Just Plans",
+                      style: TextStyle(
+                        color: (deletionType == DeletionTypes.plans)
+                            ? Colors.green
+                            : Colors.black,
+                      ),
+                    ),
+                  ),
+                  OutlinedButton(
+                    onPressed: () {
+                      ref.read(deletionTypeProvider.notifier).state =
+                          DeletionTypes.never;
                     },
                     child: Text(
                       "Never",
                       style: TextStyle(
-                        color: (deletionType == DeletionConfirmationTypes.never)
+                        color: (deletionType == DeletionTypes.never)
                             ? Colors.green
                             : Colors.black,
                       ),
@@ -142,7 +138,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
               ),
               Switch(
                 thumbIcon: thumbIconVibration,
-                value: SettingsData.vibration,
+                value: SettingsData2.vibration,
                 onChanged: (bool value) {
                   _changeVibration(value);
                 },
@@ -172,13 +168,13 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                   ),
                   Expanded(
                     child: Slider(
-                      value: SettingsData.volume,
+                      value: SettingsData2.volume,
                       max: 100,
                       divisions: 10,
                       onChanged: (value) {
                         _changeVolume(value);
                       },
-                      label: SettingsData.volume
+                      label: SettingsData2.volume
                           .round()
                           .toString(), //volume.round().toString(),
                     ),
@@ -187,8 +183,8 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                     tooltip: "Max",
                     onPressed: () {
                       setState(() {
-                        SettingsData.volume <= 90
-                            ? _changeVolume(SettingsData.volume + 10)
+                        SettingsData2.volume <= 90
+                            ? _changeVolume(SettingsData2.volume + 10)
                             : _changeVolume(100);
                       });
                     },
@@ -214,31 +210,19 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
     );
   }
 
-  void _changeLightMode(bool value) async {
-    setState(() {
-      SettingsData.lightMode = value;
-    });
-    SettingsData.saveData();
-  }
+  void _changeLightMode(bool value) async {}
 
-  void _changeDeletionType(DeletionConfirmationTypes value) async {
-    setState(() {
-      SettingsData.deletionType = value;
-    });
-    SettingsData.saveData();
-  }
+  void _changeDeletionType(DeletionTypes value) async {}
 
   void _changeVibration(bool value) {
     setState(() {
-      SettingsData.vibration = value;
+      SettingsData2.vibration = value;
     });
-    SettingsData.saveData();
   }
 
   void _changeVolume(double value) {
     setState(() {
-      SettingsData.volume = value;
+      SettingsData2.volume = value;
     });
-    SettingsData.saveData();
   }
 }
