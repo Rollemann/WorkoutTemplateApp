@@ -2,11 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:workouttemplateapp/app.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:workouttemplateapp/dbHandler.dart';
-
-//final lightModeProviderd = StateProvider((ref) => true);
-final deletionConfirmationProvider =
-    StateProvider((ref) => DeletionTypes.always);
+import 'package:workouttemplateapp/providers/sharedPreferenceProvider.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();

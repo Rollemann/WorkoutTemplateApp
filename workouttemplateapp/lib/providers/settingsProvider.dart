@@ -1,13 +1,6 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-
-final sharedPrefs = FutureProvider<SharedPreferences>(
-    (_) async => await SharedPreferences.getInstance());
-
-final sharedPreferencesProvider = Provider<SharedPreferences>((ref) {
-  throw UnimplementedError();
-});
+import 'package:workouttemplateapp/providers/sharedPreferenceProvider.dart';
+import 'package:workouttemplateapp/screens/settingsWidgets/deletionTypeWidget.dart';
 
 final lightModeProvider = StateProvider<bool>((ref) {
   final preferences = ref.watch(sharedPreferencesProvider);
@@ -41,45 +34,3 @@ final deletionTypeProvider = StateProvider<DeletionTypes>((ref) {
   }
   return DeletionTypes.never;
 });
-
-enum DeletionTypes { always, plans, never }
-
-class SettingsData2 {
-  // TODO: Delete das hier
-  static bool vibration = true;
-  static double volume = 50;
-}
-
-class PlanItemData {
-  String name;
-  final Icon icon = const Icon(Icons.fitness_center);
-  final List<RowItemData> rows = [];
-
-  PlanItemData(this.name) {
-    rows.add(RowItemData(type: 0));
-  }
-}
-
-class RowItemData {
-  int type;
-  String set;
-  String weight;
-  String reps;
-  String exercise;
-  int seconds;
-
-  RowItemData({
-    required this.type,
-    this.set = '',
-    this.weight = '',
-    this.reps = '',
-    this.seconds = 0,
-    this.exercise = '',
-  });
-}
-
-class AllData {
-  static List<PlanItemData> allData = [
-    PlanItemData("Plan1"),
-  ];
-}

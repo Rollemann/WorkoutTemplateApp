@@ -4,7 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:workouttemplateapp/allDialogs.dart';
-import 'package:workouttemplateapp/dbHandler.dart';
+import 'package:workouttemplateapp/providers/settingsProvider.dart';
+import 'package:workouttemplateapp/providers/sharedPreferenceProvider.dart';
+import 'package:workouttemplateapp/screens/settingsWidgets/deletionTypeWidget.dart';
 
 class TemplateRow extends ConsumerStatefulWidget {
   final VoidCallback removeRow;

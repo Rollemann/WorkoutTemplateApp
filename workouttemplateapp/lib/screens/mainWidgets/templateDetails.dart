@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:workouttemplateapp/dbHandler.dart';
+import 'package:workouttemplateapp/providers/sharedPreferenceProvider.dart';
 //import 'package:great_list_view/great_list_view.dart';
 import 'package:workouttemplateapp/screens/mainWidgets/templateRow.dart';
 import 'package:workouttemplateapp/screens/mainWidgets/templateSettings.dart';

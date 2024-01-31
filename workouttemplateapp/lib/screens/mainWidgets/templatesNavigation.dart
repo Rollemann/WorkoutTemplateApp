@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:workouttemplateapp/dbHandler.dart';
+import 'package:workouttemplateapp/providers/sharedPreferenceProvider.dart';
 
 class TemplatesNavigation extends StatelessWidget {
   final Function addTab;

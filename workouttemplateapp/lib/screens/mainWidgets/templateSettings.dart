@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:workouttemplateapp/allDialogs.dart';
-import 'package:workouttemplateapp/dbHandler.dart';
+import 'package:workouttemplateapp/providers/settingsProvider.dart';
+import 'package:workouttemplateapp/providers/sharedPreferenceProvider.dart';
 import 'package:workouttemplateapp/screens/mainWidgets/templateDetails.dart';
+import 'package:workouttemplateapp/screens/settingsWidgets/deletionTypeWidget.dart';
 
 class TemplateSettings extends ConsumerStatefulWidget {
   final VoidCallback removeTab;
