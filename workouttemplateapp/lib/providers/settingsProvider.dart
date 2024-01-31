@@ -34,3 +34,21 @@ final deletionTypeProvider = StateProvider<DeletionTypes>((ref) {
   }
   return DeletionTypes.never;
 });
+
+final vibrationProvider = StateProvider<bool>((ref) {
+  final preferences = ref.watch(sharedPreferencesProvider);
+  final vibration = preferences.getBool('vibration') ?? true;
+  ref.listenSelf((prev, curr) {
+    preferences.setBool('vibration', curr);
+  });
+  return vibration;
+});
+
+final volumeProvider = StateProvider<double>((ref) {
+  final preferences = ref.watch(sharedPreferencesProvider);
+  final volume = preferences.getDouble('volume') ?? 50;
+  ref.listenSelf((prev, curr) {
+    preferences.setDouble('volume', curr);
+  });
+  return volume;
+});

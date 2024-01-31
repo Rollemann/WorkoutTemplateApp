@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:workouttemplateapp/providers/sharedPreferenceProvider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:workouttemplateapp/providers/settingsProvider.dart';
 
-class VibrationWidget extends StatefulWidget {
+class VibrationWidget extends ConsumerStatefulWidget {
   const VibrationWidget({super.key});
 
   @override
-  State<VibrationWidget> createState() => _VibrationWidgetState();
+  ConsumerState<VibrationWidget> createState() => _VibrationWidgetState();
 }
 
-class _VibrationWidgetState extends State<VibrationWidget> {
+class _VibrationWidgetState extends ConsumerState<VibrationWidget> {
   final MaterialStateProperty<Icon?> thumbIconVibration =
       MaterialStateProperty.resolveWith<Icon?>(
     (Set<MaterialState> states) {
@@ -21,6 +22,7 @@ class _VibrationWidgetState extends State<VibrationWidget> {
 
   @override
   Widget build(BuildContext context) {
+    final bool vibration = ref.watch(vibrationProvider);
     return Column(
       children: [
         const Padding(
@@ -32,18 +34,12 @@ class _VibrationWidgetState extends State<VibrationWidget> {
         ),
         Switch(
           thumbIcon: thumbIconVibration,
-          value: SettingsData2.vibration,
+          value: vibration,
           onChanged: (bool value) {
-            _changeVibration(value);
+            ref.read(vibrationProvider.notifier).state = value;
           },
         ),
       ],
     );
-  }
-
-  void _changeVibration(bool value) {
-    setState(() {
-      SettingsData2.vibration = value;
-    });
   }
 }

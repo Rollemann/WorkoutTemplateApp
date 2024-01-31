@@ -6,12 +6,6 @@ final sharedPreferencesProvider = Provider<SharedPreferences>((ref) {
   throw UnimplementedError();
 });
 
-class SettingsData2 {
-  // TODO: Delete das hier
-  static bool vibration = true;
-  static double volume = 50;
-}
-
 class PlanItemData {
   String name;
   final Icon icon = const Icon(Icons.fitness_center);

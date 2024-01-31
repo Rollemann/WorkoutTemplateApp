@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:workouttemplateapp/providers/sharedPreferenceProvider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:workouttemplateapp/providers/settingsProvider.dart';
 
-class VolumeWidget extends StatefulWidget {
+class VolumeWidget extends ConsumerStatefulWidget {
   const VolumeWidget({super.key});
 
   @override
-  State<VolumeWidget> createState() => _VolumeWidgetState();
+  ConsumerState<VolumeWidget> createState() => _VolumeWidgetState();
 }
 
-class _VolumeWidgetState extends State<VolumeWidget> {
+class _VolumeWidgetState extends ConsumerState<VolumeWidget> {
   @override
   Widget build(BuildContext context) {
+    final volume = ref.watch(volumeProvider);
     return Column(
       children: [
         const Padding(
@@ -25,30 +27,28 @@ class _VolumeWidgetState extends State<VolumeWidget> {
             IconButton(
               tooltip: "Mute",
               onPressed: () {
-                _changeVolume(0);
+                ref.read(volumeProvider.notifier).state = 0;
               },
               icon: const Icon(Icons.volume_off),
             ),
             Expanded(
               child: Slider(
-                value: SettingsData2.volume,
+                value: volume,
                 max: 100,
                 divisions: 10,
                 onChanged: (value) {
-                  _changeVolume(value);
+                  ref.read(volumeProvider.notifier).state = value;
                 },
-                label: SettingsData2.volume
-                    .round()
-                    .toString(), //volume.round().toString(),
+                label: volume.round().toString(),
               ),
             ),
             IconButton(
               tooltip: "Max",
               onPressed: () {
                 setState(() {
-                  SettingsData2.volume <= 90
-                      ? _changeVolume(SettingsData2.volume + 10)
-                      : _changeVolume(100);
+                  volume <= 90
+                      ? ref.read(volumeProvider.notifier).state = volume + 10
+                      : ref.read(volumeProvider.notifier).state = 100;
                 });
               },
               icon: const Icon(Icons.volume_up),
@@ -57,11 +57,5 @@ class _VolumeWidgetState extends State<VolumeWidget> {
         ),
       ],
     );
-  }
-
-  void _changeVolume(double value) {
-    setState(() {
-      SettingsData2.volume = value;
-    });
   }
 }
