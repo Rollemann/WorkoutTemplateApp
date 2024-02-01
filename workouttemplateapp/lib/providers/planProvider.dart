@@ -33,6 +33,12 @@ class PlanNotifier extends StateNotifier<List<PlanItemData>> {
     _savePlans();
   }
 
+  renamePlan(int index, String name) {
+    state[index].name = name;
+    state = [...state];
+    _savePlans();
+  }
+
   void _savePlans() {
     List<String> stringPlans =
         state.map((plan) => json.encode(plan.toJson())).toList();

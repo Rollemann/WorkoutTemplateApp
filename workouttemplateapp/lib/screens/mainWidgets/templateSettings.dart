@@ -78,7 +78,11 @@ class _TemplateSettingsState extends ConsumerState<TemplateSettings> {
                 AllDialogs.showEditDialog(
                   context,
                   "Rename ${plans[widget.currentTabId].name}",
-                  widget.renameTab,
+                  (String newName) => {
+                    ref
+                        .read(planProvider.notifier)
+                        .renamePlan(widget.currentTabId, newName)
+                  },
                 )
               },
               style: const ButtonStyle(
