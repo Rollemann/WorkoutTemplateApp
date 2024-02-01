@@ -1,19 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:workouttemplateapp/allDialogs.dart';
+import 'package:workouttemplateapp/dataModel.dart';
+import 'package:workouttemplateapp/providers/planProvider.dart';
 import 'package:workouttemplateapp/providers/settingsProvider.dart';
-import 'package:workouttemplateapp/providers/sharedPreferenceProvider.dart';
 import 'package:workouttemplateapp/screens/mainWidgets/templateDetails.dart';
 import 'package:workouttemplateapp/screens/settingsWidgets/deletionTypeWidget.dart';
 
 class TemplateSettings extends ConsumerStatefulWidget {
-  final VoidCallback removeTab;
   final Function addRow;
   final Function renameTab;
   final int currentTabId;
   const TemplateSettings(
       {super.key,
-      required this.removeTab,
       required this.addRow,
       required this.renameTab,
       required this.currentTabId});
@@ -33,6 +32,8 @@ class _TemplateSettingsState extends ConsumerState<TemplateSettings> {
   @override
   Widget build(BuildContext context) {
     final DeletionTypes deletionType = ref.watch(deletionTypeProvider);
+    final List<PlanItemData> plans = ref.watch(planProvider);
+
     return Container(
       color: Colors.blue,
       child: Padding(
@@ -76,7 +77,7 @@ class _TemplateSettingsState extends ConsumerState<TemplateSettings> {
               onPressed: () => {
                 AllDialogs.showEditDialog(
                   context,
-                  "Rename ${AllData.allData[widget.currentTabId].name}",
+                  "Rename ${plans[widget.currentTabId].name}",
                   widget.renameTab,
                 )
               },
@@ -88,12 +89,17 @@ class _TemplateSettingsState extends ConsumerState<TemplateSettings> {
               onPressed: () {
                 if (deletionType != DeletionTypes.never) {
                   AllDialogs.showDeleteDialog(
-                    context,
-                    "Tab ${AllData.allData[widget.currentTabId].name}",
-                    widget.removeTab,
-                  );
+                      context,
+                      "Tab ${plans[widget.currentTabId].name}",
+                      () => {
+                            ref
+                                .read(planProvider.notifier)
+                                .removePlan(widget.currentTabId)
+                          });
                 } else {
-                  widget.removeTab();
+                  ref
+                      .read(planProvider.notifier)
+                      .removePlan(widget.currentTabId);
                 }
               },
               style: const ButtonStyle(

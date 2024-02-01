@@ -2,11 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:workouttemplateapp/dataModel.dart';
 import 'package:workouttemplateapp/providers/planProvider.dart';
-import 'package:workouttemplateapp/providers/sharedPreferenceProvider.dart';
 
 class TemplatesNavigation extends ConsumerWidget {
-  final Function addTab;
-  const TemplatesNavigation({super.key, required this.addTab});
+  const TemplatesNavigation({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -22,10 +20,9 @@ class TemplatesNavigation extends ConsumerWidget {
         ),
         ElevatedButton(
           onPressed: () => {
-            addTab()
-            /* ref.read(planProvider.notifier).addPlan(
-                  PlanItemData(name: "TestnewTab"),
-                ) */
+            ref.read(planProvider.notifier).addPlan(
+                  PlanItemData(name: "NewTab"),
+                )
           },
           style: const ButtonStyle(
               shape: MaterialStatePropertyAll(CircleBorder())),
@@ -37,7 +34,7 @@ class TemplatesNavigation extends ConsumerWidget {
 
   List<Tab> createTabs(List<PlanItemData> plans) {
     final List<Tab> tabList = [];
-    for (var curTab in AllData.allData) {
+    for (var curTab in plans) {
       tabList.add(Tab(
         icon: curTab.icon,
         text: curTab.name,

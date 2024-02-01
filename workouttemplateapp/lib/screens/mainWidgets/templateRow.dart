@@ -5,8 +5,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:workouttemplateapp/allDialogs.dart';
 import 'package:workouttemplateapp/dataModel.dart';
+import 'package:workouttemplateapp/providers/planProvider.dart';
 import 'package:workouttemplateapp/providers/settingsProvider.dart';
-import 'package:workouttemplateapp/providers/sharedPreferenceProvider.dart';
 import 'package:workouttemplateapp/screens/settingsWidgets/deletionTypeWidget.dart';
 
 class TemplateRow extends ConsumerStatefulWidget {
@@ -30,7 +30,7 @@ class _TemplateRowState extends ConsumerState<TemplateRow> {
   Timer? timer;
   StreamController<int> events = StreamController<int>.broadcast();
   late int curSeconds = 0;
-  late final RowItemData curRowData;
+  //late final RowItemData curRowData;
   bool editMode = false;
   String tempSet = "";
   String tempWeight = "";
@@ -42,13 +42,15 @@ class _TemplateRowState extends ConsumerState<TemplateRow> {
   @override
   void initState() {
     events.add(0);
-    curRowData = AllData.allData[widget.tabID].rows[widget.rowID];
+    //curRowData = AllData.allData[widget.tabID].rows[widget.rowID];
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     final DeletionTypes deletionType = ref.watch(deletionTypeProvider);
+    final List<PlanItemData> plans = ref.watch(planProvider);
+    final RowItemData curRowData = plans[widget.tabID].rows[widget.rowID];
     return Padding(
       padding: const EdgeInsets.all(5.0),
       child: Container(
@@ -439,7 +441,7 @@ class _TemplateRowState extends ConsumerState<TemplateRow> {
                         events,
                         curRowData.seconds,
                       );
-                      startTimer();
+                      startTimer(plans);
                     },
                     child: SingleChildScrollView(
                       scrollDirection: Axis.horizontal,
@@ -521,7 +523,7 @@ class _TemplateRowState extends ConsumerState<TemplateRow> {
                         events,
                         curRowData.seconds,
                       );
-                      startTimer();
+                      startTimer(plans);
                     },
                     child: SingleChildScrollView(
                       scrollDirection: Axis.horizontal,
@@ -607,11 +609,11 @@ class _TemplateRowState extends ConsumerState<TemplateRow> {
     );
   }
 
-  void startTimer() {
+  void startTimer(List<PlanItemData> plans) {
     if (timer != null) {
       timer!.cancel();
     }
-    curSeconds = AllData.allData[widget.tabID].rows[widget.rowID].seconds;
+    curSeconds = plans[widget.tabID].rows[widget.rowID].seconds;
     timer = Timer.periodic(const Duration(seconds: 1), (_) {
       events.add(--curSeconds);
     });

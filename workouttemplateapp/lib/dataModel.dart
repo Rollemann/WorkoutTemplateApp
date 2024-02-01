@@ -11,11 +11,12 @@ class PlanItemData {
     rows ?? this.rows.add(RowItemData(type: 0));
   }
 
-  factory PlanItemData.fromJson(Map<String, dynamic> json) {
+  factory PlanItemData.fromJson(Map<String, dynamic> planJson) {
     return PlanItemData(
-      name: json['name'],
-      rows: json['rows']
-          .map<RowItemData>((rowItem) => RowItemData.fromJson(rowItem))
+      name: planJson['name'],
+      rows: planJson['rows']
+          .map<RowItemData>(
+              (rowItem) => RowItemData.fromJson(json.decode(rowItem)))
           .toList(),
     );
   }

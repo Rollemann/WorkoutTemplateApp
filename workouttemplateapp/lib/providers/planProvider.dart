@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -14,14 +15,28 @@ class PlanNotifier extends StateNotifier<List<PlanItemData>> {
       return;
     }
 
-    Iterable plans = json.decode(prefs.getString("plans")!);
-    state = List<PlanItemData>.from(
-        plans.map((plan) => PlanItemData.fromJson(plan)));
+    List<String> stringPlans = prefs.getStringList("plans")!;
+    stringPlans.map((plan) => log(plan));
+    state = stringPlans
+        .map((plan) => PlanItemData.fromJson(json.decode(plan)))
+        .toList();
   }
 
   addPlan(PlanItemData plan) {
-    state = [plan, ...state];
-    prefs.setString("plans", json.encode(state));
+    state = [...state, plan];
+    _savePlans();
+  }
+
+  removePlan(int index) {
+    state.removeAt(index);
+    state = [...state];
+    _savePlans();
+  }
+
+  void _savePlans() {
+    List<String> stringPlans =
+        state.map((plan) => json.encode(plan.toJson())).toList();
+    prefs.setStringList("plans", stringPlans);
   }
 }
 
