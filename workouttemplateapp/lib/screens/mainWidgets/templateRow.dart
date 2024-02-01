@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:workouttemplateapp/allDialogs.dart';
+import 'package:workouttemplateapp/dataModel.dart';
 import 'package:workouttemplateapp/providers/settingsProvider.dart';
 import 'package:workouttemplateapp/providers/sharedPreferenceProvider.dart';
 import 'package:workouttemplateapp/screens/settingsWidgets/deletionTypeWidget.dart';

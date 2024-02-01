@@ -2,6 +2,8 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:workouttemplateapp/dataModel.dart';
+import 'package:workouttemplateapp/providers/planProvider.dart';
 import 'package:workouttemplateapp/providers/settingsProvider.dart';
 import 'package:workouttemplateapp/providers/sharedPreferenceProvider.dart';
 import 'package:workouttemplateapp/screens/mainWidgets/templateDetails.dart';
@@ -24,6 +26,7 @@ class _MainScreenState extends ConsumerState<MainScreen> {
   @override
   Widget build(BuildContext context) {
     final bool lightMode = ref.watch(lightModeProvider);
+    final List<PlanItemData> plans = ref.watch(planProvider);
     return GestureDetector(
       onTap: () {
         FocusManager.instance.primaryFocus?.unfocus();
@@ -70,7 +73,8 @@ class _MainScreenState extends ConsumerState<MainScreen> {
 
   void addTab() {
     setState(() {
-      AllData.allData.add(PlanItemData("Plan${AllData.allData.length + 1}"));
+      AllData.allData
+          .add(PlanItemData(name: "Plan${AllData.allData.length + 1}"));
       log("add new Tab");
     });
   }

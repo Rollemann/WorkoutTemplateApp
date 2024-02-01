@@ -12,6 +12,7 @@ class App extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
+      darkTheme: ThemeData.dark(),
       home: MainScreen(),
     );
   }
@@ -22,11 +23,6 @@ class App extends StatelessWidget {
 States: 
 - Tabs (Namen AS, Position AS, deleted AS, Liste mit Rows AS)
 - Rows (intere Daten AS, für Details und rows, editable ist ES)
-- LightMode (An oder aus) AS
-- Deletion Confirmation AS
-- Vibration AS
-- Volume AS
-
 
 - Rows:
   - Hint für Double Tap um Timer zu starten
