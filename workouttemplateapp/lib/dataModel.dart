@@ -22,7 +22,7 @@ class PlanItemData {
 
   Map<String, dynamic> toJson() {
     List<String> stringRows =
-        rows.map((item) => jsonEncode(item.toJson())).toList();
+        rows.map((row) => jsonEncode(row.toJson())).toList();
     return {'name': name, 'rows': stringRows};
   }
 }
