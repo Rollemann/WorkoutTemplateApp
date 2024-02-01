@@ -7,10 +7,10 @@ import 'package:workouttemplateapp/allDialogs.dart';
 import 'package:workouttemplateapp/dataModel.dart';
 import 'package:workouttemplateapp/providers/planProvider.dart';
 import 'package:workouttemplateapp/providers/settingsProvider.dart';
+import 'package:workouttemplateapp/screens/mainWidgets/rowEditControls.dart';
 import 'package:workouttemplateapp/screens/settingsWidgets/deletionTypeWidget.dart';
 
 class TemplateRow extends ConsumerStatefulWidget {
-  final VoidCallback removeRow;
   final int tabID;
   final int rowID;
 
@@ -18,7 +18,6 @@ class TemplateRow extends ConsumerStatefulWidget {
     super.key,
     required this.tabID,
     required this.rowID,
-    required this.removeRow,
     //required this.animation,
   });
 
@@ -537,71 +536,21 @@ class _TemplateRowState extends ConsumerState<TemplateRow> {
                     ),
                   ),
                 ),
-              Column(
-                // End buttons
-                children: [
-                  if (editMode)
-                    ElevatedButton(
-                        onPressed: () {
-                          setState(() {
-                            editMode = !editMode;
-                            //TODO: die sachen hier speichern
-                            curRowData.set = tempSet;
-                            curRowData.weight = tempWeight;
-                            curRowData.reps = tempReps;
-                            curRowData.exercise = tempExercise;
-                            curRowData.seconds =
-                                (tempMinutes * 60) + (tempSeconds % 60);
-                            resetEditFields();
-                          });
-                        },
-                        style: const ButtonStyle(
-                          shape: MaterialStatePropertyAll(CircleBorder()),
-                        ),
-                        child: const Icon(Icons.save)),
-                  ElevatedButton(
-                    onPressed: () {
-                      setState(() {
-                        editMode = !editMode;
-                        if (editMode) {
-                          tempSet = curRowData.set;
-                          tempWeight = curRowData.weight;
-                          tempReps = curRowData.reps;
-                          tempExercise = curRowData.exercise;
-                          tempMinutes = curRowData.seconds ~/ 60;
-                          tempSeconds = curRowData.seconds % 60;
-                        } else {
-                          resetEditFields();
-                        }
-                      });
-                    },
-                    style: const ButtonStyle(
-                      shape: MaterialStatePropertyAll(CircleBorder()),
-                    ),
-                    child: editMode
-                        ? const Icon(Icons.cancel)
-                        : const Icon(Icons.edit),
-                  ),
-                  if (editMode)
-                    ElevatedButton(
+              editMode
+                  ? RowEditControls(
+                      saveAction: () => saveEdits(curRowData),
+                      cancelAction: () => cancelEdits(),
+                      deleteAction: () =>
+                          deleteRow(deletionType, curRowData.exercise))
+                  : ElevatedButton(
                       onPressed: () {
-                        if (deletionType == DeletionTypes.always) {
-                          AllDialogs.showDeleteDialog(
-                            context,
-                            "Row ${curRowData.exercise}",
-                            widget.removeRow,
-                          );
-                        } else {
-                          widget.removeRow();
-                        }
+                        openEdits(curRowData);
                       },
                       style: const ButtonStyle(
                         shape: MaterialStatePropertyAll(CircleBorder()),
                       ),
-                      child: const Icon(Icons.delete),
+                      child: const Icon(Icons.edit),
                     ),
-                ],
-              ),
             ],
           ),
         ),
@@ -609,13 +558,51 @@ class _TemplateRowState extends ConsumerState<TemplateRow> {
     );
   }
 
-  void startTimer(List<PlanItemData> plans) {
-    if (timer != null) {
-      timer!.cancel();
-    }
-    curSeconds = plans[widget.tabID].rows[widget.rowID].seconds;
-    timer = Timer.periodic(const Duration(seconds: 1), (_) {
-      events.add(--curSeconds);
+  void saveEdits(RowItemData curRowData) {
+    setState(() {
+      editMode = !editMode;
+      //TODO: die sachen hier speichern
+      curRowData.set = tempSet;
+      curRowData.weight = tempWeight;
+      curRowData.reps = tempReps;
+      curRowData.exercise = tempExercise;
+      curRowData.seconds = (tempMinutes * 60) + (tempSeconds % 60);
+      resetEditFields();
+    });
+  }
+
+  void cancelEdits() {
+    setState(() {
+      editMode = !editMode;
+      resetEditFields();
+    });
+  }
+
+  void deleteRow(DeletionTypes deletionType, String exercise) {
+    setState(() {
+      if (deletionType == DeletionTypes.always) {
+        AllDialogs.showDeleteDialog(
+          context,
+          "Row $exercise",
+          () => ref
+              .read(planProvider.notifier)
+              .removeRow(widget.tabID, widget.rowID),
+        );
+      } else {
+        ref.read(planProvider.notifier).removeRow(widget.tabID, widget.rowID);
+      }
+    });
+  }
+
+  void openEdits(RowItemData curRowData) {
+    setState(() {
+      editMode = !editMode;
+      tempSet = curRowData.set;
+      tempWeight = curRowData.weight;
+      tempReps = curRowData.reps;
+      tempExercise = curRowData.exercise;
+      tempMinutes = curRowData.seconds ~/ 60;
+      tempSeconds = curRowData.seconds % 60;
     });
   }
 
@@ -626,6 +613,16 @@ class _TemplateRowState extends ConsumerState<TemplateRow> {
     tempExercise = "";
     tempMinutes = 0;
     tempSeconds = 0;
+  }
+
+  void startTimer(List<PlanItemData> plans) {
+    if (timer != null) {
+      timer!.cancel();
+    }
+    curSeconds = plans[widget.tabID].rows[widget.rowID].seconds;
+    timer = Timer.periodic(const Duration(seconds: 1), (_) {
+      events.add(--curSeconds);
+    });
   }
 
   String secondsToTimeString(int sec) {

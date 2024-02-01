@@ -8,14 +8,10 @@ import 'package:workouttemplateapp/screens/mainWidgets/templateDetails.dart';
 import 'package:workouttemplateapp/screens/settingsWidgets/deletionTypeWidget.dart';
 
 class TemplateSettings extends ConsumerStatefulWidget {
-  final Function addRow;
   final Function renameTab;
   final int currentTabId;
   const TemplateSettings(
-      {super.key,
-      required this.addRow,
-      required this.renameTab,
-      required this.currentTabId});
+      {super.key, required this.renameTab, required this.currentTabId});
 
   @override
   ConsumerState<TemplateSettings> createState() => _TemplateSettingsState();
@@ -59,7 +55,10 @@ class _TemplateSettingsState extends ConsumerState<TemplateSettings> {
               menuChildren: List<MenuItemButton>.generate(
                 rowTypes.length,
                 (int index) => MenuItemButton(
-                  onPressed: () => setState(() => widget.addRow(index)),
+                  onPressed: () => {
+                    ref.read(planProvider.notifier).addRow(
+                        widget.currentTabId, RowItemData(type: index), null)
+                  },
                   child: Padding(
                     padding: const EdgeInsets.all(15.0),
                     child: Row(

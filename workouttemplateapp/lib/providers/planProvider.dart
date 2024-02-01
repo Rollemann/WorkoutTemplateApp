@@ -39,6 +39,27 @@ class PlanNotifier extends StateNotifier<List<PlanItemData>> {
     _savePlans();
   }
 
+  addRow(int plan, RowItemData row, int? newRowIndex) {
+    newRowIndex == null
+        ? state[plan].rows.add(row)
+        : state[plan].rows.insert(newRowIndex, row);
+    state = [...state];
+    _savePlans();
+  }
+
+  removeRow(int plan, int rowIndex) {
+    state[plan].rows.removeAt(rowIndex);
+    state = [...state];
+    _savePlans();
+  }
+
+//todo:
+  editRow(int plan, int rowIndex, RowItemData row) {
+    state[plan].rows.removeAt(rowIndex);
+    state = [...state];
+    _savePlans();
+  }
+
   void _savePlans() {
     List<String> stringPlans =
         state.map((plan) => json.encode(plan.toJson())).toList();

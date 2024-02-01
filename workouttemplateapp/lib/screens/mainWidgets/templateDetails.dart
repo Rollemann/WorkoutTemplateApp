@@ -45,30 +45,15 @@ class _TemplateDetailsState extends ConsumerState<TemplateDetails> {
               key: ObjectKey(plans[widget.id].rows[index]),
               tabID: widget.id,
               rowID: index,
-              removeRow: () => removeRow(index),
             ),
             //animation: animation,
           ),
         ),
         TemplateSettings(
-          addRow: addRow,
           renameTab: widget.renameTab,
           currentTabId: widget.id,
         ),
       ],
     );
-  }
-
-  void addRow(int rowType) {
-    setState(() {
-      //[widget.id].rows.add(RowItemData(type: rowType));
-    });
-  }
-
-  void removeRow(int index) {
-    //final removedRow = templateRows[index];
-    setState(() {
-      //AllData.allData[widget.id].rows.removeAt(index);
-    });
   }
 }
