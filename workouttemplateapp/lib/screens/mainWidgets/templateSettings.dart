@@ -1,32 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:workouttemplateapp/allDialogs.dart';
-import 'package:workouttemplateapp/dataModel.dart';
+import 'package:workouttemplateapp/all_dialogs.dart';
+import 'package:workouttemplateapp/screens/settingsWidgets/deletionTypeWidget.dart';
+import 'package:workouttemplateapp/template_data_models.dart';
 import 'package:workouttemplateapp/providers/planProvider.dart';
 import 'package:workouttemplateapp/providers/settingsProvider.dart';
 import 'package:workouttemplateapp/screens/mainWidgets/templateDetails.dart';
-import 'package:workouttemplateapp/screens/settingsWidgets/deletionTypeWidget.dart';
 
-class TemplateSettings extends ConsumerStatefulWidget {
-  final Function renameTab;
+class TemplateSettings extends ConsumerWidget {
   final int currentTabId;
-  const TemplateSettings(
-      {super.key, required this.renameTab, required this.currentTabId});
+  TemplateSettings({super.key, required this.currentTabId});
 
-  @override
-  ConsumerState<TemplateSettings> createState() => _TemplateSettingsState();
-}
-
-class _TemplateSettingsState extends ConsumerState<TemplateSettings> {
-  String? selectedRowType;
-  List<IconData> menuIcons = [
+  final List<IconData> menuIcons = [
     Icons.replay_outlined,
     Icons.timer_outlined,
     Icons.hourglass_empty_rounded
   ];
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final DeletionTypes deletionType = ref.watch(deletionTypeProvider);
     final List<PlanItemData> plans = ref.watch(planProvider);
 
@@ -56,8 +48,9 @@ class _TemplateSettingsState extends ConsumerState<TemplateSettings> {
                 rowTypes.length,
                 (int index) => MenuItemButton(
                   onPressed: () => {
-                    ref.read(planProvider.notifier).addRow(
-                        widget.currentTabId, RowItemData(type: index), null)
+                    ref
+                        .read(planProvider.notifier)
+                        .addRow(currentTabId, RowItemData(type: index), null)
                   },
                   child: Padding(
                     padding: const EdgeInsets.all(15.0),
@@ -76,11 +69,11 @@ class _TemplateSettingsState extends ConsumerState<TemplateSettings> {
               onPressed: () => {
                 AllDialogs.showEditDialog(
                   context,
-                  "Rename ${plans[widget.currentTabId].name}",
+                  "Rename ${plans[currentTabId].name}",
                   (String newName) => {
                     ref
                         .read(planProvider.notifier)
-                        .renamePlan(widget.currentTabId, newName)
+                        .renamePlan(currentTabId, newName)
                   },
                 )
               },
@@ -93,16 +86,14 @@ class _TemplateSettingsState extends ConsumerState<TemplateSettings> {
                 if (deletionType != DeletionTypes.never) {
                   AllDialogs.showDeleteDialog(
                       context,
-                      "Tab ${plans[widget.currentTabId].name}",
+                      "Tab ${plans[currentTabId].name}",
                       () => {
                             ref
                                 .read(planProvider.notifier)
-                                .removePlan(widget.currentTabId)
+                                .removePlan(currentTabId)
                           });
                 } else {
-                  ref
-                      .read(planProvider.notifier)
-                      .removePlan(widget.currentTabId);
+                  ref.read(planProvider.notifier).removePlan(currentTabId);
                 }
               },
               style: const ButtonStyle(

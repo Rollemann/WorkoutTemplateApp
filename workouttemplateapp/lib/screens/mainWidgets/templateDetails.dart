@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:workouttemplateapp/dataModel.dart';
+import 'package:workouttemplateapp/template_data_models.dart';
 import 'package:workouttemplateapp/providers/planProvider.dart';
 //import 'package:great_list_view/great_list_view.dart';
 import 'package:workouttemplateapp/screens/mainWidgets/templateRow.dart';
@@ -10,11 +10,9 @@ final List<String> rowTypes = ["Reps", "Time", "Pause"];
 
 class TemplateDetails extends ConsumerStatefulWidget {
   final int id;
-  final Function renameTab;
   const TemplateDetails({
     super.key,
     required this.id,
-    required this.renameTab,
   });
 
   @override
@@ -50,7 +48,6 @@ class _TemplateDetailsState extends ConsumerState<TemplateDetails> {
           ),
         ),
         TemplateSettings(
-          renameTab: widget.renameTab,
           currentTabId: widget.id,
         ),
       ],

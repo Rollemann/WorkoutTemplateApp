@@ -3,7 +3,7 @@ import 'dart:developer';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:workouttemplateapp/dataModel.dart';
+import 'package:workouttemplateapp/template_data_models.dart';
 import 'package:workouttemplateapp/providers/sharedPreferenceProvider.dart';
 
 class PlanNotifier extends StateNotifier<List<PlanItemData>> {

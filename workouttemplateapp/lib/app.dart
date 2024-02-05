@@ -13,7 +13,7 @@ class App extends StatelessWidget {
         useMaterial3: true,
       ),
       darkTheme: ThemeData.dark(),
-      home: MainScreen(),
+      home: const MainScreen(),
     );
   }
 }

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:workouttemplateapp/dataModel.dart';
+import 'package:workouttemplateapp/template_data_models.dart';
 import 'package:workouttemplateapp/providers/planProvider.dart';
 
 class TemplatesNavigation extends ConsumerWidget {
