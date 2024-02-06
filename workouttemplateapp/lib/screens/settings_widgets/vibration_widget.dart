@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:workouttemplateapp/providers/settingsProvider.dart';
+import 'package:workouttemplateapp/providers/settings_provider.dart';
 
 class VibrationWidget extends ConsumerStatefulWidget {
   const VibrationWidget({super.key});

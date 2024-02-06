@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:workouttemplateapp/all_dialogs.dart';
-import 'package:workouttemplateapp/screens/settingsWidgets/deletionTypeWidget.dart';
+import 'package:workouttemplateapp/screens/settings_widgets/deletion_type_widget.dart';
 import 'package:workouttemplateapp/template_data_models.dart';
-import 'package:workouttemplateapp/providers/planProvider.dart';
-import 'package:workouttemplateapp/providers/settingsProvider.dart';
-import 'package:workouttemplateapp/screens/mainWidgets/templateDetails.dart';
+import 'package:workouttemplateapp/providers/plan_provider.dart';
+import 'package:workouttemplateapp/providers/settings_provider.dart';
+import 'package:workouttemplateapp/screens/main_widgets/template_details.dart';
 
 class TemplateSettings extends ConsumerWidget {
   final int currentTabId;
@@ -105,7 +105,7 @@ class TemplateSettings extends ConsumerWidget {
   void addClickHandler(int type, BuildContext context, WidgetRef ref) {
     final bool showHints = ref.read(showHintsProvider);
     final int rowNumber = ref.read(planProvider)[currentTabId].rows.length;
-    const int maxRows = 50;
+    const int maxRows = 100;
 
     if (rowNumber < maxRows) {
       ref

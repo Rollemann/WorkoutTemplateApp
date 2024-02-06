@@ -5,10 +5,10 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:workouttemplateapp/all_dialogs.dart';
 import 'package:workouttemplateapp/template_data_models.dart';
-import 'package:workouttemplateapp/providers/planProvider.dart';
-import 'package:workouttemplateapp/providers/settingsProvider.dart';
-import 'package:workouttemplateapp/screens/mainWidgets/rowEditControls.dart';
-import 'package:workouttemplateapp/screens/settingsWidgets/deletionTypeWidget.dart';
+import 'package:workouttemplateapp/providers/plan_provider.dart';
+import 'package:workouttemplateapp/providers/settings_provider.dart';
+import 'package:workouttemplateapp/screens/main_widgets/row_edit_controls.dart';
+import 'package:workouttemplateapp/screens/settings_widgets/deletion_type_widget.dart';
 
 class TemplateRow extends ConsumerStatefulWidget {
   final int tabID;

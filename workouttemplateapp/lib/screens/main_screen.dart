@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:workouttemplateapp/template_data_models.dart';
-import 'package:workouttemplateapp/providers/planProvider.dart';
-import 'package:workouttemplateapp/providers/settingsProvider.dart';
-import 'package:workouttemplateapp/screens/mainWidgets/templateDetails.dart';
-import 'package:workouttemplateapp/screens/mainWidgets/templatesNavigation.dart';
-import 'package:workouttemplateapp/screens/settingsScreen.dart';
+import 'package:workouttemplateapp/providers/plan_provider.dart';
+import 'package:workouttemplateapp/providers/settings_provider.dart';
+import 'package:workouttemplateapp/screens/main_widgets/template_details.dart';
+import 'package:workouttemplateapp/screens/main_widgets/templates_navigation.dart';
+import 'package:workouttemplateapp/screens/settings_screen.dart';
 
 class MainScreen extends ConsumerWidget {
   const MainScreen({super.key});

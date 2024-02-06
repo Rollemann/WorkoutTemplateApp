@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:workouttemplateapp/providers/settingsProvider.dart';
+import 'package:workouttemplateapp/providers/settings_provider.dart';
 
 class ShowHintsWidget extends ConsumerStatefulWidget {
   const ShowHintsWidget({super.key});

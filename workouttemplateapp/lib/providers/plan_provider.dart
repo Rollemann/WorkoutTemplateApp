@@ -4,7 +4,7 @@ import 'dart:developer';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:workouttemplateapp/template_data_models.dart';
-import 'package:workouttemplateapp/providers/sharedPreferenceProvider.dart';
+import 'package:workouttemplateapp/providers/shared_preference_provider.dart';
 
 class PlanNotifier extends StateNotifier<List<PlanItemData>> {
   final SharedPreferences prefs;

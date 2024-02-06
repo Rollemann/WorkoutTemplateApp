@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:workouttemplateapp/screens/mainScreen.dart';
+import 'package:workouttemplateapp/screens/main_screen.dart';
 
 class App extends StatelessWidget {
   const App({super.key});

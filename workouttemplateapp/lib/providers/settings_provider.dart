@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:workouttemplateapp/providers/sharedPreferenceProvider.dart';
-import 'package:workouttemplateapp/screens/settingsWidgets/deletionTypeWidget.dart';
+import 'package:workouttemplateapp/providers/shared_preference_provider.dart';
+import 'package:workouttemplateapp/screens/settings_widgets/deletion_type_widget.dart';
 
 final lightModeProvider = StateProvider<bool>((ref) {
   final preferences = ref.watch(sharedPreferencesProvider);

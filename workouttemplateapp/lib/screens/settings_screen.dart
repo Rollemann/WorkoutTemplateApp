@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:workouttemplateapp/screens/settingsWidgets/deletionTypeWidget.dart';
-import 'package:workouttemplateapp/screens/settingsWidgets/lightModeWidget.dart';
-import 'package:workouttemplateapp/screens/settingsWidgets/show_hints_Widget.dart';
-import 'package:workouttemplateapp/screens/settingsWidgets/vibrationWidget.dart';
-import 'package:workouttemplateapp/screens/settingsWidgets/volumeWidget.dart';
+import 'package:workouttemplateapp/screens/settings_widgets/deletion_type_widget.dart';
+import 'package:workouttemplateapp/screens/settings_widgets/light_mode_widget.dart';
+import 'package:workouttemplateapp/screens/settings_widgets/show_hints_Widget.dart';
+import 'package:workouttemplateapp/screens/settings_widgets/vibration_widget.dart';
+import 'package:workouttemplateapp/screens/settings_widgets/volume_widget.dart';
 
 class SettingsScreen extends StatelessWidget {
   const SettingsScreen({super.key});
