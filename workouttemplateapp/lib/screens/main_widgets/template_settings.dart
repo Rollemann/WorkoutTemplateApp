@@ -123,6 +123,10 @@ class TemplateSettings extends ConsumerWidget {
   void _showSnackBar(String infoText, BuildContext context) {
     final snackBar = SnackBar(
       content: Text(infoText, textScaler: const TextScaler.linear(1.5)),
+      behavior: SnackBarBehavior.floating,
+      margin: const EdgeInsets.all(10),
+      shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(15))),
       action: SnackBarAction(
         label: 'X',
         backgroundColor: Colors.yellow,
