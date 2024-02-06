@@ -52,3 +52,12 @@ final volumeProvider = StateProvider<double>((ref) {
   });
   return volume;
 });
+
+final showHintsProvider = StateProvider<bool>((ref) {
+  final preferences = ref.watch(sharedPreferencesProvider);
+  final showHints = preferences.getBool('showHints') ?? true;
+  ref.listenSelf((prev, curr) {
+    preferences.setBool('showHints', curr);
+  });
+  return showHints;
+});

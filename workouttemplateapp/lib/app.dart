@@ -20,16 +20,12 @@ class App extends StatelessWidget {
 
 
 /* TODO
-States: 
-- Tabs (Namen AS, Position AS, deleted AS, Liste mit Rows AS)
-- Rows (intere Daten AS, für Details und rows, editable ist ES)
 
-- Rows:
-  - Hint für Double Tap um Timer zu starten
-  (- Animation beim löschen und hinzugfügen von Rows)
+- Info nach den Überschriften bei den Settings, um die zu erklären.
+(- Animation beim löschen und hinzugfügen von Rows)
 
-- Daten persistent speichern
 - Anzahl Pläne und Reihen beschränken und text input Länge
+- Max Rows
 - Extra Fenster zum Pläne in der Reihenfolge zu ändern.
 
 - Pläne teilen über verschiedene Kanäle (extra Fenster wo man anhaken kann welche)

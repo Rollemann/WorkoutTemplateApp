@@ -22,40 +22,40 @@ class PlanNotifier extends StateNotifier<List<PlanItemData>> {
         .toList();
   }
 
-  addPlan(PlanItemData plan) {
+  void addPlan(PlanItemData plan) {
     state = [...state, plan];
     _savePlans();
   }
 
-  removePlan(int index) {
+  void removePlan(int index) {
     state.removeAt(index);
     state = [...state];
     _savePlans();
   }
 
-  renamePlan(int index, String name) {
+  void renamePlan(int index, String name) {
     state[index].name = name;
     state = [...state];
     _savePlans();
   }
 
-  addRow(int plan, RowItemData row, int? newRowIndex) {
-    newRowIndex == null
+  void addRow(int plan, RowItemData row, [int newRowIndex = -1]) {
+    newRowIndex < 0
         ? state[plan].rows.add(row)
         : state[plan].rows.insert(newRowIndex, row);
     state = [...state];
     _savePlans();
   }
 
-  removeRow(int plan, int rowIndex) {
-    state[plan].rows.removeAt(rowIndex);
+  RowItemData removeRow(int plan, int rowIndex) {
+    RowItemData deletedRow = state[plan].rows.removeAt(rowIndex);
     state = [...state];
     _savePlans();
+    return deletedRow;
   }
 
-//todo:
-  editRow(int plan, int rowIndex, RowItemData row) {
-    state[plan].rows.removeAt(rowIndex);
+  void editRow(int plan, RowItemData newRow, int rowIndex) {
+    state[plan].rows[rowIndex] = newRow;
     state = [...state];
     _savePlans();
   }

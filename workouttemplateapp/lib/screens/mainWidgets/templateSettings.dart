@@ -9,13 +9,13 @@ import 'package:workouttemplateapp/screens/mainWidgets/templateDetails.dart';
 
 class TemplateSettings extends ConsumerWidget {
   final int currentTabId;
-  TemplateSettings({super.key, required this.currentTabId});
-
-  final List<IconData> menuIcons = [
+  final List<IconData> menuIcons = const [
     Icons.replay_outlined,
     Icons.timer_outlined,
     Icons.hourglass_empty_rounded
   ];
+
+  const TemplateSettings({super.key, required this.currentTabId});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -47,11 +47,7 @@ class TemplateSettings extends ConsumerWidget {
               menuChildren: List<MenuItemButton>.generate(
                 rowTypes.length,
                 (int index) => MenuItemButton(
-                  onPressed: () => {
-                    ref
-                        .read(planProvider.notifier)
-                        .addRow(currentTabId, RowItemData(type: index), null)
-                  },
+                  onPressed: () => addClickHandler(index, context, ref),
                   child: Padding(
                     padding: const EdgeInsets.all(15.0),
                     child: Row(
@@ -104,5 +100,39 @@ class TemplateSettings extends ConsumerWidget {
         ),
       ),
     );
+  }
+
+  void addClickHandler(int type, BuildContext context, WidgetRef ref) {
+    final bool showHints = ref.read(showHintsProvider);
+    final int rowNumber = ref.read(planProvider)[currentTabId].rows.length;
+    const int maxRows = 50;
+
+    if (rowNumber < maxRows) {
+      ref
+          .read(planProvider.notifier)
+          .addRow(currentTabId, RowItemData(type: type));
+    } else {
+      _showSnackBar("Reached limit of $maxRows rows.", context);
+      return;
+    }
+    if (showHints && type > 0) {
+      _showSnackBar("Double click the row to start the timer!", context);
+    }
+  }
+
+  void _showSnackBar(String infoText, BuildContext context) {
+    final snackBar = SnackBar(
+      content: Text(infoText, textScaler: const TextScaler.linear(1.5)),
+      action: SnackBarAction(
+        label: 'X',
+        backgroundColor: Colors.yellow,
+        textColor: Colors.black,
+        onPressed: () {
+          ScaffoldMessenger.of(context).hideCurrentSnackBar();
+        },
+      ),
+    );
+
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 }

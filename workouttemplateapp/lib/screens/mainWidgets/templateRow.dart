@@ -29,7 +29,7 @@ class _TemplateRowState extends ConsumerState<TemplateRow> {
   Timer? timer;
   StreamController<int> events = StreamController<int>.broadcast();
   late int curSeconds = 0;
-  //late final RowItemData curRowData;
+
   bool editMode = false;
   String tempSet = "";
   String tempWeight = "";
@@ -41,7 +41,6 @@ class _TemplateRowState extends ConsumerState<TemplateRow> {
   @override
   void initState() {
     events.add(0);
-    //curRowData = AllData.allData[widget.tabID].rows[widget.rowID];
     super.initState();
   }
 
@@ -561,49 +560,51 @@ class _TemplateRowState extends ConsumerState<TemplateRow> {
   void saveEdits(RowItemData curRowData) {
     setState(() {
       editMode = !editMode;
-      //TODO: die sachen hier speichern
-      curRowData.set = tempSet;
-      curRowData.weight = tempWeight;
-      curRowData.reps = tempReps;
-      curRowData.exercise = tempExercise;
-      curRowData.seconds = (tempMinutes * 60) + (tempSeconds % 60);
-      resetEditFields();
     });
+
+    final RowItemData newRow = RowItemData(
+      set: tempSet,
+      weight: tempWeight,
+      type: curRowData.type,
+      reps: tempReps,
+      exercise: tempExercise,
+      seconds: (tempMinutes * 60) + (tempSeconds % 60),
+    );
+    ref.read(planProvider.notifier).editRow(widget.tabID, newRow, widget.rowID);
+    resetEditFields();
   }
 
   void cancelEdits() {
     setState(() {
       editMode = !editMode;
-      resetEditFields();
     });
+    resetEditFields();
   }
 
   void deleteRow(DeletionTypes deletionType, String exercise) {
-    setState(() {
-      if (deletionType == DeletionTypes.always) {
-        AllDialogs.showDeleteDialog(
-          context,
-          "Row $exercise",
-          () => ref
-              .read(planProvider.notifier)
-              .removeRow(widget.tabID, widget.rowID),
-        );
-      } else {
-        ref.read(planProvider.notifier).removeRow(widget.tabID, widget.rowID);
-      }
-    });
+    if (deletionType == DeletionTypes.always) {
+      AllDialogs.showDeleteDialog(
+        context,
+        "Row $exercise",
+        () => ref
+            .read(planProvider.notifier)
+            .removeRow(widget.tabID, widget.rowID),
+      );
+    } else {
+      ref.read(planProvider.notifier).removeRow(widget.tabID, widget.rowID);
+    }
   }
 
   void openEdits(RowItemData curRowData) {
     setState(() {
       editMode = !editMode;
-      tempSet = curRowData.set;
-      tempWeight = curRowData.weight;
-      tempReps = curRowData.reps;
-      tempExercise = curRowData.exercise;
-      tempMinutes = curRowData.seconds ~/ 60;
-      tempSeconds = curRowData.seconds % 60;
     });
+    tempSet = curRowData.set;
+    tempWeight = curRowData.weight;
+    tempReps = curRowData.reps;
+    tempExercise = curRowData.exercise;
+    tempMinutes = curRowData.seconds ~/ 60;
+    tempSeconds = curRowData.seconds % 60;
   }
 
   void resetEditFields() {

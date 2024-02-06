@@ -35,8 +35,12 @@ class _TemplateDetailsState extends ConsumerState<TemplateDetails> {
                 if (newIndex > oldIndex) {
                   --newIndex;
                 }
-                final row = plans[widget.id].rows.removeAt(oldIndex);
-                plans[widget.id].rows.insert(newIndex, row);
+                final row = ref
+                    .read(planProvider.notifier)
+                    .removeRow(widget.id, oldIndex);
+                ref
+                    .read(planProvider.notifier)
+                    .addRow(widget.id, row, newIndex);
               });
             },
             itemBuilder: (context, index) => TemplateRow(
