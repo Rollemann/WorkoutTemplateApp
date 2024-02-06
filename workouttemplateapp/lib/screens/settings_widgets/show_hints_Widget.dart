@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:workouttemplateapp/providers/settings_provider.dart';
+import 'package:workouttemplateapp/screens/settings_widgets/settings_caption_widget.dart';
 
 class ShowHintsWidget extends ConsumerStatefulWidget {
   const ShowHintsWidget({super.key});
@@ -27,9 +28,9 @@ class _ShowHintWidgetState extends ConsumerState<ShowHintsWidget> {
       children: [
         const Padding(
           padding: EdgeInsets.all(8.0),
-          child: Text(
-            "Show hints when creating a Row",
-            style: TextStyle(fontWeight: FontWeight.bold),
+          child: SettingsCaptionWidget(
+            title: "Show hints when creating a Row",
+            explanation: "Beschreibung, was die Einstellung macht.",
           ),
         ),
         Switch(

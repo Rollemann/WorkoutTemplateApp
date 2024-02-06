@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:workouttemplateapp/providers/settings_provider.dart';
+import 'package:workouttemplateapp/screens/settings_widgets/settings_caption_widget.dart';
 
 class LightModeWidget extends ConsumerStatefulWidget {
   const LightModeWidget({super.key});
@@ -27,9 +28,9 @@ class _LightModeWidgetState extends ConsumerState<LightModeWidget> {
       children: [
         const Padding(
           padding: EdgeInsets.all(8.0),
-          child: Text(
-            "Light/Dark Mode",
-            style: TextStyle(fontWeight: FontWeight.bold),
+          child: SettingsCaptionWidget(
+            title: "Light/Dark Mode",
+            explanation: "Beschreibung, was die Einstellung macht.",
           ),
         ),
         Switch(

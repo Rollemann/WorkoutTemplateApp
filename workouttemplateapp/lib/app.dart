@@ -21,11 +21,11 @@ class App extends StatelessWidget {
 
 /* TODO
 
+- Style von snackbar anpassen 
+
 - Info nach den Überschriften bei den Settings, um die zu erklären.
 (- Animation beim löschen und hinzugfügen von Rows)
 
-- Anzahl Pläne und Reihen beschränken und text input Länge
-- Max Rows
 - Extra Fenster zum Pläne in der Reihenfolge zu ändern.
 
 - Pläne teilen über verschiedene Kanäle (extra Fenster wo man anhaken kann welche)

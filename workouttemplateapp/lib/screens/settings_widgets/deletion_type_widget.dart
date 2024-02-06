@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:workouttemplateapp/providers/settings_provider.dart';
+import 'package:workouttemplateapp/screens/settings_widgets/settings_caption_widget.dart';
 
 enum DeletionTypes { always, plans, never }
 
@@ -19,9 +20,9 @@ class _DeletionTypeWidgetState extends ConsumerState<DeletionTypeWidget> {
       children: [
         const Padding(
           padding: EdgeInsets.all(8.0),
-          child: Text(
-            "Confirm Deletion",
-            style: TextStyle(fontWeight: FontWeight.bold),
+          child: SettingsCaptionWidget(
+            title: "Confirm Deletion",
+            explanation: "Beschreibung, was die Einstellung macht.",
           ),
         ),
         Row(

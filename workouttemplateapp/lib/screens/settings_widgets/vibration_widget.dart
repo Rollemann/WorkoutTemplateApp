@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:workouttemplateapp/providers/settings_provider.dart';
+import 'package:workouttemplateapp/screens/settings_widgets/settings_caption_widget.dart';
 
 class VibrationWidget extends ConsumerStatefulWidget {
   const VibrationWidget({super.key});
@@ -27,9 +28,9 @@ class _VibrationWidgetState extends ConsumerState<VibrationWidget> {
       children: [
         const Padding(
           padding: EdgeInsets.all(8.0),
-          child: Text(
-            "Vibration",
-            style: TextStyle(fontWeight: FontWeight.bold),
+          child: SettingsCaptionWidget(
+            title: "Vibration",
+            explanation: "Beschreibung, was die Einstellung macht.",
           ),
         ),
         Switch(

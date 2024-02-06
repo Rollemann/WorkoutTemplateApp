@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:workouttemplateapp/providers/settings_provider.dart';
+import 'package:workouttemplateapp/screens/settings_widgets/settings_caption_widget.dart';
 
 class VolumeWidget extends ConsumerStatefulWidget {
   const VolumeWidget({super.key});
@@ -17,9 +18,9 @@ class _VolumeWidgetState extends ConsumerState<VolumeWidget> {
       children: [
         const Padding(
           padding: EdgeInsets.all(8.0),
-          child: Text(
-            "Volume",
-            style: TextStyle(fontWeight: FontWeight.bold),
+          child: SettingsCaptionWidget(
+            title: "Volume",
+            explanation: "Beschreibung, was die Einstellung macht.",
           ),
         ),
         Row(
