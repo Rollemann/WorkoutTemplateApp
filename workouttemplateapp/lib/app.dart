@@ -12,13 +12,18 @@ class App extends ConsumerStatefulWidget {
 
 class _AppState extends ConsumerState<App> {
   final ThemeData myLightMode = ThemeData.light().copyWith(
-      colorScheme: ColorScheme.fromSeed(seedColor: Colors.red),
+      colorScheme: ColorScheme.fromSeed(
+        seedColor: Colors.blue,
+        outlineVariant: const Color.fromARGB(255, 120, 120, 120),
+      ),
       snackBarTheme: SnackBarThemeData(
         behavior: SnackBarBehavior.floating,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
       ));
   final ThemeData myDarkMode = ThemeData.dark().copyWith(
-    colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
+    colorScheme: ColorScheme.fromSeed(
+      seedColor: Colors.blue,
+    ),
     snackBarTheme: SnackBarThemeData(
       behavior: SnackBarBehavior.floating,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),

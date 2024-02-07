@@ -24,10 +24,11 @@ class SettingsCaptionWidget extends StatelessWidget {
             margin: const EdgeInsets.only(left: 10),
             padding: const EdgeInsets.all(1),
             decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(100),
-                border: Border.all(
-                    width: 1,
-                    color: Theme.of(context).textTheme.titleSmall!.color!)),
+              borderRadius: BorderRadius.circular(100),
+              border: Border.all(
+                  width: 1,
+                  color: Theme.of(context).colorScheme.outlineVariant),
+            ),
             child: const Icon(
               Icons.question_mark,
               size: 12,
