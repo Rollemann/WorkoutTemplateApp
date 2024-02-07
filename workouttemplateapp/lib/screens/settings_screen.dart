@@ -28,15 +28,15 @@ class SettingsScreen extends StatelessWidget {
         child: Center(
           child: Column(
             children: [
-              const LightModeWidget(),
-              settingsDivider,
-              const DeletionTypeWidget(),
+              const VolumeWidget(),
               settingsDivider,
               const VibrationWidget(),
               settingsDivider,
-              const VolumeWidget(),
+              const LightModeWidget(),
               settingsDivider,
               const ShowHintsWidget(),
+              settingsDivider,
+              const DeletionTypeWidget(),
               settingsDivider,
               const Padding(
                 padding: EdgeInsets.all(8.0),

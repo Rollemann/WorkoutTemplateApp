@@ -35,11 +35,11 @@ class _DeletionTypeWidgetState extends ConsumerState<DeletionTypeWidget> {
               },
               child: Text(
                 "Always",
-                style: TextStyle(
-                  color: (deletionType == DeletionTypes.always)
-                      ? Colors.green
-                      : Colors.black,
-                ),
+                style: (deletionType == DeletionTypes.always)
+                    ? const TextStyle(
+                        color: Colors.green,
+                      )
+                    : const TextStyle(),
               ),
             ),
             OutlinedButton(
@@ -49,11 +49,11 @@ class _DeletionTypeWidgetState extends ConsumerState<DeletionTypeWidget> {
               },
               child: Text(
                 "Just Plans",
-                style: TextStyle(
-                  color: (deletionType == DeletionTypes.plans)
-                      ? Colors.green
-                      : Colors.black,
-                ),
+                style: (deletionType == DeletionTypes.plans)
+                    ? const TextStyle(
+                        color: Colors.green,
+                      )
+                    : const TextStyle(),
               ),
             ),
             OutlinedButton(
@@ -63,11 +63,11 @@ class _DeletionTypeWidgetState extends ConsumerState<DeletionTypeWidget> {
               },
               child: Text(
                 "Never",
-                style: TextStyle(
-                  color: (deletionType == DeletionTypes.never)
-                      ? Colors.green
-                      : Colors.black,
-                ),
+                style: (deletionType == DeletionTypes.never)
+                    ? const TextStyle(
+                        color: Colors.green,
+                      )
+                    : const TextStyle(),
               ),
             ),
           ],

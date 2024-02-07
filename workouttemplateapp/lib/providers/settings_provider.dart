@@ -1,10 +1,15 @@
+import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:workouttemplateapp/providers/shared_preference_provider.dart';
 import 'package:workouttemplateapp/screens/settings_widgets/deletion_type_widget.dart';
 
 final lightModeProvider = StateProvider<bool>((ref) {
+  final bool systemIsLightMode =
+      SchedulerBinding.instance.platformDispatcher.platformBrightness ==
+          Brightness.light;
   final preferences = ref.watch(sharedPreferencesProvider);
-  final lightMode = preferences.getBool('lightMode') ?? true;
+  final lightMode = preferences.getBool('lightMode') ?? systemIsLightMode;
   ref.listenSelf((prev, curr) {
     preferences.setBool('lightMode', curr);
   });

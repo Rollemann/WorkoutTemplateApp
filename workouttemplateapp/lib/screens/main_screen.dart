@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:workouttemplateapp/template_data_models.dart';
 import 'package:workouttemplateapp/providers/plan_provider.dart';
-import 'package:workouttemplateapp/providers/settings_provider.dart';
 import 'package:workouttemplateapp/screens/main_widgets/template_details.dart';
 import 'package:workouttemplateapp/screens/main_widgets/templates_navigation.dart';
 import 'package:workouttemplateapp/screens/settings_screen.dart';
@@ -12,7 +11,6 @@ class MainScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final bool lightMode = ref.watch(lightModeProvider);
     final List<PlanItemData> plans = ref.watch(planProvider);
     return GestureDetector(
       onTap: () {
@@ -22,7 +20,6 @@ class MainScreen extends ConsumerWidget {
         length: plans.length,
         child: Scaffold(
           appBar: AppBar(
-            backgroundColor: lightMode ? Colors.amber : Colors.brown,
             title: const Text("Test"),
             actions: [
               IconButton(

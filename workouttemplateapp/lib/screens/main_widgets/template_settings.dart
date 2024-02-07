@@ -23,7 +23,7 @@ class TemplateSettings extends ConsumerWidget {
     final List<PlanItemData> plans = ref.watch(planProvider);
 
     return Container(
-      color: Colors.blue,
+      color: Theme.of(context).primaryColor,
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Row(
@@ -123,10 +123,7 @@ class TemplateSettings extends ConsumerWidget {
   void _showSnackBar(String infoText, BuildContext context) {
     final snackBar = SnackBar(
       content: Text(infoText, textScaler: const TextScaler.linear(1.5)),
-      behavior: SnackBarBehavior.floating,
-      margin: const EdgeInsets.all(10),
-      shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(Radius.circular(15))),
+      margin: const EdgeInsets.fromLTRB(10, 0, 10, 60),
       action: SnackBarAction(
         label: 'X',
         backgroundColor: Colors.yellow,

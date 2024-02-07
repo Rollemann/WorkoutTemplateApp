@@ -52,7 +52,7 @@ class _TemplateRowState extends ConsumerState<TemplateRow> {
     return Padding(
       padding: const EdgeInsets.all(5.0),
       child: Container(
-        color: Colors.grey[300],
+        color: Theme.of(context).primaryColor,
         child: Padding(
           padding: const EdgeInsets.only(left: 10),
           child: Row(
