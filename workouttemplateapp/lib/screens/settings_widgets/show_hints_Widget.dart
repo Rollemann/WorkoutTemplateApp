@@ -29,7 +29,7 @@ class _ShowHintWidgetState extends ConsumerState<ShowHintsWidget> {
         const Padding(
           padding: EdgeInsets.all(8.0),
           child: SettingsCaptionWidget(
-            title: "Show hints when creating a Row",
+            title: "Show hints",
             explanation: "Beschreibung, was die Einstellung macht.",
           ),
         ),

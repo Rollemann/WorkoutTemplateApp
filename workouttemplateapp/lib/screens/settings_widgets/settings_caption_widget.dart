@@ -14,10 +14,10 @@ class SettingsCaptionWidget extends StatelessWidget {
       children: [
         Text(
           title,
-          style: Theme.of(context).textTheme.titleSmall,
+          style: const TextStyle(fontWeight: FontWeight.bold),
         ),
         Tooltip(
-          showDuration: const Duration(seconds: 30),
+          showDuration: const Duration(seconds: 20),
           triggerMode: TooltipTriggerMode.tap,
           message: explanation,
           child: Container(

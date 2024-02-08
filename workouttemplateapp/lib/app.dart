@@ -12,21 +12,58 @@ class App extends ConsumerStatefulWidget {
 
 class _AppState extends ConsumerState<App> {
   final ThemeData myLightMode = ThemeData.light().copyWith(
-      colorScheme: ColorScheme.fromSeed(
-        seedColor: Colors.blue,
-        outlineVariant: const Color.fromARGB(255, 120, 120, 120),
-      ),
-      snackBarTheme: SnackBarThemeData(
-        behavior: SnackBarBehavior.floating,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-      ));
-  final ThemeData myDarkMode = ThemeData.dark().copyWith(
     colorScheme: ColorScheme.fromSeed(
       seedColor: Colors.blue,
+      outlineVariant: const Color.fromARGB(255, 120, 120, 120),
+      primaryContainer: const Color.fromARGB(255, 201, 226, 250),
     ),
     snackBarTheme: SnackBarThemeData(
       behavior: SnackBarBehavior.floating,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+    ),
+    outlinedButtonTheme: OutlinedButtonThemeData(
+      style: ButtonStyle(
+        side: MaterialStateProperty.all(const BorderSide(
+          width: 2,
+          color: Colors.black,
+        )),
+      ),
+    ),
+    inputDecorationTheme: const InputDecorationTheme(
+      labelStyle: TextStyle(color: Colors.black),
+    ),
+  );
+
+  final ThemeData myDarkMode = ThemeData.dark().copyWith(
+    colorScheme: ColorScheme.fromSeed(
+      seedColor: Colors.blue,
+      primaryContainer: const Color.fromARGB(255, 0, 97, 164),
+    ),
+    snackBarTheme: SnackBarThemeData(
+      behavior: SnackBarBehavior.floating,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+    ),
+    outlinedButtonTheme: OutlinedButtonThemeData(
+      style: ButtonStyle(
+        side: MaterialStateProperty.all(const BorderSide(
+          width: 2,
+          color: Colors.white,
+        )),
+      ),
+    ),
+    inputDecorationTheme: const InputDecorationTheme(
+      labelStyle: TextStyle(color: Colors.white),
+      enabledBorder: UnderlineInputBorder(
+        borderSide: BorderSide(color: Colors.white),
+      ),
+      focusedBorder: UnderlineInputBorder(
+        borderSide: BorderSide(color: Color.fromARGB(255, 105, 185, 250)),
+      ),
+    ),
+    textSelectionTheme: const TextSelectionThemeData(
+      cursorColor: Color.fromARGB(255, 105, 185, 250),
+      selectionHandleColor: Color.fromARGB(255, 105, 185, 250),
+      selectionColor: Color.fromARGB(255, 0, 140, 255),
     ),
   );
 
@@ -48,7 +85,6 @@ class _AppState extends ConsumerState<App> {
 
 - Style alles (Tag / Nacht Modus)
 - Extra Fenster zum Pläne in der Reihenfolge zu ändern.
-- Verschiedene Farben als Themes
 
 - Settings: 
   - Donations
@@ -60,6 +96,8 @@ class _AppState extends ConsumerState<App> {
 
 - Donations einrichten
 
+(- Verschiedene Farben als Themes)
+(- Verschiedene Farben für verschiedene Pläne)
 (- Animation beim löschen und hinzugfügen von Rows)
 (Room (Floor) statt shared prefs)
 (Wenn Zeit ende: Lied anhalten oder so (Wiedergabe stoppen))

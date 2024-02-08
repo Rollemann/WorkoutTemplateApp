@@ -52,7 +52,9 @@ class _TemplateRowState extends ConsumerState<TemplateRow> {
     return Padding(
       padding: const EdgeInsets.all(5.0),
       child: Container(
-        color: Theme.of(context).colorScheme.surface,
+        color: Theme.of(context).brightness == Brightness.light
+            ? Theme.of(context).colorScheme.primaryContainer
+            : Theme.of(context).colorScheme.primary,
         child: Padding(
           padding: const EdgeInsets.only(left: 10),
           child: Row(
@@ -84,7 +86,6 @@ class _TemplateRowState extends ConsumerState<TemplateRow> {
                                         TextEditingController(text: tempSet),
                                     decoration: const InputDecoration(
                                       labelText: 'Set',
-                                      border: UnderlineInputBorder(),
                                     ),
                                     inputFormatters: [
                                       FilteringTextInputFormatter.digitsOnly
@@ -105,7 +106,6 @@ class _TemplateRowState extends ConsumerState<TemplateRow> {
                                       TextEditingController(text: tempWeight),
                                   decoration: const InputDecoration(
                                     labelText: 'Weight',
-                                    border: UnderlineInputBorder(),
                                   ),
                                   onChanged: (text) {
                                     tempWeight = text;
@@ -123,7 +123,6 @@ class _TemplateRowState extends ConsumerState<TemplateRow> {
                                       TextEditingController(text: tempReps),
                                   decoration: const InputDecoration(
                                     labelText: 'Reps',
-                                    border: UnderlineInputBorder(),
                                   ),
                                   inputFormatters: [
                                     FilteringTextInputFormatter.digitsOnly
@@ -144,7 +143,6 @@ class _TemplateRowState extends ConsumerState<TemplateRow> {
                                   TextEditingController(text: tempExercise),
                               decoration: const InputDecoration(
                                 labelText: 'Exercise',
-                                border: UnderlineInputBorder(),
                               ),
                               onChanged: (text) {
                                 tempExercise = text;
@@ -178,7 +176,6 @@ class _TemplateRowState extends ConsumerState<TemplateRow> {
                                         TextEditingController(text: tempSet),
                                     decoration: const InputDecoration(
                                       labelText: 'Set',
-                                      border: UnderlineInputBorder(),
                                     ),
                                     inputFormatters: [
                                       FilteringTextInputFormatter.digitsOnly
@@ -199,7 +196,6 @@ class _TemplateRowState extends ConsumerState<TemplateRow> {
                                       TextEditingController(text: tempWeight),
                                   decoration: const InputDecoration(
                                     labelText: 'Weight',
-                                    border: UnderlineInputBorder(),
                                   ),
                                   onChanged: (text) {
                                     tempWeight = text;
@@ -219,7 +215,6 @@ class _TemplateRowState extends ConsumerState<TemplateRow> {
                                 textAlign: TextAlign.center,
                                 decoration: const InputDecoration(
                                   labelText: 'Min',
-                                  border: UnderlineInputBorder(),
                                 ),
                                 inputFormatters: [
                                   FilteringTextInputFormatter.digitsOnly
@@ -248,7 +243,6 @@ class _TemplateRowState extends ConsumerState<TemplateRow> {
                                 textAlign: TextAlign.center,
                                 decoration: const InputDecoration(
                                   labelText: 'Sec',
-                                  border: UnderlineInputBorder(),
                                 ),
                                 inputFormatters: [
                                   FilteringTextInputFormatter.digitsOnly
@@ -273,7 +267,6 @@ class _TemplateRowState extends ConsumerState<TemplateRow> {
                                   TextEditingController(text: tempExercise),
                               decoration: const InputDecoration(
                                 labelText: 'Exercise',
-                                border: UnderlineInputBorder(),
                               ),
                               onChanged: (text) {
                                 tempExercise = text;
@@ -307,7 +300,6 @@ class _TemplateRowState extends ConsumerState<TemplateRow> {
                                 textAlign: TextAlign.center,
                                 decoration: const InputDecoration(
                                   labelText: 'Min',
-                                  border: UnderlineInputBorder(),
                                 ),
                                 inputFormatters: [
                                   FilteringTextInputFormatter.digitsOnly
@@ -336,7 +328,6 @@ class _TemplateRowState extends ConsumerState<TemplateRow> {
                                 textAlign: TextAlign.center,
                                 decoration: const InputDecoration(
                                   labelText: 'Sec',
-                                  border: UnderlineInputBorder(),
                                 ),
                                 inputFormatters: [
                                   FilteringTextInputFormatter.digitsOnly

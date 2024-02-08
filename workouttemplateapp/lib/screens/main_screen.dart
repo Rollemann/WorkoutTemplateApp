@@ -20,7 +20,11 @@ class MainScreen extends ConsumerWidget {
         length: plans.length,
         child: Scaffold(
           appBar: AppBar(
-            title: const Text("Test"),
+            title: Text(
+              "Test",
+              style: Theme.of(context).textTheme.titleLarge,
+            ),
+            backgroundColor: Theme.of(context).colorScheme.primaryContainer,
             actions: [
               IconButton(
                 onPressed: () {

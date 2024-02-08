@@ -23,7 +23,7 @@ class TemplateSettings extends ConsumerWidget {
     final List<PlanItemData> plans = ref.watch(planProvider);
 
     return Container(
-      color: Theme.of(context).primaryColor,
+      color: Theme.of(context).colorScheme.primary,
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Row(

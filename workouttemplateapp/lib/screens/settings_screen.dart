@@ -22,7 +22,11 @@ class SettingsScreen extends StatelessWidget {
     //final DeletionTypes deletionType = ref.watch(deletionTypeProvider);
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Settings"),
+        title: Text(
+          "Settings",
+          style: Theme.of(context).textTheme.titleLarge,
+        ),
+        backgroundColor: Theme.of(context).colorScheme.primaryContainer,
       ),
       body: SingleChildScrollView(
         child: Center(
