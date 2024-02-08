@@ -51,6 +51,10 @@ class _AppState extends ConsumerState<App> {
         )),
       ),
     ),
+    iconButtonTheme: IconButtonThemeData(
+      style: ButtonStyle(
+          iconColor: MaterialStateProperty.all<Color>(Colors.white)),
+    ),
     inputDecorationTheme: const InputDecorationTheme(
       labelStyle: TextStyle(color: Colors.white),
       enabledBorder: UnderlineInputBorder(
@@ -83,10 +87,9 @@ class _AppState extends ConsumerState<App> {
 
 /* TODO
 
-- Style alles (Tag / Nacht Modus)
 - Extra Fenster zum Pläne in der Reihenfolge zu ändern.
 
-- Settings: 
+- Settings:
   - Donations
   - Sprachen
 
@@ -95,6 +98,8 @@ class _AppState extends ConsumerState<App> {
 - Ton / Vibration wenn Timer Ende ist
 
 - Donations einrichten
+
+- Style alles (Tag / Nacht Modus) alles nochmal checken
 
 (- Verschiedene Farben als Themes)
 (- Verschiedene Farben für verschiedene Pläne)
