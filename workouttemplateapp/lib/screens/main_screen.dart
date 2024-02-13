@@ -29,10 +29,11 @@ class MainScreen extends ConsumerWidget {
               IconButton(
                 onPressed: () {
                   Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const SettingsScreen(),
-                      ));
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const SettingsScreen(),
+                    ),
+                  );
                 },
                 icon: const Icon(Icons.settings),
               )

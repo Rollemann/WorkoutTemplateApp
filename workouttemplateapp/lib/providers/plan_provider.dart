@@ -22,15 +22,17 @@ class PlanNotifier extends StateNotifier<List<PlanItemData>> {
         .toList();
   }
 
-  void addPlan(PlanItemData plan) {
-    state = [...state, plan];
+  void addPlan(PlanItemData plan, [int newPlanIndex = -1]) {
+    newPlanIndex < 0 ? state.add(plan) : state.insert(newPlanIndex, plan);
+    state = [...state];
     _savePlans();
   }
 
-  void removePlan(int index) {
-    state.removeAt(index);
+  PlanItemData removePlan(int index) {
+    PlanItemData plan = state.removeAt(index);
     state = [...state];
     _savePlans();
+    return plan;
   }
 
   void renamePlan(int index, String name) {

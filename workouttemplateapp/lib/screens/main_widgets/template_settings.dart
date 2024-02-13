@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:workouttemplateapp/all_dialogs.dart';
+import 'package:workouttemplateapp/screens/plan_settings_screen.dart';
 import 'package:workouttemplateapp/screens/settings_widgets/deletion_type_widget.dart';
 import 'package:workouttemplateapp/template_data_models.dart';
 import 'package:workouttemplateapp/providers/plan_provider.dart';
@@ -63,7 +64,13 @@ class TemplateSettings extends ConsumerWidget {
             ),
             ElevatedButton(
               onPressed: () => {
-                AllDialogs.showEditDialog(
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const PlanSettingsScreen(),
+                  ),
+                )
+                /* AllDialogs.showEditDialog(
                   context,
                   "Rename ${plans[currentTabId].name}",
                   (String newName) => {
@@ -71,7 +78,7 @@ class TemplateSettings extends ConsumerWidget {
                         .read(planProvider.notifier)
                         .renamePlan(currentTabId, newName)
                   },
-                )
+                ) */
               },
               style: const ButtonStyle(
                   shape: MaterialStatePropertyAll(CircleBorder())),
