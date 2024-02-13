@@ -14,11 +14,17 @@ class PlanSettingsRow extends StatelessWidget {
   });
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      leading: const Icon(Icons.drag_handle),
-      title: Text(title),
-      trailing: Checkbox(value: checked, onChanged: onCheck),
-      //todo: tileColor on checked
+    return GestureDetector(
+      onTap: () => onCheck(!checked),
+      child: ListTile(
+        leading: const Icon(Icons.drag_handle),
+        title: Text(title),
+        trailing: Checkbox(value: checked, onChanged: onCheck),
+        tileColor: checked
+            ? Colors.amber
+            : Theme.of(context).colorScheme.primaryContainer,
+        //todo: tileColor on checked
+      ),
     );
   }
 }

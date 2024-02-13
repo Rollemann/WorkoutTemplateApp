@@ -69,6 +69,15 @@ class _AppState extends ConsumerState<App> {
       selectionHandleColor: Color.fromARGB(255, 105, 185, 250),
       selectionColor: Color.fromARGB(255, 0, 140, 255),
     ),
+    listTileTheme: const ListTileThemeData(
+      iconColor: Colors.white,
+      textColor: Colors.white,
+    ),
+    checkboxTheme: CheckboxThemeData(
+      side: MaterialStateBorderSide.resolveWith(
+        (states) => const BorderSide(width: 2.0, color: Colors.white),
+      ),
+    ),
   );
 
   @override
@@ -87,6 +96,7 @@ class _AppState extends ConsumerState<App> {
 
 /* TODO
 
+- Bei pläne das Löschen immer fragen (in Setting)
 - Extra Fenster zum Pläne in der Reihenfolge zu ändern.
 
 - Settings:
