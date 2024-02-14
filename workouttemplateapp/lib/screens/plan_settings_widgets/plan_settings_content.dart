@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:workouttemplateapp/all_dialogs.dart';
 import 'package:workouttemplateapp/providers/plan_provider.dart';
+import 'package:workouttemplateapp/providers/settings_provider.dart';
 import 'package:workouttemplateapp/screens/plan_settings_widgets/plan_settings_row.dart';
+import 'package:workouttemplateapp/screens/settings_widgets/deletion_type_widget.dart';
 import 'package:workouttemplateapp/template_data_models.dart';
 
 class PlanSettingsContent extends ConsumerStatefulWidget {
@@ -32,6 +34,7 @@ class _PlanSettingsListState extends ConsumerState<PlanSettingsContent> {
   @override
   Widget build(BuildContext context) {
     final List<PlanItemData> plans = ref.watch(planProvider);
+    final DeletionTypes deletionType = ref.watch(deletionTypeProvider);
     return Column(
       children: [
         Text(
@@ -112,8 +115,13 @@ class _PlanSettingsListState extends ConsumerState<PlanSettingsContent> {
                           final String description = allChecked.length == 1
                               ? "Plan ${plans[allChecked[0]].name}"
                               : "${allChecked.length} Plans";
-                          AllDialogs.showDeleteDialog(context, description,
-                              () => {removePlans(allCheckedIndexes(), ref)});
+                          deletionType == DeletionTypes.never
+                              ? removePlans(allCheckedIndexes(), ref)
+                              : AllDialogs.showDeleteDialog(
+                                  context,
+                                  description,
+                                  () =>
+                                      {removePlans(allCheckedIndexes(), ref)});
                         }
                       : null,
                   style: const ButtonStyle(

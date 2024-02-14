@@ -96,8 +96,6 @@ class _AppState extends ConsumerState<App> {
 
 /* TODO
 
-- Bei pläne das Löschen immer fragen (in Setting)
-
 - Settings:
   - Donations
   - Sprachen
