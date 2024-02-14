@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:workouttemplateapp/all_dialogs.dart';
@@ -73,6 +75,12 @@ class _PlanSettingsListState extends ConsumerState<PlanSettingsContent> {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 ElevatedButton(
+                  onPressed: () => addPlan(ref, plans, context),
+                  style: const ButtonStyle(
+                      shape: MaterialStatePropertyAll(CircleBorder())),
+                  child: const Icon(Icons.add),
+                ),
+                ElevatedButton(
                   onPressed: allCheckedIndexes().length == 1
                       ? () {
                           final int index = checkedPlans.indexOf(true);
@@ -80,10 +88,11 @@ class _PlanSettingsListState extends ConsumerState<PlanSettingsContent> {
                           AllDialogs.showEditDialog(
                             context,
                             "Rename $title",
-                            (String newName) => {
+                            (String newName) {
                               ref
                                   .read(planProvider.notifier)
-                                  .renamePlan(index, newName)
+                                  .renamePlan(index, newName);
+                              onCheck(index, false);
                             },
                           );
                         }
@@ -143,5 +152,30 @@ class _PlanSettingsListState extends ConsumerState<PlanSettingsContent> {
     setState(() {
       checkedPlans[index] = checked ?? !checkedPlans[index];
     });
+    log(checkedPlans.toString());
+  }
+
+  void addPlan(WidgetRef ref, List<PlanItemData> plans, BuildContext context) {
+    const maxPlans = 25;
+    if (plans.length < maxPlans) {
+      ref.read(planProvider.notifier).addPlan(
+            PlanItemData(name: "NewPlan ${plans.length + 1}"),
+          );
+      checkedPlans.add(false);
+    } else {
+      final snackBar = SnackBar(
+        content: const Text('Max. $maxPlans plans. Delete one first.',
+            textScaler: TextScaler.linear(1.5)),
+        action: SnackBarAction(
+          backgroundColor: Colors.yellow,
+          textColor: Colors.black,
+          label: 'X',
+          onPressed: () {
+            ScaffoldMessenger.of(context).hideCurrentSnackBar();
+          },
+        ),
+      );
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+    }
   }
 }

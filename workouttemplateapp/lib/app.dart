@@ -97,7 +97,6 @@ class _AppState extends ConsumerState<App> {
 /* TODO
 
 - Bei pläne das Löschen immer fragen (in Setting)
-- Extra Fenster zum Pläne in der Reihenfolge zu ändern.
 
 - Settings:
   - Donations
@@ -106,8 +105,6 @@ class _AppState extends ConsumerState<App> {
 - Pläne teilen über verschiedene Kanäle (extra Fenster wo man anhaken kann welche)
 - Pläne auch wieder öffnen können mit der App.
 - Ton / Vibration wenn Timer Ende ist
-
-- Donations einrichten
 
 - Style alles (Tag / Nacht Modus) alles nochmal checken
 

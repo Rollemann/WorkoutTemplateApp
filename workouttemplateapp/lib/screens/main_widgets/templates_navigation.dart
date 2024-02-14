@@ -15,7 +15,7 @@ class TemplatesNavigation extends ConsumerWidget {
           child: TabBar(
             tabAlignment: TabAlignment.start,
             isScrollable: true,
-            tabs: createTabs(plans),
+            tabs: createPlans(plans),
           ),
         ),
         ElevatedButton(
@@ -28,7 +28,7 @@ class TemplatesNavigation extends ConsumerWidget {
     );
   }
 
-  List<Tab> createTabs(List<PlanItemData> plans) {
+  List<Tab> createPlans(List<PlanItemData> plans) {
     final List<Tab> tabList = [];
     for (var curTab in plans) {
       tabList.add(Tab(
