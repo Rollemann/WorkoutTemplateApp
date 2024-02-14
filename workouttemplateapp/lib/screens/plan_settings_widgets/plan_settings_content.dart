@@ -6,7 +6,13 @@ import 'package:workouttemplateapp/screens/plan_settings_widgets/plan_settings_r
 import 'package:workouttemplateapp/template_data_models.dart';
 
 class PlanSettingsContent extends ConsumerStatefulWidget {
-  const PlanSettingsContent({super.key});
+  final int currentPlanIndex;
+  final int planLength;
+  const PlanSettingsContent({
+    super.key,
+    required this.currentPlanIndex,
+    required this.planLength,
+  });
 
   @override
   ConsumerState<PlanSettingsContent> createState() => _PlanSettingsListState();
@@ -16,27 +22,33 @@ class _PlanSettingsListState extends ConsumerState<PlanSettingsContent> {
   final List<bool> checkedPlans = [];
 
   @override
+  void initState() {
+    for (var i = 0; i < widget.planLength; i++) {
+      checkedPlans.add(i == widget.currentPlanIndex);
+    }
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final List<PlanItemData> plans = ref.watch(planProvider);
     return Column(
       children: [
         Text(
-          "Reorder, rename and share plans here.",
+          "Reorder, rename, share and delete plans here.",
           style: Theme.of(context).textTheme.titleMedium,
+          textAlign: TextAlign.center,
         ),
         Expanded(
           child: ReorderableListView.builder(
             itemCount: plans.length,
-            itemBuilder: (context, index) {
-              checkedPlans.add(false);
-              return PlanSettingsRow(
-                key: ObjectKey(plans[index]),
-                title: plans[index].name,
-                index: index,
-                checked: checkedPlans[index],
-                onCheck: (bool? checked) => onCheck(index, checked),
-              );
-            },
+            itemBuilder: (context, index) => PlanSettingsRow(
+              key: ObjectKey(plans[index]),
+              title: plans[index].name,
+              index: index,
+              checked: checkedPlans[index],
+              onCheck: (bool? checked) => onCheck(index, checked),
+            ),
             onReorder: (oldIndex, newIndex) {
               setState(() {
                 if (newIndex > oldIndex) {
@@ -61,7 +73,7 @@ class _PlanSettingsListState extends ConsumerState<PlanSettingsContent> {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 ElevatedButton(
-                  onPressed: allCheckedIndex().length == 1
+                  onPressed: allCheckedIndexes().length == 1
                       ? () {
                           final int index = checkedPlans.indexOf(true);
                           final String title = plans[index].name;
@@ -78,15 +90,23 @@ class _PlanSettingsListState extends ConsumerState<PlanSettingsContent> {
                       : null,
                   style: const ButtonStyle(
                       shape: MaterialStatePropertyAll(CircleBorder())),
-                  child: const Icon(Icons.edit),
+                  child: const Icon(Icons.border_color),
+                ),
+                const ElevatedButton(
+                  onPressed: null,
+                  style: ButtonStyle(
+                      shape: MaterialStatePropertyAll(CircleBorder())),
+                  child: Icon(Icons.share),
                 ),
                 ElevatedButton(
-                  onPressed: allCheckedIndex().isNotEmpty
+                  onPressed: allCheckedIndexes().isNotEmpty
                       ? () {
-                          AllDialogs.showDeleteDialog(
-                              context,
-                              "Tab ${plans[0].name}",
-                              () => {removePlans(allCheckedIndex(), ref)});
+                          final List<int> allChecked = allCheckedIndexes();
+                          final String description = allChecked.length == 1
+                              ? "Plan ${plans[allChecked[0]].name}"
+                              : "${allChecked.length} Plans";
+                          AllDialogs.showDeleteDialog(context, description,
+                              () => {removePlans(allCheckedIndexes(), ref)});
                         }
                       : null,
                   style: const ButtonStyle(
@@ -101,7 +121,7 @@ class _PlanSettingsListState extends ConsumerState<PlanSettingsContent> {
     );
   }
 
-  List<int> allCheckedIndex() {
+  List<int> allCheckedIndexes() {
     final List<int> indexList = [];
     for (var i = 0; i < checkedPlans.length; i++) {
       if (checkedPlans[i]) {
@@ -112,8 +132,10 @@ class _PlanSettingsListState extends ConsumerState<PlanSettingsContent> {
   }
 
   removePlans(List<int> indexList, WidgetRef ref) {
+    indexList.sort();
     for (var i = indexList.length - 1; i >= 0; i--) {
-      ref.read(planProvider.notifier).removePlan(i);
+      ref.read(planProvider.notifier).removePlan(indexList[i]);
+      checkedPlans.removeAt(indexList[i]);
     }
   }
 

@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:workouttemplateapp/all_dialogs.dart';
 import 'package:workouttemplateapp/screens/plan_settings_screen.dart';
-import 'package:workouttemplateapp/screens/settings_widgets/deletion_type_widget.dart';
 import 'package:workouttemplateapp/template_data_models.dart';
 import 'package:workouttemplateapp/providers/plan_provider.dart';
 import 'package:workouttemplateapp/providers/settings_provider.dart';
@@ -20,9 +18,7 @@ class TemplateSettings extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final DeletionTypes deletionType = ref.watch(deletionTypeProvider);
-    final List<PlanItemData> plans = ref.watch(planProvider);
-
+    final plans = ref.watch(planProvider);
     return Container(
       color: Theme.of(context).colorScheme.primary,
       child: Padding(
@@ -67,41 +63,16 @@ class TemplateSettings extends ConsumerWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => const PlanSettingsScreen(),
+                    builder: (context) => PlanSettingsScreen(
+                      currentPlanIndex: currentTabId,
+                      planLength: plans.length,
+                    ),
                   ),
                 )
-                /* AllDialogs.showEditDialog(
-                  context,
-                  "Rename ${plans[currentTabId].name}",
-                  (String newName) => {
-                    ref
-                        .read(planProvider.notifier)
-                        .renamePlan(currentTabId, newName)
-                  },
-                ) */
               },
               style: const ButtonStyle(
                   shape: MaterialStatePropertyAll(CircleBorder())),
               child: const Icon(Icons.edit),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                if (deletionType != DeletionTypes.never) {
-                  AllDialogs.showDeleteDialog(
-                      context,
-                      "Tab ${plans[currentTabId].name}",
-                      () => {
-                            ref
-                                .read(planProvider.notifier)
-                                .removePlan(currentTabId)
-                          });
-                } else {
-                  ref.read(planProvider.notifier).removePlan(currentTabId);
-                }
-              },
-              style: const ButtonStyle(
-                  shape: MaterialStatePropertyAll(CircleBorder())),
-              child: const Icon(Icons.delete),
             ),
           ],
         ),
