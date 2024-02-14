@@ -16,14 +16,16 @@ class PlanSettingsRow extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () => onCheck(!checked),
-      child: ListTile(
-        leading: const Icon(Icons.drag_handle),
-        title: Text(title),
-        trailing: Checkbox(value: checked, onChanged: onCheck),
-        tileColor: checked
-            ? Colors.amber
-            : Theme.of(context).colorScheme.primaryContainer,
-        //todo: tileColor on checked
+      child: Padding(
+        padding: const EdgeInsets.all(1.0),
+        child: ListTile(
+          leading: const Icon(Icons.drag_handle),
+          title: Text(title),
+          trailing: Checkbox(value: checked, onChanged: onCheck),
+          tileColor: checked
+              ? Colors.amber
+              : Theme.of(context).colorScheme.primaryContainer,
+        ),
       ),
     );
   }

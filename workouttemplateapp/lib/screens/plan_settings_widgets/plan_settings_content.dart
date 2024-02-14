@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:workouttemplateapp/all_dialogs.dart';
@@ -152,7 +150,6 @@ class _PlanSettingsListState extends ConsumerState<PlanSettingsContent> {
     setState(() {
       checkedPlans[index] = checked ?? !checkedPlans[index];
     });
-    log(checkedPlans.toString());
   }
 
   void addPlan(WidgetRef ref, List<PlanItemData> plans, BuildContext context) {
