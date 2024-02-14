@@ -51,7 +51,7 @@ class _TemplateRowState extends ConsumerState<TemplateRow> {
     final List<PlanItemData> plans = ref.watch(planProvider);
     final RowItemData curRowData = plans[widget.tabID].rows[widget.rowID];
     return Padding(
-      padding: const EdgeInsets.all(5.0),
+      padding: const EdgeInsets.all(3.0),
       child: GestureDetector(
         onTap: () {
           setState(() {
