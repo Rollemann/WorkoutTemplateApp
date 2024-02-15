@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:workouttemplateapp/all_dialogs.dart';
 import 'package:workouttemplateapp/providers/plan_provider.dart';
@@ -38,7 +39,7 @@ class _PlanSettingsListState extends ConsumerState<PlanSettingsContent> {
     return Column(
       children: [
         Text(
-          "Reorder, rename, share and delete plans here.",
+          AppLocalizations.of(context)!.planSettingsDescription,
           style: Theme.of(context).textTheme.titleMedium,
           textAlign: TextAlign.center,
         ),

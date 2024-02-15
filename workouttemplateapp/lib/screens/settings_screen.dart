@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:workouttemplateapp/screens/settings_widgets/deletion_type_widget.dart';
 import 'package:workouttemplateapp/screens/settings_widgets/language_widget.dart';
 import 'package:workouttemplateapp/screens/settings_widgets/light_mode_widget.dart';
@@ -24,7 +25,7 @@ class SettingsScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          "Settings",
+          AppLocalizations.of(context)!.settings,
           style: Theme.of(context).textTheme.titleLarge,
         ),
         backgroundColor: Theme.of(context).colorScheme.primaryContainer,

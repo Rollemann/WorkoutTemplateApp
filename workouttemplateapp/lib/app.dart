@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:workouttemplateapp/providers/settings_provider.dart';
@@ -84,12 +85,14 @@ class _AppState extends ConsumerState<App> {
   @override
   Widget build(BuildContext context) {
     final bool lightMode = ref.watch(lightModeProvider);
+    final String language = ref.watch(languageProvider);
     return MaterialApp(
       title: 'Workout APP',
       theme: myLightMode,
       darkTheme: myDarkMode,
       themeMode: lightMode ? ThemeMode.light : ThemeMode.dark,
       localizationsDelegates: const [
+        AppLocalizations.delegate,
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
@@ -97,7 +100,9 @@ class _AppState extends ConsumerState<App> {
       supportedLocales: const [
         Locale('en'), // English
         Locale('es'), // Spanish
+        Locale('de'), // German
       ],
+      locale: Locale.fromSubtags(languageCode: language),
       home: const MainScreen(),
     );
   }

@@ -1,0 +1,11 @@
+{
+  "settings": "Ajustes",
+  "settingTitleVolume": "Volume",
+  "settingTitleVibration": "Vibration",
+  "settingTitleLightDarkMode": "Light/Dark Mode",
+  "settingTitleShowHints": "Show Hints" ,
+  "settingTitleConfirmDeletion": "Confirm Deletion",
+  "settingTitleLanguage": "Language",
+  "exercise": "Exercise",
+  "planSettingsDescription": "Reorder, rename, share and delete plans here."
+}

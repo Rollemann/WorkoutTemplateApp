@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:workouttemplateapp/all_dialogs.dart';
 import 'package:workouttemplateapp/template_data_models.dart';
@@ -380,7 +381,7 @@ class _TemplateRowState extends ConsumerState<TemplateRow> {
                                 padding: const EdgeInsets.only(left: 8.0),
                                 child: Text(
                                   curRowData.exercise == ""
-                                      ? "Exercise"
+                                      ? AppLocalizations.of(context)!.exercise
                                       : curRowData.exercise,
                                   textScaler: const TextScaler.linear(1.3),
                                 ),
@@ -464,7 +465,7 @@ class _TemplateRowState extends ConsumerState<TemplateRow> {
                                   padding: const EdgeInsets.only(left: 8.0),
                                   child: Text(
                                     curRowData.exercise == ""
-                                        ? "Exercise"
+                                        ? AppLocalizations.of(context)!.exercise
                                         : curRowData.exercise,
                                     textScaler: const TextScaler.linear(1.3),
                                   ),

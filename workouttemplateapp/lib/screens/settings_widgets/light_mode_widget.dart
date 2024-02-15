@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:workouttemplateapp/providers/settings_provider.dart';
 import 'package:workouttemplateapp/screens/settings_widgets/settings_caption_widget.dart';
@@ -26,10 +27,10 @@ class _LightModeWidgetState extends ConsumerState<LightModeWidget> {
 
     return Column(
       children: [
-        const Padding(
-          padding: EdgeInsets.all(8.0),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
           child: SettingsCaptionWidget(
-            title: "Light/Dark Mode",
+            title: AppLocalizations.of(context)!.settingTitleLightDarkMode,
             explanation: "Beschreibung, was die Einstellung macht.",
           ),
         ),

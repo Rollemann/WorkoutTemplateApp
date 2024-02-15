@@ -1,0 +1,11 @@
+{
+  "settings": "Einstellungen",
+  "settingTitleVolume": "Lautstärke",
+  "settingTitleVibration": "Vibration",
+  "settingTitleLightDarkMode": "Light/Dark Modus",
+  "settingTitleShowHints": "Hinweise Anzeigen" ,
+  "settingTitleConfirmDeletion": "Löschen Bestätigen",
+  "settingTitleLanguage": "Sprache",
+  "exercise": "Übung",
+  "planSettingsDescription": "Sortiere, benenne, teile und lösche Pläne hier."
+}
