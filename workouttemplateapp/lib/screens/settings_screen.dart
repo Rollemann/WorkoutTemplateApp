@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:workouttemplateapp/screens/settings_widgets/deletion_type_widget.dart';
+import 'package:workouttemplateapp/screens/settings_widgets/language_widget.dart';
 import 'package:workouttemplateapp/screens/settings_widgets/light_mode_widget.dart';
 import 'package:workouttemplateapp/screens/settings_widgets/show_hints_Widget.dart';
 import 'package:workouttemplateapp/screens/settings_widgets/vibration_widget.dart';
@@ -32,6 +33,8 @@ class SettingsScreen extends StatelessWidget {
         child: Center(
           child: Column(
             children: [
+              const LanguageWidget(),
+              settingsDivider,
               const VolumeWidget(),
               settingsDivider,
               const VibrationWidget(),

@@ -66,3 +66,12 @@ final showHintsProvider = StateProvider<bool>((ref) {
   });
   return showHints;
 });
+
+final languageProvider = StateProvider<String>((ref) {
+  final preferences = ref.watch(sharedPreferencesProvider);
+  final language = preferences.getString('language') ?? "en";
+  ref.listenSelf((prev, curr) {
+    preferences.setString('language', curr);
+  });
+  return language;
+});

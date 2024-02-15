@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:workouttemplateapp/providers/settings_provider.dart';
 import 'package:workouttemplateapp/screens/main_screen.dart';
@@ -88,6 +89,15 @@ class _AppState extends ConsumerState<App> {
       theme: myLightMode,
       darkTheme: myDarkMode,
       themeMode: lightMode ? ThemeMode.light : ThemeMode.dark,
+      localizationsDelegates: const [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: const [
+        Locale('en'), // English
+        Locale('es'), // Spanish
+      ],
       home: const MainScreen(),
     );
   }
@@ -105,6 +115,8 @@ class _AppState extends ConsumerState<App> {
 - Ton / Vibration wenn Timer Ende ist
 
 - Style alles (Tag / Nacht Modus) alles nochmal checken
+- raus mit der special liste (reorder und animation)
+
 
 (- Verschiedene Farben als Themes)
 (- Verschiedene Farben für verschiedene Pläne)
