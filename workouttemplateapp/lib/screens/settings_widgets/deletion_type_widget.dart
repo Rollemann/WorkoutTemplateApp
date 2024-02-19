@@ -17,63 +17,66 @@ class _DeletionTypeWidgetState extends ConsumerState<DeletionTypeWidget> {
   @override
   Widget build(BuildContext context) {
     final DeletionTypes deletionType = ref.watch(deletionTypeProvider);
-    return Column(
-      children: [
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: SettingsCaptionWidget(
-            title: AppLocalizations.of(context)!.settingTitleConfirmDeletion,
-            explanation: "Beschreibung, was die Einstellung macht.",
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 10.0),
+      child: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: SettingsCaptionWidget(
+              title: AppLocalizations.of(context)!.settingTitleConfirmDeletion,
+              explanation: "Beschreibung, was die Einstellung macht.",
+            ),
           ),
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            OutlinedButton(
-              onPressed: () {
-                ref.read(deletionTypeProvider.notifier).state =
-                    DeletionTypes.always;
-              },
-              child: Text(
-                "Always",
-                style: (deletionType == DeletionTypes.always)
-                    ? const TextStyle(
-                        color: Colors.green,
-                      )
-                    : const TextStyle(),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              OutlinedButton(
+                onPressed: () {
+                  ref.read(deletionTypeProvider.notifier).state =
+                      DeletionTypes.always;
+                },
+                child: Text(
+                  "Always",
+                  style: (deletionType == DeletionTypes.always)
+                      ? const TextStyle(
+                          color: Colors.green,
+                        )
+                      : const TextStyle(),
+                ),
               ),
-            ),
-            OutlinedButton(
-              onPressed: () {
-                ref.read(deletionTypeProvider.notifier).state =
-                    DeletionTypes.plans;
-              },
-              child: Text(
-                "Just Plans",
-                style: (deletionType == DeletionTypes.plans)
-                    ? const TextStyle(
-                        color: Colors.green,
-                      )
-                    : const TextStyle(),
+              OutlinedButton(
+                onPressed: () {
+                  ref.read(deletionTypeProvider.notifier).state =
+                      DeletionTypes.plans;
+                },
+                child: Text(
+                  "Just Plans",
+                  style: (deletionType == DeletionTypes.plans)
+                      ? const TextStyle(
+                          color: Colors.green,
+                        )
+                      : const TextStyle(),
+                ),
               ),
-            ),
-            OutlinedButton(
-              onPressed: () {
-                ref.read(deletionTypeProvider.notifier).state =
-                    DeletionTypes.never;
-              },
-              child: Text(
-                "Never",
-                style: (deletionType == DeletionTypes.never)
-                    ? const TextStyle(
-                        color: Colors.green,
-                      )
-                    : const TextStyle(),
+              OutlinedButton(
+                onPressed: () {
+                  ref.read(deletionTypeProvider.notifier).state =
+                      DeletionTypes.never;
+                },
+                child: Text(
+                  "Never",
+                  style: (deletionType == DeletionTypes.never)
+                      ? const TextStyle(
+                          color: Colors.green,
+                        )
+                      : const TextStyle(),
+                ),
               ),
-            ),
-          ],
-        ),
-      ],
+            ],
+          ),
+        ],
+      ),
     );
   }
 }

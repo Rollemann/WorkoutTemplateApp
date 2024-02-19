@@ -11,7 +11,7 @@ class SettingsScreen extends StatelessWidget {
   const SettingsScreen({super.key});
 
   final Widget settingsDivider = const Padding(
-    padding: EdgeInsets.symmetric(vertical: 10.0),
+    padding: EdgeInsets.symmetric(vertical: 8.0),
     child: Divider(
       indent: 50,
       endIndent: 50,
@@ -20,8 +20,6 @@ class SettingsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    //final bool lightMode = ref.watch(lightModeProvider);
-    //final DeletionTypes deletionType = ref.watch(deletionTypeProvider);
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -34,17 +32,17 @@ class SettingsScreen extends StatelessWidget {
         child: Center(
           child: Column(
             children: [
-              const LanguageWidget(),
-              settingsDivider,
               const VolumeWidget(),
               settingsDivider,
               const VibrationWidget(),
               settingsDivider,
-              const LightModeWidget(),
-              settingsDivider,
               const ShowHintsWidget(),
               settingsDivider,
               const DeletionTypeWidget(),
+              settingsDivider,
+              const LightModeWidget(),
+              settingsDivider,
+              const LanguageWidget(),
               settingsDivider,
               const Padding(
                 padding: EdgeInsets.all(8.0),

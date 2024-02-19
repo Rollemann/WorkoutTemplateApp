@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 class SettingsCaptionWidget extends StatelessWidget {
   final String title;
@@ -14,7 +13,7 @@ class SettingsCaptionWidget extends StatelessWidget {
       children: [
         Text(
           title,
-          style: const TextStyle(fontWeight: FontWeight.bold),
+          style: Theme.of(context).textTheme.titleMedium,
         ),
         Tooltip(
           showDuration: const Duration(seconds: 20),

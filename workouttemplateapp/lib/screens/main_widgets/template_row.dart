@@ -40,6 +40,11 @@ class _TemplateRowState extends ConsumerState<TemplateRow> {
   int tempMinutes = 0;
   int tempSeconds = 0;
 
+  final evenLight = const Color.fromARGB(255, 170, 170, 170);
+  final oddLight = const Color.fromARGB(255, 210, 210, 210);
+  final evenDark = const Color.fromARGB(255, 70, 70, 70);
+  final oddDark = const Color.fromARGB(255, 97, 97, 97);
+
   @override
   void initState() {
     events.add(0);
@@ -50,9 +55,10 @@ class _TemplateRowState extends ConsumerState<TemplateRow> {
   Widget build(BuildContext context) {
     final DeletionTypes deletionType = ref.watch(deletionTypeProvider);
     final List<PlanItemData> plans = ref.watch(planProvider);
+    final bool lightMode = ref.watch(lightModeProvider);
     final RowItemData curRowData = plans[widget.tabID].rows[widget.rowID];
     return Padding(
-      padding: const EdgeInsets.all(3.0),
+      padding: const EdgeInsets.symmetric(vertical: 3.5),
       child: GestureDetector(
         onTap: () {
           setState(() {
@@ -60,9 +66,17 @@ class _TemplateRowState extends ConsumerState<TemplateRow> {
           });
         },
         child: Container(
-          color: rowChecked
-              ? const Color.fromARGB(255, 0, 145, 5)
-              : Theme.of(context).colorScheme.primaryContainer,
+          color: lightMode
+              ? rowChecked
+                  ? const Color.fromARGB(255, 0, 145, 5)
+                  : widget.rowID % 2 == 0
+                      ? evenLight
+                      : oddLight
+              : rowChecked
+                  ? const Color.fromARGB(255, 1, 100, 5)
+                  : widget.rowID % 2 == 0
+                      ? evenDark
+                      : oddDark,
           child: Padding(
             padding: const EdgeInsets.only(left: 10),
             child: Row(

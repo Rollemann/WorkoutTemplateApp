@@ -5,6 +5,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:workouttemplateapp/providers/settings_provider.dart';
 import 'package:workouttemplateapp/screens/main_screen.dart';
 
+const evenLight = Color.fromARGB(255, 170, 170, 170);
+const oddLight = Color.fromARGB(255, 210, 210, 210);
+const evenDark = Color.fromARGB(255, 70, 70, 70);
+const oddDark = Color.fromARGB(255, 97, 97, 97);
+
 class App extends ConsumerStatefulWidget {
   const App({super.key});
 
@@ -46,16 +51,18 @@ class _AppState extends ConsumerState<App> {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
     ),
     outlinedButtonTheme: OutlinedButtonThemeData(
-      style: ButtonStyle(
-        side: MaterialStateProperty.all(const BorderSide(
+      style: OutlinedButton.styleFrom(
+        foregroundColor: Colors.white,
+        side: const BorderSide(
           width: 2,
           color: Colors.white,
-        )),
+        ),
       ),
     ),
     iconButtonTheme: IconButtonThemeData(
       style: ButtonStyle(
-          iconColor: MaterialStateProperty.all<Color>(Colors.white)),
+        iconColor: MaterialStateProperty.all<Color>(Colors.white),
+      ),
     ),
     inputDecorationTheme: const InputDecorationTheme(
       labelStyle: TextStyle(color: Colors.white),
@@ -113,7 +120,6 @@ class _AppState extends ConsumerState<App> {
 
 - Settings:
   - Donations
-  - Sprachen
 
 - Pläne teilen über verschiedene Kanäle (extra Fenster wo man anhaken kann welche)
 - Pläne auch wieder öffnen können mit der App.
@@ -121,6 +127,7 @@ class _AppState extends ConsumerState<App> {
 
 - Style alles (Tag / Nacht Modus) alles nochmal checken
 - raus mit der special liste (reorder und animation)
+- Alle übersetzungen checken
 
 
 (- Verschiedene Farben als Themes)
