@@ -55,12 +55,15 @@ class _TemplateRowViewFrameState extends ConsumerState<TemplateRowViewFrame> {
                   Icons.drag_handle,
                 ),
                 widget.child,
-                ElevatedButton(
-                  onPressed: () {}, //widget.onEdit(),
-                  style: const ButtonStyle(
-                    shape: MaterialStatePropertyAll(CircleBorder()),
+                Padding(
+                  padding: const EdgeInsets.only(right: 8.0),
+                  child: IconButton(
+                    onPressed: () => widget.onEdit(),
+                    style: const ButtonStyle(
+                      shape: MaterialStatePropertyAll(CircleBorder()),
+                    ),
+                    icon: const Icon(Icons.edit),
                   ),
-                  child: const Icon(Icons.edit),
                 ),
               ],
             ),

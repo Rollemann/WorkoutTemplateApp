@@ -13,32 +13,41 @@ class RowEditControls extends StatelessWidget {
     return Column(
         // End buttons
         children: [
-          ElevatedButton(
-            onPressed: () {
-              saveAction();
-            },
-            style: const ButtonStyle(
-              shape: MaterialStatePropertyAll(CircleBorder()),
+          Padding(
+            padding: const EdgeInsets.all(4.0),
+            child: IconButton(
+              onPressed: () {
+                saveAction();
+              },
+              style: const ButtonStyle(
+                shape: MaterialStatePropertyAll(CircleBorder()),
+              ),
+              icon: const Icon(Icons.save),
             ),
-            child: const Icon(Icons.save),
           ),
-          ElevatedButton(
-            onPressed: () {
-              cancelAction();
-            },
-            style: const ButtonStyle(
-              shape: MaterialStatePropertyAll(CircleBorder()),
+          Padding(
+            padding: const EdgeInsets.all(4.0),
+            child: IconButton(
+              onPressed: () {
+                cancelAction();
+              },
+              style: const ButtonStyle(
+                shape: MaterialStatePropertyAll(CircleBorder()),
+              ),
+              icon: const Icon(Icons.cancel),
             ),
-            child: const Icon(Icons.cancel),
           ),
-          ElevatedButton(
-            onPressed: () {
-              deleteAction();
-            },
-            style: const ButtonStyle(
-              shape: MaterialStatePropertyAll(CircleBorder()),
+          Padding(
+            padding: const EdgeInsets.all(4.0),
+            child: IconButton(
+              onPressed: () {
+                deleteAction();
+              },
+              style: const ButtonStyle(
+                shape: MaterialStatePropertyAll(CircleBorder()),
+              ),
+              icon: const Icon(Icons.delete),
             ),
-            child: const Icon(Icons.delete),
           ),
         ]);
   }

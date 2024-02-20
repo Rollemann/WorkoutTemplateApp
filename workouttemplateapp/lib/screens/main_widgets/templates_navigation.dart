@@ -18,11 +18,11 @@ class TemplatesNavigation extends ConsumerWidget {
             tabs: createPlans(plans),
           ),
         ),
-        ElevatedButton(
+        IconButton(
           onPressed: () => addPlan(ref, plans, context),
           style: const ButtonStyle(
               shape: MaterialStatePropertyAll(CircleBorder())),
-          child: const Icon(Icons.add),
+          icon: const Icon(Icons.add, size: 35),
         ),
       ],
     );

@@ -5,10 +5,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:workouttemplateapp/providers/settings_provider.dart';
 import 'package:workouttemplateapp/screens/main_screen.dart';
 
-const evenLight = Color.fromARGB(255, 170, 170, 170);
-const oddLight = Color.fromARGB(255, 210, 210, 210);
-const evenDark = Color.fromARGB(255, 70, 70, 70);
-const oddDark = Color.fromARGB(255, 97, 97, 97);
+const evenLight = Color.fromARGB(255, 210, 210, 210);
+const oddLight = Color.fromARGB(255, 230, 230, 230);
+const evenDark = Color.fromARGB(255, 40, 40, 40);
+const oddDark = Color.fromARGB(255, 60, 60, 60);
 
 class App extends ConsumerStatefulWidget {
   const App({super.key});
@@ -64,6 +64,10 @@ class _AppState extends ConsumerState<App> {
         iconColor: MaterialStateProperty.all<Color>(Colors.white),
       ),
     ),
+    elevatedButtonTheme: ElevatedButtonThemeData(
+        style: ElevatedButton.styleFrom(
+      backgroundColor: const Color.fromARGB(255, 30, 30, 30),
+    )),
     inputDecorationTheme: const InputDecorationTheme(
       labelStyle: TextStyle(color: Colors.white),
       enabledBorder: UnderlineInputBorder(
@@ -86,6 +90,9 @@ class _AppState extends ConsumerState<App> {
       side: MaterialStateBorderSide.resolveWith(
         (states) => const BorderSide(width: 2.0, color: Colors.white),
       ),
+    ),
+    tabBarTheme: const TabBarTheme(
+      unselectedLabelColor: Color.fromARGB(255, 130, 130, 130),
     ),
   );
 
