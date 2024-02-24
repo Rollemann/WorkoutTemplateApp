@@ -23,7 +23,7 @@ class AllDialogs {
     // set up the AlertDialog
     AlertDialog alert = AlertDialog(
       title: Text("Delete $text"),
-      content: Text("Really delete the $text?"),
+      content: Text("Really delete $text?"),
       actions: [
         cancelButton,
         continueButton,

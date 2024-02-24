@@ -27,7 +27,7 @@ class _TemplateRowViewFrameState extends ConsumerState<TemplateRowViewFrame> {
   Widget build(BuildContext context) {
     final lightMode = ref.watch(lightModeProvider);
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 3.5),
+      padding: const EdgeInsets.symmetric(vertical: 3.5, horizontal: 3),
       child: GestureDetector(
         onTap: () {
           setState(() {
@@ -35,17 +35,20 @@ class _TemplateRowViewFrameState extends ConsumerState<TemplateRowViewFrame> {
           });
         },
         child: Container(
-          color: lightMode
-              ? rowChecked
-                  ? const Color.fromARGB(255, 0, 145, 5)
-                  : widget.rowID % 2 == 0
-                      ? evenLight
-                      : oddLight
-              : rowChecked
-                  ? const Color.fromARGB(255, 1, 100, 5)
-                  : widget.rowID % 2 == 0
-                      ? evenDark
-                      : oddDark,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10),
+            color: lightMode
+                ? rowChecked
+                    ? const Color.fromARGB(255, 0, 145, 5)
+                    : widget.rowID % 2 == 0
+                        ? evenLight
+                        : oddLight
+                : rowChecked
+                    ? const Color.fromARGB(255, 1, 100, 5)
+                    : widget.rowID % 2 == 0
+                        ? evenDark
+                        : oddDark,
+          ),
           child: Padding(
             padding: const EdgeInsets.only(left: 10),
             child: Row(

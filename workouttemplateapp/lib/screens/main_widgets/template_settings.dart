@@ -19,63 +19,78 @@ class TemplateSettings extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final plans = ref.watch(planProvider);
-    return Container(
-      color: Theme.of(context).colorScheme.primary,
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            MenuAnchor(
-              builder: (context, controller, child) {
-                return ElevatedButton(
-                  onPressed: () {
-                    if (controller.isOpen) {
-                      controller.close();
-                    } else {
-                      controller.open();
-                    }
-                  },
-                  style: const ButtonStyle(
-                      shape: MaterialStatePropertyAll(CircleBorder())),
-                  child: const Icon(Icons.add),
-                );
-              },
-              menuChildren: List<MenuItemButton>.generate(
-                rowTypes.length,
-                (int index) => MenuItemButton(
-                  onPressed: () => addClickHandler(index, context, ref),
-                  child: Padding(
-                    padding: const EdgeInsets.all(15.0),
-                    child: Row(
-                      children: [
-                        Icon(menuIcons[index]),
-                        Text(rowTypes[index],
-                            textScaler: const TextScaler.linear(2)),
-                      ],
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: [
+          MenuAnchor(
+            builder: (context, controller, child) {
+              return TextButton(
+                onPressed: () {
+                  if (controller.isOpen) {
+                    controller.close();
+                  } else {
+                    controller.open();
+                  }
+                },
+                child: Column(
+                  children: [
+                    Icon(
+                      Icons.add,
+                      color: Theme.of(context).iconTheme.color,
                     ),
+                    Text(
+                      "Add Row",
+                      style: Theme.of(context).textTheme.labelMedium,
+                    ),
+                  ],
+                ),
+              );
+            },
+            menuChildren: List<MenuItemButton>.generate(
+              rowTypes.length,
+              (int index) => MenuItemButton(
+                onPressed: () => addClickHandler(index, context, ref),
+                child: Padding(
+                  padding: const EdgeInsets.all(15.0),
+                  child: Row(
+                    children: [
+                      Icon(menuIcons[index]),
+                      Text(rowTypes[index],
+                          textScaler: const TextScaler.linear(2)),
+                    ],
                   ),
                 ),
               ),
             ),
-            ElevatedButton(
-              onPressed: () => {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => PlanSettingsScreen(
-                      currentPlanIndex: currentTabId,
-                      planLength: plans.length,
-                    ),
+          ),
+          TextButton(
+            onPressed: () => {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => PlanSettingsScreen(
+                    currentPlanIndex: currentTabId,
+                    planLength: plans.length,
                   ),
-                )
-              },
-              style: const ButtonStyle(
-                  shape: MaterialStatePropertyAll(CircleBorder())),
-              child: const Icon(Icons.edit),
+                ),
+              )
+            },
+            child: Column(
+              children: [
+                Icon(
+                  Icons.edit,
+                  color: Theme.of(context).iconTheme.color,
+                ),
+                Text(
+                  "Edit Plan",
+                  style: Theme.of(context).textTheme.labelMedium,
+                ),
+              ],
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

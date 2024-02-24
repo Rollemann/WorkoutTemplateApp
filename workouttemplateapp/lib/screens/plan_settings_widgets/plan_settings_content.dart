@@ -69,68 +69,98 @@ class _PlanSettingsListState extends ConsumerState<PlanSettingsContent> {
           ),
         ),
         //Bottom Bar
-        Container(
-          color: Theme.of(context).colorScheme.primary,
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                ElevatedButton(
-                  onPressed: () => addPlan(ref, plans, context),
-                  style: const ButtonStyle(
-                      shape: MaterialStatePropertyAll(CircleBorder())),
-                  child: const Icon(Icons.add),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              TextButton(
+                onPressed: () => addPlan(ref, plans, context),
+                child: Column(
+                  children: [
+                    Icon(
+                      Icons.add,
+                      color: Theme.of(context).iconTheme.color,
+                    ),
+                    Text(
+                      "Add",
+                      style: Theme.of(context).textTheme.labelMedium,
+                    ),
+                  ],
                 ),
-                ElevatedButton(
-                  onPressed: allCheckedIndexes().length == 1
-                      ? () {
-                          final int index = checkedPlans.indexOf(true);
-                          final String title = plans[index].name;
-                          AllDialogs.showEditDialog(
-                            context,
-                            "Rename $title",
-                            (String newName) {
-                              ref
-                                  .read(planProvider.notifier)
-                                  .renamePlan(index, newName);
-                              onCheck(index, false);
-                            },
-                          );
-                        }
-                      : null,
-                  style: const ButtonStyle(
-                      shape: MaterialStatePropertyAll(CircleBorder())),
-                  child: const Icon(Icons.border_color),
+              ),
+              TextButton(
+                onPressed: allCheckedIndexes().length == 1
+                    ? () {
+                        final int index = checkedPlans.indexOf(true);
+                        final String title = plans[index].name;
+                        AllDialogs.showEditDialog(
+                          context,
+                          "Rename $title",
+                          (String newName) {
+                            ref
+                                .read(planProvider.notifier)
+                                .renamePlan(index, newName);
+                            onCheck(index, false);
+                          },
+                        );
+                      }
+                    : null,
+                child: Column(
+                  children: [
+                    Icon(
+                      Icons.border_color,
+                      color: Theme.of(context).iconTheme.color,
+                    ),
+                    Text(
+                      "Rename",
+                      style: Theme.of(context).textTheme.labelMedium,
+                    ),
+                  ],
                 ),
-                const ElevatedButton(
-                  onPressed: null,
-                  style: ButtonStyle(
-                      shape: MaterialStatePropertyAll(CircleBorder())),
-                  child: Icon(Icons.share),
+              ),
+              TextButton(
+                onPressed: null,
+                child: Column(
+                  children: [
+                    Icon(
+                      Icons.share,
+                      color: Theme.of(context).iconTheme.color,
+                    ),
+                    Text(
+                      "Share",
+                      style: Theme.of(context).textTheme.labelMedium,
+                    ),
+                  ],
                 ),
-                ElevatedButton(
-                  onPressed: allCheckedIndexes().isNotEmpty
-                      ? () {
-                          final List<int> allChecked = allCheckedIndexes();
-                          final String description = allChecked.length == 1
-                              ? "Plan ${plans[allChecked[0]].name}"
-                              : "${allChecked.length} Plans";
-                          deletionType == DeletionTypes.never
-                              ? removePlans(allCheckedIndexes(), ref)
-                              : AllDialogs.showDeleteDialog(
-                                  context,
-                                  description,
-                                  () =>
-                                      {removePlans(allCheckedIndexes(), ref)});
-                        }
-                      : null,
-                  style: const ButtonStyle(
-                      shape: MaterialStatePropertyAll(CircleBorder())),
-                  child: const Icon(Icons.delete),
+              ),
+              TextButton(
+                onPressed: allCheckedIndexes().isNotEmpty
+                    ? () {
+                        final List<int> allChecked = allCheckedIndexes();
+                        final String description = allChecked.length == 1
+                            ? plans[allChecked[0]].name
+                            : "${allChecked.length} Plans";
+                        deletionType == DeletionTypes.never
+                            ? removePlans(allCheckedIndexes(), ref)
+                            : AllDialogs.showDeleteDialog(context, description,
+                                () => {removePlans(allCheckedIndexes(), ref)});
+                      }
+                    : null,
+                child: Column(
+                  children: [
+                    Icon(
+                      Icons.delete,
+                      color: Theme.of(context).iconTheme.color,
+                    ),
+                    Text(
+                      "Delete",
+                      style: Theme.of(context).textTheme.labelMedium,
+                    ),
+                  ],
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         )
       ],

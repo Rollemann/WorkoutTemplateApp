@@ -1,10 +1,13 @@
 {
     "cSpell.words": [
+        "ARGB",
         "curr",
         "datetime",
         "LTRB",
         "Reorderable",
+        "riverpod",
         "Settingspage",
-        "unfocus"
+        "unfocus",
+        "workouttemplateapp"
     ]
 }

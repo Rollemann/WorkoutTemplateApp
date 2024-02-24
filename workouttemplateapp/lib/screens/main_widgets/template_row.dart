@@ -1,10 +1,10 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:workouttemplateapp/all_dialogs.dart';
+import 'package:workouttemplateapp/app.dart';
 import 'package:workouttemplateapp/screens/main_widgets/template_row_edit_frame.dart';
 import 'package:workouttemplateapp/screens/main_widgets/template_row_view_frame.dart';
 import 'package:workouttemplateapp/template_data_models.dart';
@@ -50,6 +50,7 @@ class _TemplateRowState extends ConsumerState<TemplateRow> {
   Widget build(BuildContext context) {
     final DeletionTypes deletionType = ref.watch(deletionTypeProvider);
     final List<PlanItemData> plans = ref.watch(planProvider);
+    final bool lightMode = ref.watch(lightModeProvider);
     final RowItemData curRowData = plans[widget.tabID].rows[widget.rowID];
     if (editMode) {
       if (curRowData.type == 0) {
@@ -363,7 +364,7 @@ class _TemplateRowState extends ConsumerState<TemplateRow> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                    padding: const EdgeInsets.fromLTRB(8, 0, 15, 0),
                     child: Text(
                       curRowData.set == "" ? "-" : curRowData.set,
                       textScaler: const TextScaler.linear(2.5),
@@ -373,7 +374,7 @@ class _TemplateRowState extends ConsumerState<TemplateRow> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Padding(
-                        padding: const EdgeInsets.only(left: 8.0),
+                        padding: const EdgeInsets.only(top: 2, bottom: 8),
                         child: Text(
                           curRowData.exercise == ""
                               ? AppLocalizations.of(context)!.exercise
@@ -387,31 +388,58 @@ class _TemplateRowState extends ConsumerState<TemplateRow> {
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
                           Padding(
-                            padding: const EdgeInsets.fromLTRB(8.0, 8, 8, 1),
-                            child: Row(
-                              children: [
-                                const Icon(Icons.replay_rounded),
-                                Text(
-                                  curRowData.reps == ""
-                                      ? "0x"
-                                      : "${curRowData.reps}x",
-                                  textScaler: const TextScaler.linear(1.2),
+                            padding: const EdgeInsets.only(right: 15.0),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                color: lightMode
+                                    ? widget.rowID % 2 == 0
+                                        ? onEvenLight
+                                        : onOddLight
+                                    : widget.rowID % 2 == 0
+                                        ? onEvenDark
+                                        : onOddDark,
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.fromLTRB(2, 2, 8, 2),
+                                child: Row(
+                                  children: [
+                                    const Icon(Icons.replay_rounded),
+                                    Text(
+                                      curRowData.reps == ""
+                                          ? "0x"
+                                          : "${curRowData.reps}x",
+                                      textScaler: const TextScaler.linear(1.2),
+                                    ),
+                                  ],
                                 ),
-                              ],
+                              ),
                             ),
                           ),
-                          Padding(
-                            padding: const EdgeInsets.fromLTRB(8.0, 8, 8, 0),
-                            child: Row(
-                              children: [
-                                const Icon(Icons.fitness_center),
-                                Text(
-                                  curRowData.weight == ""
-                                      ? "0"
-                                      : curRowData.weight,
-                                  textScaler: const TextScaler.linear(1.2),
-                                ),
-                              ],
+                          Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              color: lightMode
+                                  ? widget.rowID % 2 == 0
+                                      ? onEvenLight
+                                      : onOddLight
+                                  : widget.rowID % 2 == 0
+                                      ? onEvenDark
+                                      : onOddDark,
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.fromLTRB(2, 2, 8, 2),
+                              child: Row(
+                                children: [
+                                  const Icon(Icons.fitness_center),
+                                  Text(
+                                    curRowData.weight == ""
+                                        ? "0"
+                                        : curRowData.weight,
+                                    textScaler: const TextScaler.linear(1.2),
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
                         ],
@@ -448,7 +476,7 @@ class _TemplateRowState extends ConsumerState<TemplateRow> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                      padding: const EdgeInsets.fromLTRB(8, 0, 15, 0),
                       child: Text(
                         curRowData.set == "" ? "-" : curRowData.set,
                         textScaler: const TextScaler.linear(2.5),
@@ -458,7 +486,7 @@ class _TemplateRowState extends ConsumerState<TemplateRow> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Padding(
-                          padding: const EdgeInsets.only(left: 8.0),
+                          padding: const EdgeInsets.only(top: 2, bottom: 8),
                           child: Text(
                             curRowData.exercise == ""
                                 ? AppLocalizations.of(context)!.exercise
@@ -472,27 +500,56 @@ class _TemplateRowState extends ConsumerState<TemplateRow> {
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
                             Padding(
-                              padding: const EdgeInsets.fromLTRB(8.0, 8, 8, 1),
-                              child: Row(
-                                children: [
-                                  const Icon(Icons.timer_outlined),
-                                  Text(
-                                    secondsToTimeString(curRowData.seconds),
-                                    textScaler: const TextScaler.linear(1.2),
+                              padding: const EdgeInsets.only(right: 15.0),
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  color: lightMode
+                                      ? widget.rowID % 2 == 0
+                                          ? onEvenLight
+                                          : onOddLight
+                                      : widget.rowID % 2 == 0
+                                          ? onEvenDark
+                                          : onOddDark,
+                                ),
+                                child: Padding(
+                                  padding:
+                                      const EdgeInsets.fromLTRB(2, 2, 8, 2),
+                                  child: Row(
+                                    children: [
+                                      const Icon(Icons.timer_outlined),
+                                      Text(
+                                        secondsToTimeString(curRowData.seconds),
+                                        textScaler:
+                                            const TextScaler.linear(1.2),
+                                      ),
+                                    ],
                                   ),
-                                ],
+                                ),
                               ),
                             ),
-                            Padding(
-                              padding: const EdgeInsets.fromLTRB(8.0, 8, 8, 0),
-                              child: Row(
-                                children: [
-                                  const Icon(Icons.fitness_center),
-                                  Text(
-                                    curRowData.weight,
-                                    textScaler: const TextScaler.linear(1.2),
-                                  ),
-                                ],
+                            Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                color: lightMode
+                                    ? widget.rowID % 2 == 0
+                                        ? onEvenLight
+                                        : onOddLight
+                                    : widget.rowID % 2 == 0
+                                        ? onEvenDark
+                                        : onOddDark,
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.fromLTRB(2, 2, 8, 2),
+                                child: Row(
+                                  children: [
+                                    const Icon(Icons.fitness_center),
+                                    Text(
+                                      curRowData.weight,
+                                      textScaler: const TextScaler.linear(1.2),
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
                           ],

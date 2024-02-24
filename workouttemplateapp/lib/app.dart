@@ -7,8 +7,12 @@ import 'package:workouttemplateapp/screens/main_screen.dart';
 
 const evenLight = Color.fromARGB(255, 210, 210, 210);
 const oddLight = Color.fromARGB(255, 230, 230, 230);
-const evenDark = Color.fromARGB(255, 40, 40, 40);
-const oddDark = Color.fromARGB(255, 60, 60, 60);
+const evenDark = Color.fromARGB(255, 50, 50, 50);
+const oddDark = Color.fromARGB(255, 70, 70, 70);
+const onEvenLight = Color.fromARGB(255, 230, 230, 230);
+const onOddLight = Color.fromARGB(255, 210, 210, 210);
+const onEvenDark = Color.fromARGB(255, 90, 90, 90);
+const onOddDark = Color.fromARGB(255, 105, 105, 105);
 
 class App extends ConsumerStatefulWidget {
   const App({super.key});
@@ -22,7 +26,7 @@ class _AppState extends ConsumerState<App> {
     colorScheme: ColorScheme.fromSeed(
       seedColor: Colors.blue,
       outlineVariant: const Color.fromARGB(255, 120, 120, 120),
-      primaryContainer: const Color.fromARGB(255, 201, 226, 250),
+      primaryContainer: Colors.transparent,
     ),
     snackBarTheme: SnackBarThemeData(
       behavior: SnackBarBehavior.floating,
@@ -44,7 +48,10 @@ class _AppState extends ConsumerState<App> {
   final ThemeData myDarkMode = ThemeData.dark().copyWith(
     colorScheme: ColorScheme.fromSeed(
       seedColor: Colors.blue,
-      primaryContainer: const Color.fromARGB(255, 0, 97, 164),
+      primaryContainer: Colors.transparent,
+    ),
+    iconTheme: const IconThemeData(
+      color: Colors.white,
     ),
     snackBarTheme: SnackBarThemeData(
       behavior: SnackBarBehavior.floating,
@@ -64,10 +71,6 @@ class _AppState extends ConsumerState<App> {
         iconColor: MaterialStateProperty.all<Color>(Colors.white),
       ),
     ),
-    elevatedButtonTheme: ElevatedButtonThemeData(
-        style: ElevatedButton.styleFrom(
-      backgroundColor: const Color.fromARGB(255, 30, 30, 30),
-    )),
     inputDecorationTheme: const InputDecorationTheme(
       labelStyle: TextStyle(color: Colors.white),
       enabledBorder: UnderlineInputBorder(
