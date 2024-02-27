@@ -34,16 +34,10 @@ class TemplateSettings extends ConsumerWidget {
                     controller.open();
                   }
                 },
-                child: Column(
+                child: const Column(
                   children: [
-                    Icon(
-                      Icons.add,
-                      color: Theme.of(context).iconTheme.color,
-                    ),
-                    Text(
-                      "Add Row",
-                      style: Theme.of(context).textTheme.labelMedium,
-                    ),
+                    Icon(Icons.add),
+                    Text("Add Row"),
                   ],
                 ),
               );
@@ -77,16 +71,10 @@ class TemplateSettings extends ConsumerWidget {
                 ),
               )
             },
-            child: Column(
+            child: const Column(
               children: [
-                Icon(
-                  Icons.edit,
-                  color: Theme.of(context).iconTheme.color,
-                ),
-                Text(
-                  "Edit Plan",
-                  style: Theme.of(context).textTheme.labelMedium,
-                ),
+                Icon(Icons.edit),
+                Text("Edit Plan"),
               ],
             ),
           ),

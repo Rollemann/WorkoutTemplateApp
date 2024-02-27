@@ -71,6 +71,11 @@ class _AppState extends ConsumerState<App> {
         iconColor: MaterialStateProperty.all<Color>(Colors.white),
       ),
     ),
+    textButtonTheme: const TextButtonThemeData(
+      style: ButtonStyle(
+        foregroundColor: MaterialStatePropertyAll(Colors.white),
+      ),
+    ),
     inputDecorationTheme: const InputDecorationTheme(
       labelStyle: TextStyle(color: Colors.white),
       enabledBorder: UnderlineInputBorder(

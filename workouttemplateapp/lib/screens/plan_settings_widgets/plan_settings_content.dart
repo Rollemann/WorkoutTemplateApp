@@ -76,16 +76,14 @@ class _PlanSettingsListState extends ConsumerState<PlanSettingsContent> {
             children: [
               TextButton(
                 onPressed: () => addPlan(ref, plans, context),
-                child: Column(
+                style: TextButton.styleFrom(
+                  disabledForegroundColor:
+                      const Color.fromARGB(255, 150, 150, 150),
+                ),
+                child: const Column(
                   children: [
-                    Icon(
-                      Icons.add,
-                      color: Theme.of(context).iconTheme.color,
-                    ),
-                    Text(
-                      "Add",
-                      style: Theme.of(context).textTheme.labelMedium,
-                    ),
+                    Icon(Icons.add),
+                    Text("Add"),
                   ],
                 ),
               ),
@@ -106,31 +104,27 @@ class _PlanSettingsListState extends ConsumerState<PlanSettingsContent> {
                         );
                       }
                     : null,
-                child: Column(
+                style: TextButton.styleFrom(
+                  disabledForegroundColor:
+                      const Color.fromARGB(255, 150, 150, 150),
+                ),
+                child: const Column(
                   children: [
-                    Icon(
-                      Icons.border_color,
-                      color: Theme.of(context).iconTheme.color,
-                    ),
-                    Text(
-                      "Rename",
-                      style: Theme.of(context).textTheme.labelMedium,
-                    ),
+                    Icon(Icons.border_color),
+                    Text("Rename"),
                   ],
                 ),
               ),
               TextButton(
                 onPressed: null,
-                child: Column(
+                style: TextButton.styleFrom(
+                  disabledForegroundColor:
+                      const Color.fromARGB(255, 150, 150, 150),
+                ),
+                child: const Column(
                   children: [
-                    Icon(
-                      Icons.share,
-                      color: Theme.of(context).iconTheme.color,
-                    ),
-                    Text(
-                      "Share",
-                      style: Theme.of(context).textTheme.labelMedium,
-                    ),
+                    Icon(Icons.share),
+                    Text("Share"),
                   ],
                 ),
               ),
@@ -147,16 +141,14 @@ class _PlanSettingsListState extends ConsumerState<PlanSettingsContent> {
                                 () => {removePlans(allCheckedIndexes(), ref)});
                       }
                     : null,
-                child: Column(
+                style: TextButton.styleFrom(
+                  disabledForegroundColor:
+                      const Color.fromARGB(255, 150, 150, 150),
+                ),
+                child: const Column(
                   children: [
-                    Icon(
-                      Icons.delete,
-                      color: Theme.of(context).iconTheme.color,
-                    ),
-                    Text(
-                      "Delete",
-                      style: Theme.of(context).textTheme.labelMedium,
-                    ),
+                    Icon(Icons.delete),
+                    Text("Delete"),
                   ],
                 ),
               ),
