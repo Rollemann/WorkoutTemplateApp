@@ -1,5 +1,6 @@
 {
     "settings": "Settings",
+    "planSettings": "Plan Settings",
     "settingTitleVolume": "Volume",
     "settingTitleVibration": "Vibration",
     "settingTitleLightDarkMode": "Light/Dark Mode",

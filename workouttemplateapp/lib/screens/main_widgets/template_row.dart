@@ -379,8 +379,8 @@ class _TemplateRowState extends ConsumerState<TemplateRow> {
                           curRowData.exercise == ""
                               ? AppLocalizations.of(context)!.exercise
                               : curRowData.exercise,
-                          textScaler: const TextScaler.linear(1.3),
-                          style: const TextStyle(letterSpacing: 1),
+                          textScaler: const TextScaler.linear(1.5),
+                          style: const TextStyle(letterSpacing: 1.2),
                         ),
                       ),
                       Row(
@@ -388,7 +388,8 @@ class _TemplateRowState extends ConsumerState<TemplateRow> {
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
                           Padding(
-                            padding: const EdgeInsets.only(right: 15.0),
+                            padding:
+                                const EdgeInsets.only(right: 15.0, bottom: 2),
                             child: Container(
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(10),
@@ -491,8 +492,8 @@ class _TemplateRowState extends ConsumerState<TemplateRow> {
                             curRowData.exercise == ""
                                 ? AppLocalizations.of(context)!.exercise
                                 : curRowData.exercise,
-                            textScaler: const TextScaler.linear(1.3),
-                            style: const TextStyle(letterSpacing: 1),
+                            textScaler: const TextScaler.linear(1.5),
+                            style: const TextStyle(letterSpacing: 1.2),
                           ),
                         ),
                         Row(
@@ -500,7 +501,8 @@ class _TemplateRowState extends ConsumerState<TemplateRow> {
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
                             Padding(
-                              padding: const EdgeInsets.only(right: 15.0),
+                              padding:
+                                  const EdgeInsets.only(right: 15.0, bottom: 2),
                               child: Container(
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(10),
@@ -587,7 +589,7 @@ class _TemplateRowState extends ConsumerState<TemplateRow> {
                   child: Text(
                     "Pause: ${secondsToTimeString(curRowData.seconds)}",
                     textScaler: const TextScaler.linear(1.5),
-                    style: const TextStyle(letterSpacing: 1),
+                    style: const TextStyle(letterSpacing: 1.2),
                   ),
                 ),
               ),

@@ -20,7 +20,7 @@ class TemplateSettings extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final plans = ref.watch(planProvider);
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: const EdgeInsets.all(2.0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [

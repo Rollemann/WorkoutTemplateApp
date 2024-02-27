@@ -23,7 +23,7 @@ class PlanSettingsRow extends StatelessWidget {
           title: Text(title),
           trailing: Checkbox(value: checked, onChanged: onCheck),
           tileColor: checked
-              ? Colors.amber
+              ? const Color.fromARGB(255, 223, 167, 0)
               : Theme.of(context).colorScheme.primaryContainer,
         ),
       ),
