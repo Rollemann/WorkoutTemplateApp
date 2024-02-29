@@ -27,7 +27,18 @@ class _DeletionTypeWidgetState extends ConsumerState<DeletionTypeWidget> {
             padding: const EdgeInsets.all(8.0),
             child: SettingsCaptionWidget(
               title: AppLocalizations.of(context)!.settingTitleConfirmDeletion,
-              explanation: "Beschreibung, was die Einstellung macht.",
+              explanation: Column(
+                children: [
+                  Text(AppLocalizations.of(context)!
+                      .settingExplanationConfirmDeletion),
+                  Text(AppLocalizations.of(context)!
+                      .settingExplanationConfirmDeletionAlways),
+                  Text(AppLocalizations.of(context)!
+                      .settingExplanationConfirmDeletionJustPlans),
+                  Text(AppLocalizations.of(context)!
+                      .settingExplanationConfirmDeletionNever),
+                ],
+              ),
             ),
           ),
           Row(

@@ -31,7 +31,8 @@ class _ShowHintWidgetState extends ConsumerState<ShowHintsWidget> {
           padding: const EdgeInsets.all(8.0),
           child: SettingsCaptionWidget(
             title: AppLocalizations.of(context)!.settingTitleShowHints,
-            explanation: "Beschreibung, was die Einstellung macht.",
+            explanation:
+                Text(AppLocalizations.of(context)!.settingExplanationShowHints),
           ),
         ),
         Switch(

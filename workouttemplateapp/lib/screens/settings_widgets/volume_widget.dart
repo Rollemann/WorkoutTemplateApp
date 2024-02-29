@@ -21,7 +21,8 @@ class _VolumeWidgetState extends ConsumerState<VolumeWidget> {
           padding: const EdgeInsets.all(8.0),
           child: SettingsCaptionWidget(
             title: AppLocalizations.of(context)!.settingTitleVolume,
-            explanation: "Beschreibung, was die Einstellung macht.",
+            explanation:
+                Text(AppLocalizations.of(context)!.settingExplanationVolume),
           ),
         ),
         Row(

@@ -28,7 +28,8 @@ class _LanguageWidgetState extends ConsumerState<LanguageWidget> {
           padding: const EdgeInsets.all(8.0),
           child: SettingsCaptionWidget(
             title: AppLocalizations.of(context)!.settingTitleLanguage,
-            explanation: "Beschreibung, was die Einstellung macht.",
+            explanation:
+                Text(AppLocalizations.of(context)!.settingExplanationLanguage),
           ),
         ),
         DropdownButton(

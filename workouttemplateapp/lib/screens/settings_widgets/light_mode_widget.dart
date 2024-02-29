@@ -31,7 +31,8 @@ class _LightModeWidgetState extends ConsumerState<LightModeWidget> {
           padding: const EdgeInsets.all(8.0),
           child: SettingsCaptionWidget(
             title: AppLocalizations.of(context)!.settingTitleLightDarkMode,
-            explanation: "Beschreibung, was die Einstellung macht.",
+            explanation: Text(
+                AppLocalizations.of(context)!.settingExplanationLightDarkMode),
           ),
         ),
         Switch(

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class SettingsCaptionWidget extends StatelessWidget {
   final String title;
-  final String explanation;
+  final Widget explanation;
   const SettingsCaptionWidget(
       {super.key, required this.title, required this.explanation});
 
@@ -18,7 +18,12 @@ class SettingsCaptionWidget extends StatelessWidget {
         Tooltip(
           showDuration: const Duration(seconds: 20),
           triggerMode: TooltipTriggerMode.tap,
-          message: explanation,
+          richMessage: WidgetSpan(
+            child: Padding(
+              padding: const EdgeInsets.all(8),
+              child: explanation,
+            ),
+          ),
           child: Container(
             margin: const EdgeInsets.only(left: 10),
             padding: const EdgeInsets.all(1),

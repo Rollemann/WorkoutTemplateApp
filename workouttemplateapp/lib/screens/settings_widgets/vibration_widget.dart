@@ -31,7 +31,8 @@ class _VibrationWidgetState extends ConsumerState<VibrationWidget> {
           padding: const EdgeInsets.all(8.0),
           child: SettingsCaptionWidget(
             title: AppLocalizations.of(context)!.settingTitleVibration,
-            explanation: "Beschreibung, was die Einstellung macht.",
+            explanation:
+                Text(AppLocalizations.of(context)!.settingExplanationVibration),
           ),
         ),
         Switch(

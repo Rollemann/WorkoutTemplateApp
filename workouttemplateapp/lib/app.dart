@@ -141,6 +141,7 @@ class _AppState extends ConsumerState<App> {
 - Pläne teilen über verschiedene Kanäle (extra Fenster wo man anhaken kann welche)
 - Pläne auch wieder öffnen können mit der App.
 
+- Tooltips für die Button und Übersetzung dazu
 - Style alles (Tag / Nacht Modus) alles nochmal checken
 - raus mit der special liste (reorder und animation)
 - Alle übersetzungen checken
