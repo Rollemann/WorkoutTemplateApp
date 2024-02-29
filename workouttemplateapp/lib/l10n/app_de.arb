@@ -8,5 +8,10 @@
   "settingTitleConfirmDeletion": "Löschen Bestätigen",
   "settingTitleLanguage": "Sprache",
   "exercise": "Übung",
-  "planSettingsDescription": "Sortiere, benenne, teile und lösche Pläne hier."
+  "planSettingsDescription": "Sortiere, teile und lösche Pläne hier.",
+  "next": "Danach",
+  "save": "Speichern",
+  "cancel": "Abbrechen",
+  "duplicate": "Duplizieren",
+  "delete": "Löschen"
 }

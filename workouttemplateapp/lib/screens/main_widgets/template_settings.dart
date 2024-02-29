@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:workouttemplateapp/all_dialogs.dart';
 import 'package:workouttemplateapp/screens/plan_settings_screen.dart';
 import 'package:workouttemplateapp/template_data_models.dart';
 import 'package:workouttemplateapp/providers/plan_provider.dart';
@@ -45,7 +46,7 @@ class TemplateSettings extends ConsumerWidget {
             menuChildren: List<MenuItemButton>.generate(
               rowTypes.length,
               (int index) => MenuItemButton(
-                onPressed: () => addClickHandler(index, context, ref),
+                onPressed: () => addNewRow(index, context, ref),
                 child: Padding(
                   padding: const EdgeInsets.all(15.0),
                   child: Row(
@@ -57,6 +58,29 @@ class TemplateSettings extends ConsumerWidget {
                   ),
                 ),
               ),
+            ),
+          ),
+          TextButton(
+            onPressed: () {
+              final String title = plans[currentTabId].name;
+              AllDialogs.showEditDialog(
+                context,
+                "Rename $title",
+                (String newName) {
+                  ref
+                      .read(planProvider.notifier)
+                      .renamePlan(currentTabId, newName);
+                },
+              );
+            },
+            style: TextButton.styleFrom(
+              disabledForegroundColor: const Color.fromARGB(255, 150, 150, 150),
+            ),
+            child: const Column(
+              children: [
+                Icon(Icons.border_color),
+                Text("Rename Plan"),
+              ],
             ),
           ),
           TextButton(
@@ -83,7 +107,7 @@ class TemplateSettings extends ConsumerWidget {
     );
   }
 
-  void addClickHandler(int type, BuildContext context, WidgetRef ref) {
+  void addNewRow(int type, BuildContext context, WidgetRef ref) {
     final bool showHints = ref.read(showHintsProvider);
     final int rowNumber = ref.read(planProvider)[currentTabId].rows.length;
     const int maxRows = 100;

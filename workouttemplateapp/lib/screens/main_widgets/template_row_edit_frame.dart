@@ -10,6 +10,7 @@ class TemplateRowEditFrame extends ConsumerWidget {
   final Function saveEdits;
   final Function cancelEdits;
   final Function deleteRow;
+  final Function copyAction;
 
   const TemplateRowEditFrame({
     super.key,
@@ -18,6 +19,7 @@ class TemplateRowEditFrame extends ConsumerWidget {
     required this.saveEdits,
     required this.cancelEdits,
     required this.deleteRow,
+    required this.copyAction,
   });
 
   @override
@@ -43,9 +45,11 @@ class TemplateRowEditFrame extends ConsumerWidget {
               ),
               child,
               RowEditControls(
-                  saveAction: () => saveEdits(),
-                  cancelAction: () => cancelEdits(),
-                  deleteAction: () => deleteRow())
+                saveAction: () => saveEdits(),
+                cancelAction: () => cancelEdits(),
+                deleteAction: () => deleteRow(),
+                copyAction: () => copyAction(),
+              )
             ],
           ),
         ),

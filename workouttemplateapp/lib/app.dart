@@ -136,14 +136,14 @@ class _AppState extends ConsumerState<App> {
 - Settings:
   - Donations
 
+- Ton / Vibration wenn Timer Ende ist
+
 - Pläne teilen über verschiedene Kanäle (extra Fenster wo man anhaken kann welche)
 - Pläne auch wieder öffnen können mit der App.
-- Ton / Vibration wenn Timer Ende ist
 
 - Style alles (Tag / Nacht Modus) alles nochmal checken
 - raus mit der special liste (reorder und animation)
 - Alle übersetzungen checken
-
 
 (- Verschiedene Farben als Themes)
 (- Verschiedene Farben für verschiedene Pläne)

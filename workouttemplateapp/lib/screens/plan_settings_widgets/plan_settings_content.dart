@@ -88,34 +88,6 @@ class _PlanSettingsListState extends ConsumerState<PlanSettingsContent> {
                 ),
               ),
               TextButton(
-                onPressed: allCheckedIndexes().length == 1
-                    ? () {
-                        final int index = checkedPlans.indexOf(true);
-                        final String title = plans[index].name;
-                        AllDialogs.showEditDialog(
-                          context,
-                          "Rename $title",
-                          (String newName) {
-                            ref
-                                .read(planProvider.notifier)
-                                .renamePlan(index, newName);
-                            onCheck(index, false);
-                          },
-                        );
-                      }
-                    : null,
-                style: TextButton.styleFrom(
-                  disabledForegroundColor:
-                      const Color.fromARGB(255, 150, 150, 150),
-                ),
-                child: const Column(
-                  children: [
-                    Icon(Icons.border_color),
-                    Text("Rename"),
-                  ],
-                ),
-              ),
-              TextButton(
                 onPressed: null,
                 style: TextButton.styleFrom(
                   disabledForegroundColor:

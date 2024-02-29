@@ -87,7 +87,7 @@ class AllDialogs {
   }
 
   static showCountdownDialog(BuildContext context, String title, Timer? timer,
-      StreamController<int> events, int initialTime) {
+      StreamController<int> events, int initialTime, String? subText) {
     // set up the buttons
     Widget endButton = TextButton(
       child: const Text(
@@ -105,20 +105,34 @@ class AllDialogs {
     // set up the AlertDialog
     AlertDialog alert = AlertDialog(
       title: Text(title, textAlign: TextAlign.center),
-      content: StreamBuilder<int>(
-          stream: events.stream,
-          builder: (context, snapshot) {
-            return Text(
-              snapshot.data != null
-                  ? "${snapshot.data! < 0 ? "-" : ""}${((snapshot.data!).abs() ~/ 60).toString().padLeft(2, "0")}:${((snapshot.data!).abs() % 60).toString().padLeft(2, "0")}"
-                  : "${(initialTime ~/ 60).toString().padLeft(2, "0")}:${(initialTime % 60).toString().padLeft(2, "0")}",
-              textAlign: TextAlign.center,
-              textScaler: const TextScaler.linear(2.5),
-              style: snapshot.data != null && snapshot.data! < 0
-                  ? const TextStyle(color: Colors.red)
-                  : null,
-            );
-          }),
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          StreamBuilder<int>(
+            stream: events.stream,
+            builder: (context, snapshot) {
+              return Text(
+                snapshot.data != null
+                    ? "${snapshot.data! < 0 ? "-" : ""}${((snapshot.data!).abs() ~/ 60).toString().padLeft(2, "0")}:${((snapshot.data!).abs() % 60).toString().padLeft(2, "0")}"
+                    : "${(initialTime ~/ 60).toString().padLeft(2, "0")}:${(initialTime % 60).toString().padLeft(2, "0")}",
+                textAlign: TextAlign.center,
+                textScaler: const TextScaler.linear(2.5),
+                style: snapshot.data != null && snapshot.data! < 0
+                    ? const TextStyle(color: Colors.red)
+                    : null,
+              );
+            },
+          ),
+          if (subText != null)
+            Padding(
+              padding: const EdgeInsets.only(top: 20.0),
+              child: Text(
+                subText,
+                style: Theme.of(context).textTheme.bodyLarge,
+              ),
+            ),
+        ],
+      ),
       actions: [
         endButton,
       ],

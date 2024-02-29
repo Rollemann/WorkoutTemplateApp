@@ -59,6 +59,7 @@ class _TemplateRowState extends ConsumerState<TemplateRow> {
           rowID: widget.rowID,
           saveEdits: () => saveEdits(curRowData),
           cancelEdits: cancelEdits,
+          copyAction: () => copyRow(curRowData),
           deleteRow: () => deleteRow(deletionType, curRowData.exercise),
           child: Flexible(
             child: Padding(
@@ -153,6 +154,7 @@ class _TemplateRowState extends ConsumerState<TemplateRow> {
           rowID: widget.rowID,
           saveEdits: () => saveEdits(curRowData),
           cancelEdits: cancelEdits,
+          copyAction: () => copyRow(curRowData),
           deleteRow: () => deleteRow(deletionType, curRowData.exercise),
           child: Flexible(
             child: Padding(
@@ -280,6 +282,7 @@ class _TemplateRowState extends ConsumerState<TemplateRow> {
           rowID: widget.rowID,
           saveEdits: () => saveEdits(curRowData),
           cancelEdits: cancelEdits,
+          copyAction: () => copyRow(curRowData),
           deleteRow: () => deleteRow(deletionType, curRowData.exercise),
           child: Flexible(
             child: Padding(
@@ -461,13 +464,8 @@ class _TemplateRowState extends ConsumerState<TemplateRow> {
           child: Expanded(
             child: GestureDetector(
               onDoubleTap: () {
-                AllDialogs.showCountdownDialog(
-                  context,
-                  curRowData.exercise,
-                  timer,
-                  events,
-                  curRowData.seconds,
-                );
+                AllDialogs.showCountdownDialog(context, curRowData.exercise,
+                    timer, events, curRowData.seconds, null);
                 startTimer(plans);
               },
               child: SingleChildScrollView(
@@ -579,6 +577,7 @@ class _TemplateRowState extends ConsumerState<TemplateRow> {
                   timer,
                   events,
                   curRowData.seconds,
+                  getNextExercise(plans[widget.tabID].rows),
                 );
                 startTimer(plans);
               },
@@ -622,6 +621,22 @@ class _TemplateRowState extends ConsumerState<TemplateRow> {
     setState(() {
       editMode = !editMode;
     });
+    resetEditFields();
+  }
+
+  void copyRow(RowItemData curRowData) {
+    setState(() {
+      editMode = !editMode;
+    });
+    final RowItemData newRow = RowItemData(
+      set: tempSet,
+      weight: tempWeight,
+      type: curRowData.type,
+      reps: tempReps,
+      exercise: tempExercise,
+      seconds: (tempMinutes * 60) + (tempSeconds % 60),
+    );
+    ref.read(planProvider.notifier).addRow(widget.tabID, newRow);
     resetEditFields();
   }
 
@@ -672,5 +687,13 @@ class _TemplateRowState extends ConsumerState<TemplateRow> {
 
   String secondsToTimeString(int sec) {
     return "${(sec ~/ 60).toString().padLeft(2, "0")}:${(sec % 60).toString().padLeft(2, "0")}";
+  }
+
+  String? getNextExercise(List<RowItemData> rows) {
+    if (widget.rowID == rows.length - 1) {
+      return null;
+    }
+    RowItemData nextRowData = rows[widget.rowID + 1];
+    return "${AppLocalizations.of(context)!.next}: ${nextRowData.exercise}";
   }
 }

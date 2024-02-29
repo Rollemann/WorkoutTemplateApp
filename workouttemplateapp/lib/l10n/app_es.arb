@@ -8,5 +8,10 @@
   "settingTitleConfirmDeletion": "Confirm Deletion",
   "settingTitleLanguage": "Language",
   "exercise": "Exercise",
-  "planSettingsDescription": "Reorder, rename, share and delete plans here."
+  "planSettingsDescription": "Reorder, share and delete plans here.",
+  "next": "Next",
+  "save": "Save",
+  "cancel": "Cancel",
+  "duplicate": "Duplicate",
+  "delete": "Delete"
 }
