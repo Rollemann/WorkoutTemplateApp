@@ -50,21 +50,19 @@ class _DeletionTypeWidgetState extends ConsumerState<DeletionTypeWidget> {
                   ),
                 ),
               ),
-              Expanded(
-                child: OutlinedButton(
-                  onPressed: () {
-                    ref.read(deletionTypeProvider.notifier).state =
-                        DeletionTypes.plans;
-                  },
-                  child: Text(
-                    AppLocalizations.of(context)!.confirmDeletionJustPlans,
-                    textAlign: TextAlign.center,
-                    style: (deletionType == DeletionTypes.plans)
-                        ? const TextStyle(
-                            color: Colors.green,
-                          )
-                        : const TextStyle(),
-                  ),
+              OutlinedButton(
+                onPressed: () {
+                  ref.read(deletionTypeProvider.notifier).state =
+                      DeletionTypes.plans;
+                },
+                child: Text(
+                  AppLocalizations.of(context)!.confirmDeletionJustPlans,
+                  textAlign: TextAlign.center,
+                  style: (deletionType == DeletionTypes.plans)
+                      ? const TextStyle(
+                          color: Colors.green,
+                        )
+                      : const TextStyle(),
                 ),
               ),
               Padding(
