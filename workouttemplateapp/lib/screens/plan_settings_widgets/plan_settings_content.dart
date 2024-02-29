@@ -80,10 +80,10 @@ class _PlanSettingsListState extends ConsumerState<PlanSettingsContent> {
                   disabledForegroundColor:
                       const Color.fromARGB(255, 150, 150, 150),
                 ),
-                child: const Column(
+                child: Column(
                   children: [
-                    Icon(Icons.add),
-                    Text("Add"),
+                    const Icon(Icons.add),
+                    Text(AppLocalizations.of(context)!.add),
                   ],
                 ),
               ),
@@ -93,10 +93,10 @@ class _PlanSettingsListState extends ConsumerState<PlanSettingsContent> {
                   disabledForegroundColor:
                       const Color.fromARGB(255, 150, 150, 150),
                 ),
-                child: const Column(
+                child: Column(
                   children: [
-                    Icon(Icons.share),
-                    Text("Share"),
+                    const Icon(Icons.share),
+                    Text(AppLocalizations.of(context)!.share),
                   ],
                 ),
               ),
@@ -117,10 +117,10 @@ class _PlanSettingsListState extends ConsumerState<PlanSettingsContent> {
                   disabledForegroundColor:
                       const Color.fromARGB(255, 150, 150, 150),
                 ),
-                child: const Column(
+                child: Column(
                   children: [
-                    Icon(Icons.delete),
-                    Text("Delete"),
+                    const Icon(Icons.delete),
+                    Text(AppLocalizations.of(context)!.delete),
                   ],
                 ),
               ),

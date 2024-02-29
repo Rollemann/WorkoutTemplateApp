@@ -1,4 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:workouttemplateapp/providers/settings_provider.dart';
@@ -29,48 +31,57 @@ class _DeletionTypeWidgetState extends ConsumerState<DeletionTypeWidget> {
             ),
           ),
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              OutlinedButton(
-                onPressed: () {
-                  ref.read(deletionTypeProvider.notifier).state =
-                      DeletionTypes.always;
-                },
-                child: Text(
-                  "Always",
-                  style: (deletionType == DeletionTypes.always)
-                      ? const TextStyle(
-                          color: Colors.green,
-                        )
-                      : const TextStyle(),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                child: OutlinedButton(
+                  onPressed: () {
+                    ref.read(deletionTypeProvider.notifier).state =
+                        DeletionTypes.always;
+                  },
+                  child: Text(
+                    AppLocalizations.of(context)!.confirmDeletionAlways,
+                    style: (deletionType == DeletionTypes.always)
+                        ? const TextStyle(
+                            color: Colors.green,
+                          )
+                        : const TextStyle(),
+                  ),
                 ),
               ),
-              OutlinedButton(
-                onPressed: () {
-                  ref.read(deletionTypeProvider.notifier).state =
-                      DeletionTypes.plans;
-                },
-                child: Text(
-                  "Just Plans",
-                  style: (deletionType == DeletionTypes.plans)
-                      ? const TextStyle(
-                          color: Colors.green,
-                        )
-                      : const TextStyle(),
+              Expanded(
+                child: OutlinedButton(
+                  onPressed: () {
+                    ref.read(deletionTypeProvider.notifier).state =
+                        DeletionTypes.plans;
+                  },
+                  child: Text(
+                    AppLocalizations.of(context)!.confirmDeletionJustPlans,
+                    textAlign: TextAlign.center,
+                    style: (deletionType == DeletionTypes.plans)
+                        ? const TextStyle(
+                            color: Colors.green,
+                          )
+                        : const TextStyle(),
+                  ),
                 ),
               ),
-              OutlinedButton(
-                onPressed: () {
-                  ref.read(deletionTypeProvider.notifier).state =
-                      DeletionTypes.never;
-                },
-                child: Text(
-                  "Never",
-                  style: (deletionType == DeletionTypes.never)
-                      ? const TextStyle(
-                          color: Colors.green,
-                        )
-                      : const TextStyle(),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                child: OutlinedButton(
+                  onPressed: () {
+                    ref.read(deletionTypeProvider.notifier).state =
+                        DeletionTypes.never;
+                  },
+                  child: Text(
+                    AppLocalizations.of(context)!.confirmDeletionNever,
+                    style: (deletionType == DeletionTypes.never)
+                        ? const TextStyle(
+                            color: Colors.green,
+                          )
+                        : const TextStyle(),
+                  ),
                 ),
               ),
             ],

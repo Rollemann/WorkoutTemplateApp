@@ -6,6 +6,9 @@
   "settingTitleLightDarkMode": "Light/Dark Modus",
   "settingTitleShowHints": "Hinweise Anzeigen" ,
   "settingTitleConfirmDeletion": "Löschen Bestätigen",
+  "confirmDeletionAlways": "Immer",
+  "confirmDeletionJustPlans": "Nur Pläne",
+  "confirmDeletionNever": "Nie",
   "settingTitleLanguage": "Sprache",
   "exercise": "Übung",
   "planSettingsDescription": "Sortiere, teile und lösche Pläne hier.",
@@ -13,5 +16,10 @@
   "save": "Speichern",
   "cancel": "Abbrechen",
   "duplicate": "Duplizieren",
-  "delete": "Löschen"
+  "delete": "Löschen",
+  "add": "Hinzufügen",
+  "share": "Teilen",
+  "edit": "Bearbeiten",
+  "rename": "Umbenennen",
+  "row": "Zeile"
 }

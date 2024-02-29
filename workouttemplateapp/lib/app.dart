@@ -144,6 +144,7 @@ class _AppState extends ConsumerState<App> {
 - Style alles (Tag / Nacht Modus) alles nochmal checken
 - raus mit der special liste (reorder und animation)
 - Alle übersetzungen checken
+- Beschreibungen der Settings checken
 
 (- Verschiedene Farben als Themes)
 (- Verschiedene Farben für verschiedene Pläne)

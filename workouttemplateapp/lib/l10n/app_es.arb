@@ -6,6 +6,9 @@
   "settingTitleLightDarkMode": "Light/Dark Mode",
   "settingTitleShowHints": "Show Hints" ,
   "settingTitleConfirmDeletion": "Confirm Deletion",
+  "confirmDeletionAlways": "Always",
+  "confirmDeletionJustPlans": "Just Plans",
+  "confirmDeletionNever": "Never",
   "settingTitleLanguage": "Language",
   "exercise": "Exercise",
   "planSettingsDescription": "Reorder, share and delete plans here.",
@@ -13,5 +16,10 @@
   "save": "Save",
   "cancel": "Cancel",
   "duplicate": "Duplicate",
-  "delete": "Delete"
+  "delete": "Delete",
+  "add": "Add",
+  "share": "Share",
+  "edit": "Edit",
+  "rename": "Rename",
+  "row": "Row"
 }

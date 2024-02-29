@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:workouttemplateapp/all_dialogs.dart';
 import 'package:workouttemplateapp/screens/plan_settings_screen.dart';
@@ -35,10 +36,10 @@ class TemplateSettings extends ConsumerWidget {
                     controller.open();
                   }
                 },
-                child: const Column(
+                child: Column(
                   children: [
-                    Icon(Icons.add),
-                    Text("Add Row"),
+                    const Icon(Icons.add),
+                    Text(AppLocalizations.of(context)!.row),
                   ],
                 ),
               );
@@ -76,10 +77,10 @@ class TemplateSettings extends ConsumerWidget {
             style: TextButton.styleFrom(
               disabledForegroundColor: const Color.fromARGB(255, 150, 150, 150),
             ),
-            child: const Column(
+            child: Column(
               children: [
-                Icon(Icons.border_color),
-                Text("Rename Plan"),
+                const Icon(Icons.border_color),
+                Text(AppLocalizations.of(context)!.rename),
               ],
             ),
           ),
@@ -95,10 +96,10 @@ class TemplateSettings extends ConsumerWidget {
                 ),
               )
             },
-            child: const Column(
+            child: Column(
               children: [
-                Icon(Icons.edit),
-                Text("Edit Plan"),
+                const Icon(Icons.edit),
+                Text(AppLocalizations.of(context)!.edit),
               ],
             ),
           ),
