@@ -18,7 +18,12 @@ class SettingsCaptionWidget extends StatelessWidget {
         Tooltip(
           showDuration: const Duration(seconds: 20),
           triggerMode: TooltipTriggerMode.tap,
+          decoration: BoxDecoration(
+              color: Theme.of(context).colorScheme.secondaryContainer,
+              border: Border.all(),
+              borderRadius: BorderRadius.circular(10)),
           richMessage: WidgetSpan(
+            style: Theme.of(context).textTheme.bodyMedium,
             child: Padding(
               padding: const EdgeInsets.all(8),
               child: explanation,

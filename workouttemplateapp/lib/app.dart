@@ -27,6 +27,7 @@ class _AppState extends ConsumerState<App> {
       seedColor: Colors.blue,
       outlineVariant: const Color.fromARGB(255, 120, 120, 120),
       primaryContainer: Colors.transparent,
+      secondaryContainer: const Color.fromARGB(235, 255, 255, 255),
     ),
     snackBarTheme: SnackBarThemeData(
       behavior: SnackBarBehavior.floating,
@@ -49,6 +50,7 @@ class _AppState extends ConsumerState<App> {
     colorScheme: ColorScheme.fromSeed(
       seedColor: Colors.blue,
       primaryContainer: Colors.transparent,
+      secondaryContainer: const Color.fromARGB(235, 0, 0, 0),
     ),
     iconTheme: const IconThemeData(
       color: Colors.white,
@@ -133,17 +135,12 @@ class _AppState extends ConsumerState<App> {
 
 /* TODO
 
-- Settings:
-  - Donations
-
 - Ton / Vibration wenn Timer Ende ist
 
 - Pläne teilen über verschiedene Kanäle (extra Fenster wo man anhaken kann welche)
 - Pläne auch wieder öffnen können mit der App.
 
-- Tooltips für die Button und Übersetzung dazu
 - Style alles (Tag / Nacht Modus) alles nochmal checken
-- raus mit der special liste (reorder und animation)
 - Alle übersetzungen checken
 - Beschreibungen der Settings checken
 

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:workouttemplateapp/template_data_models.dart';
 import 'package:workouttemplateapp/providers/plan_provider.dart';
-//import 'package:great_list_view/great_list_view.dart';
 import 'package:workouttemplateapp/screens/main_widgets/template_row.dart';
 import 'package:workouttemplateapp/screens/main_widgets/template_settings.dart';
 
@@ -20,8 +19,6 @@ class TemplateDetails extends ConsumerStatefulWidget {
 }
 
 class _TemplateDetailsState extends ConsumerState<TemplateDetails> {
-  //final controller = AnimatedListController();
-
   @override
   Widget build(BuildContext context) {
     final List<PlanItemData> plans = ref.watch(planProvider);
@@ -48,7 +45,6 @@ class _TemplateDetailsState extends ConsumerState<TemplateDetails> {
               tabID: widget.id,
               rowID: index,
             ),
-            //animation: animation,
           ),
         ),
         TemplateSettings(
