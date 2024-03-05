@@ -135,7 +135,7 @@ class _AppState extends ConsumerState<App> {
 
 /* TODO
 
-- Ton / Vibration wenn Timer Ende ist
+- Ton wenn Timer Ende ist
 
 - Pläne teilen über verschiedene Kanäle (extra Fenster wo man anhaken kann welche)
 - Pläne auch wieder öffnen können mit der App.
@@ -143,6 +143,7 @@ class _AppState extends ConsumerState<App> {
 - Style alles (Tag / Nacht Modus) alles nochmal checken
 - Alle übersetzungen checken
 - Beschreibungen der Settings checken
+- Name und Icon für die App
 
 (- Verschiedene Farben als Themes)
 (- Verschiedene Farben für verschiedene Pläne)
