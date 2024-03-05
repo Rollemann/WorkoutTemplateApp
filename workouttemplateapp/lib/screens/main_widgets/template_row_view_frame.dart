@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:workouttemplateapp/app.dart';
 import 'package:workouttemplateapp/providers/settings_provider.dart';
@@ -61,6 +62,7 @@ class _TemplateRowViewFrameState extends ConsumerState<TemplateRowViewFrame> {
                 Padding(
                   padding: const EdgeInsets.only(right: 8.0),
                   child: IconButton(
+                    tooltip: AppLocalizations.of(context)!.edit,
                     onPressed: () => widget.onEdit(),
                     style: const ButtonStyle(
                       shape: MaterialStatePropertyAll(CircleBorder()),

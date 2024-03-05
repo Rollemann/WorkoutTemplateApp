@@ -1,5 +1,5 @@
 import 'dart:async';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 
 class AllDialogs {
@@ -7,13 +7,13 @@ class AllDialogs {
       BuildContext context, String text, Function continueAction) {
     // set up the buttons
     Widget cancelButton = TextButton(
-      child: const Text("Cancel"),
+      child: Text(AppLocalizations.of(context)!.cancel),
       onPressed: () {
         Navigator.of(context).pop();
       },
     );
     Widget continueButton = TextButton(
-      child: const Text("Continue"),
+      child: Text(AppLocalizations.of(context)!.continueT),
       onPressed: () {
         Navigator.of(context).pop();
         continueAction();
@@ -22,8 +22,8 @@ class AllDialogs {
 
     // set up the AlertDialog
     AlertDialog alert = AlertDialog(
-      title: Text("Delete $text"),
-      content: Text("Really delete $text?"),
+      title: Text(AppLocalizations.of(context)!.deleteName(text)),
+      content: Text(AppLocalizations.of(context)!.deleteNameReally(text)),
       actions: [
         cancelButton,
         continueButton,
@@ -44,14 +44,14 @@ class AllDialogs {
     String enteredText = "";
     // set up the buttons
     Widget cancelButton = TextButton(
-      child: const Text("Cancel"),
+      child: Text(AppLocalizations.of(context)!.cancel),
       onPressed: () {
         Navigator.of(context).pop();
         enteredText = "";
       },
     );
     Widget continueButton = TextButton(
-      child: const Text("Edit"),
+      child: Text(AppLocalizations.of(context)!.save),
       onPressed: () {
         Navigator.of(context).pop();
         continueAction(enteredText);
@@ -63,9 +63,9 @@ class AllDialogs {
     AlertDialog alert = AlertDialog(
       title: Text(title),
       content: TextField(
-        decoration: const InputDecoration(
-          labelText: 'New Tab Name',
-          border: UnderlineInputBorder(),
+        decoration: InputDecoration(
+          labelText: AppLocalizations.of(context)!.newName,
+          border: const UnderlineInputBorder(),
         ),
         onChanged: (value) {
           enteredText = value;
@@ -90,9 +90,9 @@ class AllDialogs {
       StreamController<int> events, int initialTime, String? subText) {
     // set up the buttons
     Widget endButton = TextButton(
-      child: const Text(
-        "Continue",
-        textScaler: TextScaler.linear(1.5),
+      child: Text(
+        AppLocalizations.of(context)!.continueT,
+        textScaler: const TextScaler.linear(1.5),
       ),
       onPressed: () {
         if (timer != null) {

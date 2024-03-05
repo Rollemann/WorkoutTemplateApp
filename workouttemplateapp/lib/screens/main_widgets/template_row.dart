@@ -644,7 +644,7 @@ class _TemplateRowState extends ConsumerState<TemplateRow> {
     if (deletionType == DeletionTypes.always) {
       AllDialogs.showDeleteDialog(
         context,
-        "Row $exercise",
+        "${AppLocalizations.of(context)!.row} $exercise",
         () => ref
             .read(planProvider.notifier)
             .removeRow(widget.tabID, widget.rowID),

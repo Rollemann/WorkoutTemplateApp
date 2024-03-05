@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:workouttemplateapp/template_data_models.dart';
 import 'package:workouttemplateapp/providers/plan_provider.dart';
@@ -19,6 +20,7 @@ class TemplatesNavigation extends ConsumerWidget {
           ),
         ),
         IconButton(
+          tooltip: AppLocalizations.of(context)!.addPlan,
           onPressed: () => addPlan(ref, plans, context),
           style: const ButtonStyle(
               shape: MaterialStatePropertyAll(CircleBorder())),

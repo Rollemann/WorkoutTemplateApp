@@ -106,7 +106,7 @@ class _PlanSettingsListState extends ConsumerState<PlanSettingsContent> {
                         final List<int> allChecked = allCheckedIndexes();
                         final String description = allChecked.length == 1
                             ? plans[allChecked[0]].name
-                            : "${allChecked.length} Plans";
+                            : "${allChecked.length} ${AppLocalizations.of(context)!.plans}";
                         deletionType == DeletionTypes.never
                             ? removePlans(allCheckedIndexes(), ref)
                             : AllDialogs.showDeleteDialog(context, description,

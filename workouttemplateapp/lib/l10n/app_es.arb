@@ -14,6 +14,8 @@
   "settingExplanationConfirmDeletionAlways": "- Always: Show popup when deleting a plan and when deleting a row.",
   "settingExplanationConfirmDeletionJustPlans": "- Just Plans: Show popup only when deleting a plan (recommended).",
   "settingExplanationConfirmDeletionNever": "- Never: Never show the popup. All rows and plans are getting deleted without confirmation.",
+  "settingTitleDonation": "Donation",
+  "settingExplanationDonation": "Donate some money if you want to.",
   "confirmDeletionAlways": "Always",
   "confirmDeletionJustPlans": "Just Plans",
   "confirmDeletionNever": "Never",
@@ -22,6 +24,7 @@
   "exercise": "Exercise",
   "planSettingsDescription": "Reorder, share and delete plans here.",
   "next": "Next",
+  "continueT": "Continue",
   "save": "Save",
   "cancel": "Cancel",
   "duplicate": "Duplicate",
@@ -30,5 +33,12 @@
   "share": "Share",
   "edit": "Edit",
   "rename": "Rename",
-  "row": "Row"
+  "row": "Row",
+  "plans": "Plans",
+  "donate": "Donate",
+  "addPlan": "Add Plan",
+  "newName": "New name",
+  "newNameFor": "New name for",
+  "deleteName": "Delete {text}",
+  "deleteNameReally": "Really delete {text}?"
 }

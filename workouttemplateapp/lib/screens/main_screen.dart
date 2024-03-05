@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:workouttemplateapp/template_data_models.dart';
 import 'package:workouttemplateapp/providers/plan_provider.dart';
@@ -27,6 +28,7 @@ class MainScreen extends ConsumerWidget {
             backgroundColor: Theme.of(context).colorScheme.primaryContainer,
             actions: [
               IconButton(
+                tooltip: AppLocalizations.of(context)!.settings,
                 onPressed: () {
                   Navigator.push(
                     context,

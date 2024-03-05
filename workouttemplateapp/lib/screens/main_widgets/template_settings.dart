@@ -66,7 +66,7 @@ class TemplateSettings extends ConsumerWidget {
               final String title = plans[currentTabId].name;
               AllDialogs.showEditDialog(
                 context,
-                "Rename $title",
+                '${AppLocalizations.of(context)!.newNameFor} "$title"',
                 (String newName) {
                   ref
                       .read(planProvider.notifier)

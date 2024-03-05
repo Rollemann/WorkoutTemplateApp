@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:workouttemplateapp/screens/settings_widgets/deletion_type_widget.dart';
+import 'package:workouttemplateapp/screens/settings_widgets/donation_widget.dart';
 import 'package:workouttemplateapp/screens/settings_widgets/language_widget.dart';
 import 'package:workouttemplateapp/screens/settings_widgets/light_mode_widget.dart';
 import 'package:workouttemplateapp/screens/settings_widgets/show_hints_Widget.dart';
@@ -44,10 +45,7 @@ class SettingsScreen extends StatelessWidget {
               settingsDivider,
               const LanguageWidget(),
               settingsDivider,
-              const Padding(
-                padding: EdgeInsets.all(8.0),
-                child: Text("Dono"),
-              ),
+              const DonationWidget(),
             ],
           ),
         ),
