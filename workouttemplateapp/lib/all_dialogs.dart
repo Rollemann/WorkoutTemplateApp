@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
+import 'package:vibration/vibration.dart';
 
 class AllDialogs {
   static showDeleteDialog(
@@ -86,8 +87,15 @@ class AllDialogs {
     );
   }
 
-  static showCountdownDialog(BuildContext context, String title, Timer? timer,
-      StreamController<int> events, int initialTime, String? subText) {
+  static showCountdownDialog(
+    BuildContext context,
+    String title,
+    Timer? timer,
+    StreamController<int> events,
+    int initialTime,
+    String? subText,
+    bool vibrate,
+  ) {
     // set up the buttons
     Widget endButton = TextButton(
       child: Text(
@@ -102,6 +110,29 @@ class AllDialogs {
       },
     );
 
+    Future<void> startVibration() async {
+      bool? hasVibrator = await Vibration.hasVibrator();
+      if (hasVibrator != null && hasVibrator) {
+        Vibration.vibrate(pattern: [500, 1000, 500, 1000]);
+      }
+    }
+
+    Widget getTimeText(snapshot) {
+      if (snapshot.data != null && snapshot.data == 0) {
+        startVibration();
+      }
+      return Text(
+        snapshot.data != null
+            ? "${snapshot.data! < 0 ? "-" : ""}${((snapshot.data!).abs() ~/ 60).toString().padLeft(2, "0")}:${((snapshot.data!).abs() % 60).toString().padLeft(2, "0")}"
+            : "${(initialTime ~/ 60).toString().padLeft(2, "0")}:${(initialTime % 60).toString().padLeft(2, "0")}",
+        textAlign: TextAlign.center,
+        textScaler: const TextScaler.linear(2.5),
+        style: snapshot.data != null && snapshot.data! < 0
+            ? const TextStyle(color: Colors.red)
+            : null,
+      );
+    }
+
     // set up the AlertDialog
     AlertDialog alert = AlertDialog(
       title: Text(title, textAlign: TextAlign.center),
@@ -111,16 +142,7 @@ class AllDialogs {
           StreamBuilder<int>(
             stream: events.stream,
             builder: (context, snapshot) {
-              return Text(
-                snapshot.data != null
-                    ? "${snapshot.data! < 0 ? "-" : ""}${((snapshot.data!).abs() ~/ 60).toString().padLeft(2, "0")}:${((snapshot.data!).abs() % 60).toString().padLeft(2, "0")}"
-                    : "${(initialTime ~/ 60).toString().padLeft(2, "0")}:${(initialTime % 60).toString().padLeft(2, "0")}",
-                textAlign: TextAlign.center,
-                textScaler: const TextScaler.linear(2.5),
-                style: snapshot.data != null && snapshot.data! < 0
-                    ? const TextStyle(color: Colors.red)
-                    : null,
-              );
+              return getTimeText(snapshot);
             },
           ),
           if (subText != null)

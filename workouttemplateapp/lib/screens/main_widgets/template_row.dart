@@ -51,6 +51,7 @@ class _TemplateRowState extends ConsumerState<TemplateRow> {
     final DeletionTypes deletionType = ref.watch(deletionTypeProvider);
     final List<PlanItemData> plans = ref.watch(planProvider);
     final bool lightMode = ref.watch(lightModeProvider);
+    final bool vibrate = ref.watch(vibrationProvider);
     final RowItemData curRowData = plans[widget.tabID].rows[widget.rowID];
     if (editMode) {
       if (curRowData.type == 0) {
@@ -464,8 +465,15 @@ class _TemplateRowState extends ConsumerState<TemplateRow> {
           child: Expanded(
             child: GestureDetector(
               onDoubleTap: () {
-                AllDialogs.showCountdownDialog(context, curRowData.exercise,
-                    timer, events, curRowData.seconds, null);
+                AllDialogs.showCountdownDialog(
+                  context,
+                  curRowData.exercise,
+                  timer,
+                  events,
+                  curRowData.seconds,
+                  null,
+                  vibrate,
+                );
                 startTimer(plans);
               },
               child: SingleChildScrollView(
@@ -578,6 +586,7 @@ class _TemplateRowState extends ConsumerState<TemplateRow> {
                   events,
                   curRowData.seconds,
                   getNextExercise(plans[widget.tabID].rows),
+                  vibrate,
                 );
                 startTimer(plans);
               },

@@ -38,6 +38,7 @@ dependencies:
   shared_preferences: ^2.2.2
   flutter_riverpod: ^2.4.9
   url_launcher: ^6.2.5
+  vibration: ^1.8.4
   country_flags: ^2.2.0
   flutter_localizations:
     sdk: flutter
