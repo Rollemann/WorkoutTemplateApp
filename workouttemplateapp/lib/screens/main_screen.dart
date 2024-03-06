@@ -20,38 +20,51 @@ class MainScreen extends ConsumerWidget {
       child: DefaultTabController(
         length: plans.length,
         child: Scaffold(
-          appBar: AppBar(
-            title: Text(
-              AppLocalizations.of(context)!.plans,
-              style: Theme.of(context).textTheme.titleLarge,
-            ),
-            backgroundColor: Theme.of(context).colorScheme.primaryContainer,
-            actions: [
-              IconButton(
-                tooltip: AppLocalizations.of(context)!.settings,
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const SettingsScreen(),
-                    ),
-                  );
-                },
-                icon: const Icon(Icons.settings),
-              )
-            ],
-          ),
-          body: Column(
-            children: [
-              const TemplatesNavigation(),
-              Expanded(
-                child: TabBarView(
-                  children: createTabViews(plans),
-                ),
+            appBar: AppBar(
+              title: Text(
+                AppLocalizations.of(context)!.plans,
+                style: Theme.of(context).textTheme.titleLarge,
               ),
-            ],
-          ),
-        ),
+              backgroundColor: Theme.of(context).colorScheme.primaryContainer,
+              actions: [
+                IconButton(
+                  tooltip: AppLocalizations.of(context)!.settings,
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const SettingsScreen(),
+                      ),
+                    );
+                  },
+                  icon: const Icon(Icons.settings),
+                )
+              ],
+            ),
+            body: Column(
+              children: [
+                const TemplatesNavigation(),
+                plans.isNotEmpty
+                    ? Expanded(
+                        child: TabBarView(
+                          children: createTabViews(plans),
+                        ),
+                      )
+                    : Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              AppLocalizations.of(context)!.createFirstPlan,
+                              style: Theme.of(context).textTheme.bodyLarge,
+                            ),
+                            const Icon(Icons.arrow_upward),
+                          ],
+                        ),
+                      ),
+              ],
+            )),
       ),
     );
   }

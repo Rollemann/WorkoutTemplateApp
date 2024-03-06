@@ -137,7 +137,6 @@ class _AppState extends ConsumerState<App> {
 
 - Ton wenn Timer Ende ist
 
-- scroll down wenn man ein element edit macht
 - Pläne teilen über verschiedene Kanäle (extra Fenster wo man anhaken kann welche)
 - Pläne auch wieder öffnen können mit der App.
 
@@ -145,6 +144,7 @@ class _AppState extends ConsumerState<App> {
 - Alle übersetzungen checken
 - Beschreibungen der Settings checken
 - Name und Icon für die App
+- scroll down wenn man ein element edit macht
 
 (- Verschiedene Farben als Themes)
 (- Verschiedene Farben für verschiedene Pläne)

@@ -8,7 +8,7 @@ class PlanItemData {
 
   PlanItemData({required this.name, List<RowItemData>? rows})
       : rows = rows ?? [] {
-    rows ?? this.rows.add(RowItemData(type: 0));
+    rows ?? this.rows.add(RowItemData(type: 0, set: "1"));
   }
 
   factory PlanItemData.fromJson(Map<String, dynamic> planJson) {

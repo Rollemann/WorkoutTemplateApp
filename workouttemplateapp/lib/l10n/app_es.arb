@@ -46,5 +46,6 @@
   "newName": "New name",
   "newNameFor": "New name for",
   "deleteName": "Delete {text}",
-  "deleteNameReally": "Really delete {text}?"
+  "deleteNameReally": "Really delete {text}?",
+  "createFirstPlan": "Create your first plan!"
 }
