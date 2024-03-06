@@ -53,13 +53,21 @@ class MainScreen extends ConsumerWidget {
                     : Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text(
-                              AppLocalizations.of(context)!.createFirstPlan,
-                              style: Theme.of(context).textTheme.bodyLarge,
+                            SizedBox(
+                              width: 300,
+                              child: Text(
+                                AppLocalizations.of(context)!.createFirstPlan,
+                                style:
+                                    Theme.of(context).textTheme.headlineMedium,
+                              ),
                             ),
-                            const Icon(Icons.arrow_upward),
+                            const Icon(
+                              Icons.arrow_upward,
+                              size: 35,
+                            ),
                           ],
                         ),
                       ),
