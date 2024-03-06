@@ -22,7 +22,7 @@ class MainScreen extends ConsumerWidget {
         child: Scaffold(
           appBar: AppBar(
             title: Text(
-              "Test",
+              AppLocalizations.of(context)!.plans,
               style: Theme.of(context).textTheme.titleLarge,
             ),
             backgroundColor: Theme.of(context).colorScheme.primaryContainer,

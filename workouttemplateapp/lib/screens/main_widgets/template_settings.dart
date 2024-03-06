@@ -110,13 +110,16 @@ class TemplateSettings extends ConsumerWidget {
 
   void addNewRow(int type, BuildContext context, WidgetRef ref) {
     final bool showHints = ref.read(showHintsProvider);
-    final int rowNumber = ref.read(planProvider)[currentTabId].rows.length;
+    final List<RowItemData> rows = ref.read(planProvider)[currentTabId].rows;
     const int maxRows = 100;
 
-    if (rowNumber < maxRows) {
-      ref
-          .read(planProvider.notifier)
-          .addRow(currentTabId, RowItemData(type: type));
+    if (rows.length < maxRows) {
+      ref.read(planProvider.notifier).addRow(
+          currentTabId,
+          RowItemData(
+            type: type,
+            set: (_getNonPauseRowNumber(rows) + 1).toString(),
+          ));
     } else {
       _showSnackBar("Reached limit of $maxRows rows.", context);
       return;
@@ -141,5 +144,13 @@ class TemplateSettings extends ConsumerWidget {
     );
 
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  }
+
+  int _getNonPauseRowNumber(List<RowItemData> rows) {
+    int counter = 0;
+    for (var row in rows) {
+      if (row.type != 2) counter++;
+    }
+    return counter;
   }
 }

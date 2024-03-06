@@ -52,6 +52,7 @@ class _TemplateRowState extends ConsumerState<TemplateRow> {
     final List<PlanItemData> plans = ref.watch(planProvider);
     final bool lightMode = ref.watch(lightModeProvider);
     final bool vibrate = ref.watch(vibrationProvider);
+    final double volume = ref.watch(volumeProvider);
     final RowItemData curRowData = plans[widget.tabID].rows[widget.rowID];
     if (editMode) {
       if (curRowData.type == 0) {
@@ -60,7 +61,7 @@ class _TemplateRowState extends ConsumerState<TemplateRow> {
           rowID: widget.rowID,
           saveEdits: () => saveEdits(curRowData),
           cancelEdits: cancelEdits,
-          copyAction: () => copyRow(curRowData),
+          copyAction: () => copyRow(curRowData, plans[widget.tabID].rows),
           deleteRow: () => deleteRow(deletionType, curRowData.exercise),
           child: Flexible(
             child: Padding(
@@ -80,8 +81,8 @@ class _TemplateRowState extends ConsumerState<TemplateRow> {
                               textAlign: TextAlign.center,
                               keyboardType: TextInputType.number,
                               controller: TextEditingController(text: tempSet),
-                              decoration: const InputDecoration(
-                                labelText: 'Set',
+                              decoration: InputDecoration(
+                                labelText: AppLocalizations.of(context)!.set,
                               ),
                               inputFormatters: [
                                 FilteringTextInputFormatter.digitsOnly
@@ -99,8 +100,8 @@ class _TemplateRowState extends ConsumerState<TemplateRow> {
                           child: TextField(
                             textAlign: TextAlign.center,
                             controller: TextEditingController(text: tempWeight),
-                            decoration: const InputDecoration(
-                              labelText: 'Weight',
+                            decoration: InputDecoration(
+                              labelText: AppLocalizations.of(context)!.weight,
                             ),
                             onChanged: (text) {
                               tempWeight = text;
@@ -115,8 +116,8 @@ class _TemplateRowState extends ConsumerState<TemplateRow> {
                             textAlign: TextAlign.center,
                             keyboardType: TextInputType.number,
                             controller: TextEditingController(text: tempReps),
-                            decoration: const InputDecoration(
-                              labelText: 'Reps',
+                            decoration: InputDecoration(
+                              labelText: AppLocalizations.of(context)!.reps,
                             ),
                             inputFormatters: [
                               FilteringTextInputFormatter.digitsOnly
@@ -134,8 +135,8 @@ class _TemplateRowState extends ConsumerState<TemplateRow> {
                       padding: const EdgeInsets.all(8.0),
                       child: TextField(
                         controller: TextEditingController(text: tempExercise),
-                        decoration: const InputDecoration(
-                          labelText: 'Exercise',
+                        decoration: InputDecoration(
+                          labelText: AppLocalizations.of(context)!.exercise,
                         ),
                         onChanged: (text) {
                           tempExercise = text;
@@ -155,7 +156,7 @@ class _TemplateRowState extends ConsumerState<TemplateRow> {
           rowID: widget.rowID,
           saveEdits: () => saveEdits(curRowData),
           cancelEdits: cancelEdits,
-          copyAction: () => copyRow(curRowData),
+          copyAction: () => copyRow(curRowData, plans[widget.tabID].rows),
           deleteRow: () => deleteRow(deletionType, curRowData.exercise),
           child: Flexible(
             child: Padding(
@@ -175,8 +176,8 @@ class _TemplateRowState extends ConsumerState<TemplateRow> {
                               textAlign: TextAlign.center,
                               keyboardType: TextInputType.number,
                               controller: TextEditingController(text: tempSet),
-                              decoration: const InputDecoration(
-                                labelText: 'Set',
+                              decoration: InputDecoration(
+                                labelText: AppLocalizations.of(context)!.set,
                               ),
                               inputFormatters: [
                                 FilteringTextInputFormatter.digitsOnly
@@ -194,8 +195,8 @@ class _TemplateRowState extends ConsumerState<TemplateRow> {
                           child: TextField(
                             textAlign: TextAlign.center,
                             controller: TextEditingController(text: tempWeight),
-                            decoration: const InputDecoration(
-                              labelText: 'Weight',
+                            decoration: InputDecoration(
+                              labelText: AppLocalizations.of(context)!.weight,
                             ),
                             onChanged: (text) {
                               tempWeight = text;
@@ -213,8 +214,8 @@ class _TemplateRowState extends ConsumerState<TemplateRow> {
                           controller: TextEditingController(
                               text: (tempMinutes).toString()),
                           textAlign: TextAlign.center,
-                          decoration: const InputDecoration(
-                            labelText: 'Min',
+                          decoration: InputDecoration(
+                            labelText: AppLocalizations.of(context)!.min,
                           ),
                           inputFormatters: [
                             FilteringTextInputFormatter.digitsOnly
@@ -239,8 +240,8 @@ class _TemplateRowState extends ConsumerState<TemplateRow> {
                           controller: TextEditingController(
                               text: (tempSeconds).toString()),
                           textAlign: TextAlign.center,
-                          decoration: const InputDecoration(
-                            labelText: 'Sec',
+                          decoration: InputDecoration(
+                            labelText: AppLocalizations.of(context)!.sec,
                           ),
                           inputFormatters: [
                             FilteringTextInputFormatter.digitsOnly
@@ -262,8 +263,8 @@ class _TemplateRowState extends ConsumerState<TemplateRow> {
                       padding: const EdgeInsets.all(8.0),
                       child: TextField(
                         controller: TextEditingController(text: tempExercise),
-                        decoration: const InputDecoration(
-                          labelText: 'Exercise',
+                        decoration: InputDecoration(
+                          labelText: AppLocalizations.of(context)!.exercise,
                         ),
                         onChanged: (text) {
                           tempExercise = text;
@@ -283,7 +284,7 @@ class _TemplateRowState extends ConsumerState<TemplateRow> {
           rowID: widget.rowID,
           saveEdits: () => saveEdits(curRowData),
           cancelEdits: cancelEdits,
-          copyAction: () => copyRow(curRowData),
+          copyAction: () => copyRow(curRowData, plans[widget.tabID].rows),
           deleteRow: () => deleteRow(deletionType, curRowData.exercise),
           child: Flexible(
             child: Padding(
@@ -292,9 +293,9 @@ class _TemplateRowState extends ConsumerState<TemplateRow> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text(
-                    "Pause:",
-                    textScaler: TextScaler.linear(1.5),
+                  Text(
+                    AppLocalizations.of(context)!.pause,
+                    textScaler: const TextScaler.linear(1.5),
                   ),
                   Row(
                     children: [
@@ -304,8 +305,8 @@ class _TemplateRowState extends ConsumerState<TemplateRow> {
                           controller: TextEditingController(
                               text: (tempMinutes).toString()),
                           textAlign: TextAlign.center,
-                          decoration: const InputDecoration(
-                            labelText: 'Min',
+                          decoration: InputDecoration(
+                            labelText: AppLocalizations.of(context)!.min,
                           ),
                           inputFormatters: [
                             FilteringTextInputFormatter.digitsOnly
@@ -330,8 +331,8 @@ class _TemplateRowState extends ConsumerState<TemplateRow> {
                           controller: TextEditingController(
                               text: (tempSeconds).toString()),
                           textAlign: TextAlign.center,
-                          decoration: const InputDecoration(
-                            labelText: 'Sec',
+                          decoration: InputDecoration(
+                            labelText: AppLocalizations.of(context)!.sec,
                           ),
                           inputFormatters: [
                             FilteringTextInputFormatter.digitsOnly
@@ -360,6 +361,8 @@ class _TemplateRowState extends ConsumerState<TemplateRow> {
         return TemplateRowViewFrame(
           onEdit: () => openEdits(curRowData),
           rowID: widget.rowID,
+          rowChecked: rowChecked,
+          toggleRowChecked: toggleRowCheck,
           child: Expanded(
             child: SingleChildScrollView(
               scrollDirection: Axis.horizontal,
@@ -462,6 +465,8 @@ class _TemplateRowState extends ConsumerState<TemplateRow> {
         return TemplateRowViewFrame(
           onEdit: () => openEdits(curRowData),
           rowID: widget.rowID,
+          rowChecked: rowChecked,
+          toggleRowChecked: toggleRowCheck,
           child: Expanded(
             child: GestureDetector(
               onDoubleTap: () {
@@ -473,6 +478,8 @@ class _TemplateRowState extends ConsumerState<TemplateRow> {
                   curRowData.seconds,
                   null,
                   vibrate,
+                  volume,
+                  closeTimerAction,
                 );
                 startTimer(plans);
               },
@@ -576,6 +583,8 @@ class _TemplateRowState extends ConsumerState<TemplateRow> {
         return TemplateRowViewFrame(
           onEdit: () => openEdits(curRowData),
           rowID: widget.rowID,
+          rowChecked: rowChecked,
+          toggleRowChecked: toggleRowCheck,
           child: Expanded(
             child: GestureDetector(
               onDoubleTap: () {
@@ -587,6 +596,8 @@ class _TemplateRowState extends ConsumerState<TemplateRow> {
                   curRowData.seconds,
                   getNextExercise(plans[widget.tabID].rows),
                   vibrate,
+                  volume,
+                  closeTimerAction,
                 );
                 startTimer(plans);
               },
@@ -633,12 +644,12 @@ class _TemplateRowState extends ConsumerState<TemplateRow> {
     resetEditFields();
   }
 
-  void copyRow(RowItemData curRowData) {
+  void copyRow(RowItemData curRowData, List<RowItemData> rows) {
     setState(() {
       editMode = !editMode;
     });
     final RowItemData newRow = RowItemData(
-      set: tempSet,
+      set: (_getNonPauseRowNumber(rows) + 1).toString(),
       weight: tempWeight,
       type: curRowData.type,
       reps: tempReps,
@@ -694,6 +705,20 @@ class _TemplateRowState extends ConsumerState<TemplateRow> {
     });
   }
 
+  void closeTimerAction(Timer? timer) {
+    if (timer != null) {
+      timer.cancel();
+    }
+    toggleRowCheck();
+  }
+
+  bool toggleRowCheck() {
+    setState(() {
+      rowChecked = !rowChecked;
+    });
+    return rowChecked;
+  }
+
   String secondsToTimeString(int sec) {
     return "${(sec ~/ 60).toString().padLeft(2, "0")}:${(sec % 60).toString().padLeft(2, "0")}";
   }
@@ -704,5 +729,13 @@ class _TemplateRowState extends ConsumerState<TemplateRow> {
     }
     RowItemData nextRowData = rows[widget.rowID + 1];
     return "${AppLocalizations.of(context)!.next}: ${nextRowData.exercise}";
+  }
+
+  int _getNonPauseRowNumber(List<RowItemData> rows) {
+    int counter = 0;
+    for (var row in rows) {
+      if (row.type != 2) counter++;
+    }
+    return counter;
   }
 }

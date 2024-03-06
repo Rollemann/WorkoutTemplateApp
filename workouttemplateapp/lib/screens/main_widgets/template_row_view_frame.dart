@@ -8,12 +8,16 @@ class TemplateRowViewFrame extends ConsumerStatefulWidget {
   final Widget child;
   final int rowID;
   final Function onEdit;
+  final bool rowChecked;
+  final Function toggleRowChecked;
 
   const TemplateRowViewFrame({
     super.key,
     required this.child,
     required this.rowID,
     required this.onEdit,
+    required this.rowChecked,
+    required this.toggleRowChecked,
   });
 
   @override
@@ -22,8 +26,6 @@ class TemplateRowViewFrame extends ConsumerStatefulWidget {
 }
 
 class _TemplateRowViewFrameState extends ConsumerState<TemplateRowViewFrame> {
-  bool rowChecked = false;
-
   @override
   Widget build(BuildContext context) {
     final lightMode = ref.watch(lightModeProvider);
@@ -31,20 +33,18 @@ class _TemplateRowViewFrameState extends ConsumerState<TemplateRowViewFrame> {
       padding: const EdgeInsets.symmetric(vertical: 3.5, horizontal: 3),
       child: GestureDetector(
         onTap: () {
-          setState(() {
-            rowChecked = !rowChecked;
-          });
+          widget.toggleRowChecked();
         },
         child: Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
             color: lightMode
-                ? rowChecked
+                ? widget.rowChecked
                     ? const Color.fromARGB(255, 0, 145, 5)
                     : widget.rowID % 2 == 0
                         ? evenLight
                         : oddLight
-                : rowChecked
+                : widget.rowChecked
                     ? const Color.fromARGB(255, 1, 100, 5)
                     : widget.rowID % 2 == 0
                         ? evenDark

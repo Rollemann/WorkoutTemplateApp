@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_ringtone_player/flutter_ringtone_player.dart';
 import 'package:vibration/vibration.dart';
 
 class AllDialogs {
@@ -95,6 +96,8 @@ class AllDialogs {
     int initialTime,
     String? subText,
     bool vibrate,
+    double volume,
+    Function closeTimerAction,
   ) {
     // set up the buttons
     Widget endButton = TextButton(
@@ -103,9 +106,7 @@ class AllDialogs {
         textScaler: const TextScaler.linear(1.5),
       ),
       onPressed: () {
-        if (timer != null) {
-          timer.cancel();
-        }
+        closeTimerAction(timer);
         Navigator.of(context).pop();
       },
     );
@@ -117,9 +118,21 @@ class AllDialogs {
       }
     }
 
+    void startSound() {
+      FlutterRingtonePlayer().play(
+        android: AndroidSounds.notification,
+        ios: IosSounds.glass,
+        looping: false, // Android only - API >= 28
+        volume: volume / 100, // Android only - API >= 28
+        asAlarm: false, // Android only - all APIs
+      );
+      //FlutterRingtonePlayer().stop();
+    }
+
     Widget getTimeText(snapshot) {
       if (snapshot.data != null && snapshot.data == 0) {
         startVibration();
+        startSound();
       }
       return Text(
         snapshot.data != null
