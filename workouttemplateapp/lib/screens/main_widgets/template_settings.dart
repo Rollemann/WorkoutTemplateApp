@@ -31,6 +31,10 @@ class TemplateSettings extends ConsumerWidget {
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
           MenuAnchor(
+            style: MenuStyle(
+              backgroundColor: MaterialStatePropertyAll(
+                  Theme.of(context).colorScheme.secondaryContainer),
+            ),
             builder: (context, controller, child) {
               return TextButton(
                 onPressed: () {
@@ -58,10 +62,18 @@ class TemplateSettings extends ConsumerWidget {
                     children: [
                       Padding(
                         padding: const EdgeInsets.only(right: 8.0),
-                        child: Icon(menuIcons[index]),
+                        child: Icon(
+                          menuIcons[index],
+                          color: Theme.of(context)
+                              .colorScheme
+                              .onSecondaryContainer,
+                        ),
                       ),
-                      Text(rowTypes[index],
-                          textScaler: const TextScaler.linear(2)),
+                      Text(
+                        rowTypes[index],
+                        textScaler: const TextScaler.linear(2),
+                        style: Theme.of(context).textTheme.bodyMedium,
+                      ),
                     ],
                   ),
                 ),
@@ -143,7 +155,7 @@ class TemplateSettings extends ConsumerWidget {
       margin: const EdgeInsets.fromLTRB(10, 0, 10, 60),
       action: SnackBarAction(
         label: 'X',
-        backgroundColor: Colors.yellow,
+        backgroundColor: const Color.fromARGB(255, 255, 235, 150),
         textColor: Colors.black,
         onPressed: () {
           ScaffoldMessenger.of(context).hideCurrentSnackBar();

@@ -24,11 +24,11 @@ class App extends ConsumerStatefulWidget {
 class _AppState extends ConsumerState<App> {
   final ThemeData myLightMode = ThemeData.light().copyWith(
     colorScheme: ColorScheme.fromSeed(
-      seedColor: Colors.blue,
-      outlineVariant: const Color.fromARGB(255, 120, 120, 120),
-      primaryContainer: Colors.transparent,
-      secondaryContainer: const Color.fromARGB(235, 255, 255, 255),
-    ),
+        seedColor: Colors.blue,
+        outlineVariant: const Color.fromARGB(255, 120, 120, 120),
+        primaryContainer: Colors.transparent,
+        secondaryContainer: const Color.fromARGB(250, 255, 255, 255),
+        onSecondaryContainer: const Color.fromARGB(235, 0, 0, 0)),
     snackBarTheme: SnackBarThemeData(
       behavior: SnackBarBehavior.floating,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
@@ -50,7 +50,8 @@ class _AppState extends ConsumerState<App> {
     colorScheme: ColorScheme.fromSeed(
       seedColor: Colors.blue,
       primaryContainer: Colors.transparent,
-      secondaryContainer: const Color.fromARGB(235, 0, 0, 0),
+      secondaryContainer: const Color.fromARGB(240, 0, 0, 0),
+      onSecondaryContainer: const Color.fromARGB(255, 255, 255, 255),
     ),
     iconTheme: const IconThemeData(
       color: Colors.white,
