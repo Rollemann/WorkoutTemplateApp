@@ -590,7 +590,7 @@ class _TemplateRowState extends ConsumerState<TemplateRow> {
               onDoubleTap: () {
                 AllDialogs.showCountdownDialog(
                   context,
-                  "Pause",
+                  AppLocalizations.of(context)!.pause,
                   timer,
                   events,
                   curRowData.seconds,

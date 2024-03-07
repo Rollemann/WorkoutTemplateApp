@@ -36,6 +36,7 @@
   "set": "Set",
   "weight": "Gewicht",
   "reps": "Wdhl.",
+  "time": "Zeit",
   "min": "Min",
   "sec": "Sek",
   "pause": "Pause",
@@ -47,5 +48,8 @@
   "newNameFor": "Neuer Name für",
   "deleteName": "{text} löschen",
   "deleteNameReally": "Wirklich {text} löschen?",
-  "createFirstPlan": "Erstelle deinen ersten Plan!"
+  "createFirstPlan": "Erstelle deinen ersten Plan!",
+  "limitReachedRows": "Max. {maxRows} Zeilen. Lösche zuerst eine.",
+  "limitReachedPlans": "Max. {maxPlans} Pläne. Lösche zuerst einen.",
+  "startTimerInfo": "Doppelklicke die Zeile, um den Timer zu starten!"
 }

@@ -5,8 +5,6 @@ import 'package:workouttemplateapp/providers/plan_provider.dart';
 import 'package:workouttemplateapp/screens/main_widgets/template_row.dart';
 import 'package:workouttemplateapp/screens/main_widgets/template_settings.dart';
 
-final List<String> rowTypes = ["Reps", "Time", "Pause"];
-
 class TemplateDetails extends ConsumerStatefulWidget {
   final int id;
   const TemplateDetails({

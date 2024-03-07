@@ -36,6 +36,7 @@
   "set": "Set",
   "weight": "Weight",
   "reps": "Reps",
+  "time": "Time",
   "min": "Min",
   "sec": "Sec",
   "pause": "Pause",
@@ -47,5 +48,8 @@
   "newNameFor": "New name for",
   "deleteName": "Delete {text}",
   "deleteNameReally": "Really delete {text}?",
-  "createFirstPlan": "Create your first plan!"
+  "createFirstPlan": "Create your first plan!",
+  "limitReachedRows": "Max. {maxRows} rows. Delete one first.",
+  "limitReachedPlans": "Max. {maxPlans} plans. Delete one first.",
+  "startTimerInfo": "Double click the row to start the timer!"
 }

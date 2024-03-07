@@ -6,7 +6,6 @@ import 'package:workouttemplateapp/screens/plan_settings_screen.dart';
 import 'package:workouttemplateapp/template_data_models.dart';
 import 'package:workouttemplateapp/providers/plan_provider.dart';
 import 'package:workouttemplateapp/providers/settings_provider.dart';
-import 'package:workouttemplateapp/screens/main_widgets/template_details.dart';
 
 class TemplateSettings extends ConsumerWidget {
   final int currentTabId;
@@ -21,6 +20,11 @@ class TemplateSettings extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final plans = ref.watch(planProvider);
+    final List<String> rowTypes = [
+      AppLocalizations.of(context)!.reps,
+      AppLocalizations.of(context)!.time,
+      AppLocalizations.of(context)!.pause,
+    ];
     return Padding(
       padding: const EdgeInsets.all(2.0),
       child: Row(
@@ -52,7 +56,10 @@ class TemplateSettings extends ConsumerWidget {
                   padding: const EdgeInsets.all(15.0),
                   child: Row(
                     children: [
-                      Icon(menuIcons[index]),
+                      Padding(
+                        padding: const EdgeInsets.only(right: 8.0),
+                        child: Icon(menuIcons[index]),
+                      ),
                       Text(rowTypes[index],
                           textScaler: const TextScaler.linear(2)),
                     ],
@@ -121,11 +128,12 @@ class TemplateSettings extends ConsumerWidget {
             set: (_getNonPauseRowNumber(rows) + 1).toString(),
           ));
     } else {
-      _showSnackBar("Reached limit of $maxRows rows.", context);
+      _showSnackBar(
+          AppLocalizations.of(context)!.limitReachedRows(maxRows), context);
       return;
     }
     if (showHints && type > 0) {
-      _showSnackBar("Double click the row to start the timer!", context);
+      _showSnackBar(AppLocalizations.of(context)!.startTimerInfo, context);
     }
   }
 

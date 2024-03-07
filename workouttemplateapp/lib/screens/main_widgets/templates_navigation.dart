@@ -49,10 +49,10 @@ class TemplatesNavigation extends ConsumerWidget {
           );
     } else {
       final snackBar = SnackBar(
-        content: const Text('Max. $maxPlans plans. Delete one first.',
-            textScaler: TextScaler.linear(1.5)),
+        content: Text(AppLocalizations.of(context)!.limitReachedPlans(maxPlans),
+            textScaler: const TextScaler.linear(1.5)),
         action: SnackBarAction(
-          backgroundColor: Colors.yellow,
+          backgroundColor: const Color.fromARGB(255, 255, 235, 150),
           textColor: Colors.black,
           label: 'X',
           onPressed: () {
