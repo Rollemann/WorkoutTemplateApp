@@ -98,6 +98,7 @@ class AllDialogs {
     bool vibrate,
     double volume,
     Function closeTimerAction,
+    String sound,
   ) {
     // set up the buttons
     Widget endButton = TextButton(
@@ -121,7 +122,7 @@ class AllDialogs {
     Future<void> startSound() async {
       final player = AudioPlayer();
       await player.setVolume(volume / 100);
-      await player.play(AssetSource("ring01.mp3"));
+      await player.play(AssetSource(sound));
     }
 
     Widget getTimeText(snapshot) {

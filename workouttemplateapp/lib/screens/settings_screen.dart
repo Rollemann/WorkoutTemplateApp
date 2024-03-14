@@ -5,6 +5,7 @@ import 'package:workouttemplateapp/screens/settings_widgets/donation_widget.dart
 import 'package:workouttemplateapp/screens/settings_widgets/language_widget.dart';
 import 'package:workouttemplateapp/screens/settings_widgets/light_mode_widget.dart';
 import 'package:workouttemplateapp/screens/settings_widgets/show_hints_Widget.dart';
+import 'package:workouttemplateapp/screens/settings_widgets/sound_widget.dart';
 import 'package:workouttemplateapp/screens/settings_widgets/vibration_widget.dart';
 import 'package:workouttemplateapp/screens/settings_widgets/volume_widget.dart';
 
@@ -34,6 +35,8 @@ class SettingsScreen extends StatelessWidget {
           child: Column(
             children: [
               const VolumeWidget(),
+              settingsDivider,
+              const SoundWidget(),
               settingsDivider,
               const VibrationWidget(),
               settingsDivider,

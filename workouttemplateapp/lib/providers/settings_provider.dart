@@ -75,3 +75,12 @@ final languageProvider = StateProvider<String>((ref) {
   });
   return language;
 });
+
+final soundProvider = StateProvider<String>((ref) {
+  final preferences = ref.watch(sharedPreferencesProvider);
+  final sound = preferences.getString('sound') ?? "ring01.mp3";
+  ref.listenSelf((prev, curr) {
+    preferences.setString('sound', curr);
+  });
+  return sound;
+});

@@ -53,6 +53,7 @@ class _TemplateRowState extends ConsumerState<TemplateRow> {
     final bool lightMode = ref.watch(lightModeProvider);
     final bool vibrate = ref.watch(vibrationProvider);
     final double volume = ref.watch(volumeProvider);
+    final String sound = ref.watch(soundProvider);
     final RowItemData curRowData = plans[widget.tabID].rows[widget.rowID];
     if (editMode) {
       if (curRowData.type == 0) {
@@ -480,6 +481,7 @@ class _TemplateRowState extends ConsumerState<TemplateRow> {
                   vibrate,
                   volume,
                   closeTimerAction,
+                  sound,
                 );
                 startTimer(plans);
               },
@@ -598,6 +600,7 @@ class _TemplateRowState extends ConsumerState<TemplateRow> {
                   vibrate,
                   volume,
                   closeTimerAction,
+                  sound,
                 );
                 startTimer(plans);
               },
