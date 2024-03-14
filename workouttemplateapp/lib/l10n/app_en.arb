@@ -40,6 +40,8 @@
     "min": "Min",
     "sec": "Sec",
     "pause": "Pause",
+    "mute": "Mute",
+    "louder": "Louder",
     "row": "Row",
     "plans": "Plans",
     "donate": "Donate",

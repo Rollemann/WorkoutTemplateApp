@@ -137,7 +137,6 @@ class _AppState extends ConsumerState<App> {
 /* TODO
 
 - Ton wenn Timer Ende ist
-- _showSnackBar texte übersetzen
 
 - Pläne teilen über verschiedene Kanäle (extra Fenster wo man anhaken kann welche)
 - Pläne auch wieder öffnen können mit der App.
@@ -154,4 +153,23 @@ class _AppState extends ConsumerState<App> {
 (Room (Floor) statt shared prefs)
 (Wenn Zeit ende: Lied anhalten oder so (Wiedergabe stoppen))
 
+
+
+
+  QuickTrain
+  TrainMaster
+  PlanPro
+  RapidFit
+  FastTrack Fitness
+  GymGenius
+  SpeedFit Planner
+  RapidRoutine
+  TurboPlan
+  FlexFit Planner
+  QuickStep Fitness
+  InstaFit Planner
+  QuickGains Generator
+  RapidRoutine Maker
+
+ProTrainingsPlanner
  */

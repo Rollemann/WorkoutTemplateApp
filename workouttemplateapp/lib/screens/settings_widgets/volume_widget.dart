@@ -28,7 +28,7 @@ class _VolumeWidgetState extends ConsumerState<VolumeWidget> {
         Row(
           children: [
             IconButton(
-              tooltip: "Mute",
+              tooltip: AppLocalizations.of(context)!.mute,
               onPressed: () {
                 ref.read(volumeProvider.notifier).state = 0;
               },
@@ -46,7 +46,7 @@ class _VolumeWidgetState extends ConsumerState<VolumeWidget> {
               ),
             ),
             IconButton(
-              tooltip: "Max",
+              tooltip: AppLocalizations.of(context)!.louder,
               onPressed: () {
                 setState(() {
                   volume <= 90

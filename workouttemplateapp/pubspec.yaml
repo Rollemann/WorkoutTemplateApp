@@ -39,7 +39,6 @@ dependencies:
   flutter_riverpod: ^2.4.9
   url_launcher: ^6.2.5
   vibration: ^1.8.4
-  flutter_ringtone_player: ^4.0.0+2
   country_flags: ^2.2.0
   flutter_localizations:
     sdk: flutter
