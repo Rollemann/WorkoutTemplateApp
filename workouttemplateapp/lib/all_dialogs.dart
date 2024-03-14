@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:vibration/vibration.dart';
@@ -112,13 +113,15 @@ class AllDialogs {
 
     Future<void> startVibration() async {
       bool? hasVibrator = await Vibration.hasVibrator();
-      if (hasVibrator != null && hasVibrator) {
+      if (vibrate && hasVibrator != null && hasVibrator) {
         Vibration.vibrate(pattern: [500, 1000, 500, 1000]);
       }
     }
 
-    void startSound() {
-      // TODO
+    Future<void> startSound() async {
+      final player = AudioPlayer();
+      await player.setVolume(volume / 100);
+      await player.play(AssetSource("ring01.mp3"));
     }
 
     Widget getTimeText(snapshot) {
