@@ -54,14 +54,14 @@ class _LanguageWidgetState extends ConsumerState<LanguageWidget> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
+            Text(value),
             Padding(
-              padding: const EdgeInsets.only(right: 2.0),
-              child: Text(value),
-            ),
-            CountryFlag.fromLanguageCode(
-              key,
-              height: 15,
-              width: 15,
+              padding: const EdgeInsets.only(left: 10.0, right: 15.0),
+              child: CountryFlag.fromLanguageCode(
+                key,
+                height: 15,
+                width: 15,
+              ),
             ),
           ],
         ),

@@ -57,7 +57,7 @@ class _SoundWidgetState extends ConsumerState<SoundWidget> {
           children: [
             const Icon(Icons.music_note),
             Padding(
-              padding: const EdgeInsets.only(left: 2.0),
+              padding: const EdgeInsets.only(left: 5.0, right: 10.0),
               child: Text("${AppLocalizations.of(context)!.sound} ${i + 1}"),
             ),
           ],
