@@ -136,7 +136,7 @@ class _AppState extends ConsumerState<App> {
 
 /* TODO
 
-- Ton wenn Timer Ende ist
+- mehrere Töne auswählbar machen
 
 - Pläne teilen über verschiedene Kanäle (extra Fenster wo man anhaken kann welche)
 - Pläne auch wieder öffnen können mit der App.
