@@ -23,7 +23,7 @@
     "settingExplanationLanguage": "Set the language here.",
     "settingTitleSound": "Notification Sound",
     "settingExplanationSound": "Notification sound of the timer if the time reaches 00:00.",
-    "planSettingsDescription": "Reorder, share and delete plans here.",
+    "planSettingsDescription": "Reorder, add and delete plans here.",
     "next": "Next",
     "continueT": "Continue",
     "save": "Save",

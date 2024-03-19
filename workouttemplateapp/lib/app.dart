@@ -139,19 +139,16 @@ class _AppState extends ConsumerState<App> {
 - Pläne teilen über verschiedene Kanäle (extra Fenster wo man anhaken kann welche)
 - Pläne auch wieder öffnen können mit der App.
 
+- Name und Icon für die App
 - Style alles (Tag / Nacht Modus) alles nochmal checken
 - Alle übersetzungen checken
 - Beschreibungen der Settings checken
-- Name und Icon für die App
 - scroll down wenn man ein element edit macht
 
 (- Verschiedene Farben als Themes)
 (- Verschiedene Farben für verschiedene Pläne)
-(- Animation beim löschen und hinzugfügen von Rows)
 (Room (Floor) statt shared prefs)
 (Wenn Zeit ende: Lied anhalten oder so (Wiedergabe stoppen))
-
-
 
 
   QuickTrain

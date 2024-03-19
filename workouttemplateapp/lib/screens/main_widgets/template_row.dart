@@ -562,7 +562,9 @@ class _TemplateRowState extends ConsumerState<TemplateRow> {
                                   children: [
                                     const Icon(Icons.fitness_center),
                                     Text(
-                                      curRowData.weight,
+                                      curRowData.weight == ""
+                                          ? "0"
+                                          : curRowData.weight,
                                       textScaler: const TextScaler.linear(1.2),
                                     ),
                                   ],

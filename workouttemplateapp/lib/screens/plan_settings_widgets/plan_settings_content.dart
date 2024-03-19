@@ -87,7 +87,7 @@ class _PlanSettingsListState extends ConsumerState<PlanSettingsContent> {
                   ],
                 ),
               ),
-              TextButton(
+              /* TextButton(
                 onPressed: null,
                 style: TextButton.styleFrom(
                   disabledForegroundColor:
@@ -99,7 +99,7 @@ class _PlanSettingsListState extends ConsumerState<PlanSettingsContent> {
                     Text(AppLocalizations.of(context)!.share),
                   ],
                 ),
-              ),
+              ), */
               TextButton(
                 onPressed: allCheckedIndexes().isNotEmpty
                     ? () {
