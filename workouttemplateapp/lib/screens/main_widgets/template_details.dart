@@ -38,10 +38,18 @@ class _TemplateDetailsState extends ConsumerState<TemplateDetails> {
                     .addRow(widget.id, row, newIndex);
               });
             },
-            itemBuilder: (context, index) => TemplateRow(
+            itemBuilder: (context, index) => Column(
               key: ObjectKey(plans[widget.id].rows[index]),
-              tabID: widget.id,
-              rowID: index,
+              children: [
+                TemplateRow(
+                  tabID: widget.id,
+                  rowID: index,
+                ),
+                const Divider(
+                  indent: 25,
+                  endIndent: 25,
+                )
+              ],
             ),
           ),
         ),

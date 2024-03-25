@@ -401,13 +401,7 @@ class _TemplateRowState extends ConsumerState<TemplateRow> {
                             child: Container(
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(10),
-                                color: lightMode
-                                    ? widget.rowID % 2 == 0
-                                        ? onEvenLight
-                                        : onOddLight
-                                    : widget.rowID % 2 == 0
-                                        ? onEvenDark
-                                        : onOddDark,
+                                color: lightMode ? onLight : onDark,
                               ),
                               child: Padding(
                                 padding: const EdgeInsets.fromLTRB(2, 2, 8, 2),
@@ -428,13 +422,7 @@ class _TemplateRowState extends ConsumerState<TemplateRow> {
                           Container(
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(10),
-                              color: lightMode
-                                  ? widget.rowID % 2 == 0
-                                      ? onEvenLight
-                                      : onOddLight
-                                  : widget.rowID % 2 == 0
-                                      ? onEvenDark
-                                      : onOddDark,
+                              color: lightMode ? onLight : onDark,
                             ),
                             child: Padding(
                               padding: const EdgeInsets.fromLTRB(2, 2, 8, 2),
@@ -521,13 +509,7 @@ class _TemplateRowState extends ConsumerState<TemplateRow> {
                               child: Container(
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(10),
-                                  color: lightMode
-                                      ? widget.rowID % 2 == 0
-                                          ? onEvenLight
-                                          : onOddLight
-                                      : widget.rowID % 2 == 0
-                                          ? onEvenDark
-                                          : onOddDark,
+                                  color: lightMode ? onLight : onDark,
                                 ),
                                 child: Padding(
                                   padding:
@@ -548,13 +530,7 @@ class _TemplateRowState extends ConsumerState<TemplateRow> {
                             Container(
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(10),
-                                color: lightMode
-                                    ? widget.rowID % 2 == 0
-                                        ? onEvenLight
-                                        : onOddLight
-                                    : widget.rowID % 2 == 0
-                                        ? onEvenDark
-                                        : onOddDark,
+                                color: lightMode ? onLight : onDark,
                               ),
                               child: Padding(
                                 padding: const EdgeInsets.fromLTRB(2, 2, 8, 2),

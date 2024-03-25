@@ -1,6 +1,11 @@
+import 'dart:developer';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:workouttemplateapp/all_dialogs.dart';
 import 'package:workouttemplateapp/providers/plan_provider.dart';
 import 'package:workouttemplateapp/providers/settings_provider.dart';
@@ -87,8 +92,10 @@ class _PlanSettingsListState extends ConsumerState<PlanSettingsContent> {
                   ],
                 ),
               ),
-              /* TextButton(
-                onPressed: null,
+              TextButton(
+                onPressed: allCheckedIndexes().isNotEmpty
+                    ? () => {sharePlans(plans, allCheckedIndexes())}
+                    : null,
                 style: TextButton.styleFrom(
                   disabledForegroundColor:
                       const Color.fromARGB(255, 150, 150, 150),
@@ -99,7 +106,7 @@ class _PlanSettingsListState extends ConsumerState<PlanSettingsContent> {
                     Text(AppLocalizations.of(context)!.share),
                   ],
                 ),
-              ), */
+              ),
               TextButton(
                 onPressed: allCheckedIndexes().isNotEmpty
                     ? () {
@@ -177,5 +184,30 @@ class _PlanSettingsListState extends ConsumerState<PlanSettingsContent> {
       );
       ScaffoldMessenger.of(context).showSnackBar(snackBar);
     }
+  }
+
+  Future<void> sharePlans(
+    List<PlanItemData> plans,
+    List<int> checkedIndexes,
+  ) async {
+    final List<XFile> files = [];
+    final List<String> planNames = [];
+    for (int i = 0; i < plans.length; i++) {
+      if (checkedIndexes.contains(i)) {
+        final plan = plans[i];
+        final Directory tempDir = await getTemporaryDirectory();
+        final File file = File("$tempDir/${plan.name}.json");
+        file.writeAsString(plan.toJson().toString());
+        /* files.add(XFile(file.path));
+        planNames.add(plan.name); */
+      }
+    }
+    final result =
+        await Share.shareWithResult('check out my website https://example.com');
+    if (result.status == ShareResultStatus.success) {
+      log('Thank you for sharing my website!');
+    }
+
+    //Share.shareXFiles(files, text: planNames.join(" and "));
   }
 }

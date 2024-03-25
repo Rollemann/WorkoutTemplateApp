@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:workouttemplateapp/app.dart';
 import 'package:workouttemplateapp/providers/settings_provider.dart';
 
 class TemplateRowViewFrame extends ConsumerStatefulWidget {
@@ -41,14 +40,10 @@ class _TemplateRowViewFrameState extends ConsumerState<TemplateRowViewFrame> {
             color: lightMode
                 ? widget.rowChecked
                     ? const Color.fromARGB(255, 0, 145, 5)
-                    : widget.rowID % 2 == 0
-                        ? evenLight
-                        : oddLight
+                    : Colors.transparent
                 : widget.rowChecked
                     ? const Color.fromARGB(255, 1, 100, 5)
-                    : widget.rowID % 2 == 0
-                        ? evenDark
-                        : oddDark,
+                    : Colors.transparent,
           ),
           child: Padding(
             padding: const EdgeInsets.only(left: 10),

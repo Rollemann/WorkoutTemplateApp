@@ -5,14 +5,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:workouttemplateapp/providers/settings_provider.dart';
 import 'package:workouttemplateapp/screens/main_screen.dart';
 
-const evenLight = Color.fromARGB(255, 210, 210, 210);
-const oddLight = Color.fromARGB(255, 230, 230, 230);
-const evenDark = Color.fromARGB(255, 50, 50, 50);
-const oddDark = Color.fromARGB(255, 70, 70, 70);
-const onEvenLight = Color.fromARGB(255, 240, 240, 240);
-const onOddLight = Color.fromARGB(255, 200, 200, 200);
-const onEvenDark = Color.fromARGB(255, 90, 90, 90);
-const onOddDark = Color.fromARGB(255, 105, 105, 105);
+const onLight = Color.fromARGB(255, 200, 200, 200);
+const onDark = Color.fromARGB(255, 75, 75, 75);
 
 class App extends ConsumerStatefulWidget {
   const App({super.key});

@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:workouttemplateapp/app.dart';
-import 'package:workouttemplateapp/providers/settings_provider.dart';
 import 'package:workouttemplateapp/screens/main_widgets/row_edit_controls.dart';
 
-class TemplateRowEditFrame extends ConsumerWidget {
+class TemplateRowEditFrame extends StatelessWidget {
   final Widget child;
   final int rowID;
   final Function saveEdits;
@@ -23,18 +20,11 @@ class TemplateRowEditFrame extends ConsumerWidget {
   });
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final lightMode = ref.watch(lightModeProvider);
+  Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 3.5),
       child: Container(
-        color: lightMode
-            ? rowID % 2 == 0
-                ? evenLight
-                : oddLight
-            : rowID % 2 == 0
-                ? evenDark
-                : oddDark,
+        color: Colors.transparent,
         child: Padding(
           padding: const EdgeInsets.only(left: 10),
           child: Row(
