@@ -1,5 +1,9 @@
+import 'dart:async';
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:receive_sharing_intent/receive_sharing_intent.dart';
 import 'package:workouttemplateapp/template_data_models.dart';
 import 'package:workouttemplateapp/providers/plan_provider.dart';
 import 'package:workouttemplateapp/screens/main_widgets/template_row.dart';
@@ -17,6 +21,42 @@ class TemplateDetails extends ConsumerStatefulWidget {
 }
 
 class _TemplateDetailsState extends ConsumerState<TemplateDetails> {
+  late StreamSubscription _intentSub;
+  final _sharedFiles = <SharedMediaFile>[];
+  @override
+  void initState() {
+    super.initState();
+    // Listen to media sharing coming from outside the app while the app is in the memory.
+    var _intentSub = ReceiveSharingIntent.getMediaStream().listen((value) {
+      setState(() {
+        _sharedFiles.clear();
+        _sharedFiles.addAll(value);
+
+        log((_sharedFiles.map((f) => f.toMap())).toString());
+      });
+    }, onError: (err) {
+      log(("getIntentDataStream error: $err").toString());
+    });
+
+    // Get the media sharing coming from outside the app while the app is closed.
+    ReceiveSharingIntent.getInitialMedia().then((value) {
+      setState(() {
+        _sharedFiles.clear();
+        _sharedFiles.addAll(value);
+        log((_sharedFiles.map((f) => f.toMap())).toString());
+
+        // Tell the library that we are done processing the intent.
+        ReceiveSharingIntent.reset();
+      });
+    });
+  }
+
+  @override
+  void dispose() {
+    _intentSub.cancel();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     final List<PlanItemData> plans = ref.watch(planProvider);

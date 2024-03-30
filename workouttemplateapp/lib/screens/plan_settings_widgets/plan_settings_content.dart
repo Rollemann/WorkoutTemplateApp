@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -196,18 +195,30 @@ class _PlanSettingsListState extends ConsumerState<PlanSettingsContent> {
       if (checkedIndexes.contains(i)) {
         final plan = plans[i];
         final Directory tempDir = await getTemporaryDirectory();
-        final File file = File("$tempDir/${plan.name}.json");
-        file.writeAsString(plan.toJson().toString());
-        /* files.add(XFile(file.path));
-        planNames.add(plan.name); */
+        final File file = File(
+          "${tempDir.path}/${plan.name.replaceAll(" ", "")}.ptpjson",
+        );
+        await file.writeAsString(plan.toJson().toString());
+        files.add(XFile(file.path));
+        planNames.add(plan.name);
       }
     }
-    final result =
-        await Share.shareWithResult('check out my website https://example.com');
-    if (result.status == ShareResultStatus.success) {
+    /* final result =
+        await Share.shareWithResult('check out my website https://example.com'); */
+    await Share.shareXFiles(files);
+    /* if (result.status == ShareResultStatus.success) {
       log('Thank you for sharing my website!');
-    }
-
-    //Share.shareXFiles(files, text: planNames.join(" and "));
+    } */
   }
 }
+
+/*
+
+    <intent-filter>
+        <action android:name="android.intent.action.VIEW" />
+        <category android:name="android.intent.category.DEFAULT" />
+        <data android:scheme="file" />
+        <data android:host="*" />
+        <data android:pathPattern=".*\\.ptpjson" />
+    </intent-filter>
+ */

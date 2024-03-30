@@ -5,7 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:workouttemplateapp/providers/settings_provider.dart';
 import 'package:workouttemplateapp/screens/main_screen.dart';
 
-const onLight = Color.fromARGB(255, 200, 200, 200);
+const onLight = Color.fromARGB(255, 220, 220, 220);
 const onDark = Color.fromARGB(255, 75, 75, 75);
 
 class App extends ConsumerStatefulWidget {
@@ -132,6 +132,7 @@ class _AppState extends ConsumerState<App> {
 
 - Pläne teilen über verschiedene Kanäle (extra Fenster wo man anhaken kann welche)
 - Pläne auch wieder öffnen können mit der App.
+- Timer im hintergrund der das gesamte training aufzeichnet
 
 - Name und Icon für die App
 - Style alles (Tag / Nacht Modus) alles nochmal checken
