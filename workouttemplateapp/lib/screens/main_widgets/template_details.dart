@@ -21,8 +21,9 @@ class TemplateDetails extends ConsumerStatefulWidget {
 }
 
 class _TemplateDetailsState extends ConsumerState<TemplateDetails> {
-  late StreamSubscription _intentSub;
+  /* late StreamSubscription _intentSub;
   final _sharedFiles = <SharedMediaFile>[];
+  
   @override
   void initState() {
     super.initState();
@@ -55,7 +56,7 @@ class _TemplateDetailsState extends ConsumerState<TemplateDetails> {
   void dispose() {
     _intentSub.cancel();
     super.dispose();
-  }
+  } */
 
   @override
   Widget build(BuildContext context) {
