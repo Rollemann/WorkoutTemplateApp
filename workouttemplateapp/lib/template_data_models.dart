@@ -2,17 +2,19 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 
 class PlanItemData {
+  final int id;
   String name;
   final Icon icon = const Icon(Icons.fitness_center);
   final List<RowItemData> rows;
 
-  PlanItemData({required this.name, List<RowItemData>? rows})
+  PlanItemData({required this.id, required this.name, List<RowItemData>? rows})
       : rows = rows ?? [] {
     rows ?? this.rows.add(RowItemData(type: 0, set: "1"));
   }
 
   factory PlanItemData.fromJson(Map<String, dynamic> planJson) {
     return PlanItemData(
+      id: planJson['id'],
       name: planJson['name'],
       rows: planJson['rows']
           .map<RowItemData>(
@@ -24,7 +26,11 @@ class PlanItemData {
   Map<String, dynamic> toJson() {
     List<String> stringRows =
         rows.map((row) => jsonEncode(row.toJson())).toList();
-    return {'name': name, 'rows': stringRows};
+    return {'id': id, 'name': name, 'rows': stringRows};
+  }
+
+  Map<String, dynamic> toJsonDB() {
+    return {'id': id, 'name': name};
   }
 }
 

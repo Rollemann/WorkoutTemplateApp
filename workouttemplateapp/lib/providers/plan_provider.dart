@@ -3,6 +3,7 @@ import 'dart:developer';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:workouttemplateapp/screens/DBHandler.dart';
 import 'package:workouttemplateapp/template_data_models.dart';
 import 'package:workouttemplateapp/providers/shared_preference_provider.dart';
 
@@ -75,3 +76,35 @@ final planProvider =
   pn._initialize();
   return pn;
 });
+
+// new provider with db
+
+final planController = Provider((ref) => PlanController());
+final getPlanController = FutureProvider<List<PlanItemData>?>((ref) {
+  final tasks = ref.read(planController).getPlans();
+  return tasks;
+});
+
+class PlanController {
+  var taskList = <PlanItemData>[];
+  Future<int> addPlan({PlanItemData? plan}) async {
+    return await DBHandler.insertPlan(plan!);
+  }
+
+  Future<List<PlanItemData>?> getPlans() async {
+    try {
+      List<PlanItemData> plans = await DBHandler.allPlans();
+      return plans;
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  void deletePlan(PlanItemData plan) async {
+    await DBHandler.deletePlan(plan);
+  }
+
+  /* void update(PlanItemData task) async {
+    await DBHandler.update(task.id);
+  } */
+}

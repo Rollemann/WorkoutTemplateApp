@@ -1,12 +1,24 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:sqflite/sqflite.dart';
 import 'package:workouttemplateapp/app.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:workouttemplateapp/providers/shared_preference_provider.dart';
+import 'package:workouttemplateapp/screens/DBHandler.dart';
+import 'package:workouttemplateapp/template_data_models.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final sharedPreferences = await SharedPreferences.getInstance();
+  await DBHandler.initDB();
+
+// TestDB
+  PlanItemData testPlan = PlanItemData(id: 0, name: "DBtest");
+  await insertPlan(DBHandler.getDB()!, testPlan);
+  log((await plans(DBHandler.getDB()!))[0].name);
+  log(((await plans(DBHandler.getDB()!))[0].id).toString());
 
   runApp(
     ProviderScope(
@@ -18,8 +30,29 @@ Future<void> main() async {
   );
 }
 
-// Test
+Future<void> insertPlan(Database db, PlanItemData plan) async {
+  await db.insert(
+    'plans',
+    plan.toJsonDB(),
+    conflictAlgorithm: ConflictAlgorithm.replace,
+  );
+}
 
+Future<List<PlanItemData>> plans(Database db) async {
+  final List<Map<String, Object?>> planMaps = await db.query('plans');
+
+  return [
+    for (final {
+          'id': id as int,
+          'name': name as String,
+        } in planMaps)
+      PlanItemData(id: id, name: name),
+  ];
+}
+
+///////////////////////////////////
+// Test
+///////////////////////////////////
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
   static const String _title = 'Flutter Stateful Clicker Counter';
