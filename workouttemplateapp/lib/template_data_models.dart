@@ -7,9 +7,9 @@ class PlanItemData {
   final Icon icon = const Icon(Icons.fitness_center);
   final List<RowItemData> rows;
 
-  PlanItemData({required this.id, required this.name, List<RowItemData>? rows})
+  PlanItemData({required this.name, this.id = -1, List<RowItemData>? rows})
       : rows = rows ?? [] {
-    rows ?? this.rows.add(RowItemData(type: 0, set: "1"));
+    rows ?? this.rows.add(RowItemData(type: 0, set: "1", id: 0, planId: id));
   }
 
   factory PlanItemData.fromJson(Map<String, dynamic> planJson) {
@@ -23,18 +23,30 @@ class PlanItemData {
     );
   }
 
+  factory PlanItemData.fromJsonDB(Map<String, dynamic> planJson) {
+    return PlanItemData(
+      id: planJson['id'],
+      name: planJson['name'],
+    );
+  }
+
   Map<String, dynamic> toJson() {
     List<String> stringRows =
         rows.map((row) => jsonEncode(row.toJson())).toList();
-    return {'id': id, 'name': name, 'rows': stringRows};
+    Map<String, dynamic> json = id > 0
+        ? {'id': id, 'name': name, 'rows': stringRows}
+        : {'name': name, 'rows': stringRows};
+    return json;
   }
 
   Map<String, dynamic> toJsonDB() {
-    return {'id': id, 'name': name};
+    return id > 0 ? {'id': id, 'name': name} : {'name': name};
   }
 }
 
 class RowItemData {
+  int id;
+  int planId;
   int type;
   String set;
   String weight;
@@ -44,6 +56,8 @@ class RowItemData {
 
   RowItemData({
     required this.type,
+    required this.planId,
+    this.id = -1,
     this.set = '',
     this.weight = '',
     this.reps = '',
@@ -52,19 +66,33 @@ class RowItemData {
   });
 
   RowItemData.fromJson(Map<String, dynamic> json)
-      : type = json['type'],
-        set = json['set'],
+      : id = json['id'],
+        planId = json['planId'],
+        type = json['type'],
+        set = json['rowSet'],
         weight = json['weight'],
         reps = json['reps'],
         exercise = json['exercise'],
         seconds = json['seconds'];
 
-  Map<String, dynamic> toJson() => {
-        'type': type,
-        'set': set,
-        'weight': weight,
-        'reps': reps,
-        'exercise': exercise,
-        'seconds': seconds,
-      };
+  Map<String, dynamic> toJson() => id > 0
+      ? {
+          'id': id,
+          'planId': planId,
+          'type': type,
+          'rowSet': set,
+          'weight': weight,
+          'reps': reps,
+          'exercise': exercise,
+          'seconds': seconds,
+        }
+      : {
+          'planId': planId,
+          'type': type,
+          'rowSet': set,
+          'weight': weight,
+          'reps': reps,
+          'exercise': exercise,
+          'seconds': seconds,
+        };
 }

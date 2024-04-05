@@ -165,8 +165,7 @@ class _PlanSettingsListState extends ConsumerState<PlanSettingsContent> {
     const maxPlans = 25;
     if (plans.length < maxPlans) {
       ref.read(planProvider.notifier).addPlan(
-            PlanItemData(
-                id: plans.length + 1, name: "NewPlan ${plans.length + 1}"),
+            PlanItemData(name: "NewPlan ${plans.length + 1}"),
           );
       checkedPlans.add(false);
     } else {

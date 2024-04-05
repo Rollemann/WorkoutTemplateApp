@@ -607,6 +607,7 @@ class _TemplateRowState extends ConsumerState<TemplateRow> {
     });
 
     final RowItemData newRow = RowItemData(
+      planId: curRowData.planId,
       set: tempSet,
       weight: tempWeight,
       type: curRowData.type,
@@ -630,6 +631,7 @@ class _TemplateRowState extends ConsumerState<TemplateRow> {
       editMode = !editMode;
     });
     final RowItemData newRow = RowItemData(
+      planId: curRowData.id,
       set: (_getNonPauseRowNumber(rows) + 1).toString(),
       weight: tempWeight,
       type: curRowData.type,

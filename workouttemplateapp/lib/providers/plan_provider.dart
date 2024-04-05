@@ -77,7 +77,9 @@ final planProvider =
   return pn;
 });
 
-// new provider with db
+///
+/// new provider with db
+///
 
 final planController = Provider((ref) => PlanController());
 final getPlanController = FutureProvider<List<PlanItemData>?>((ref) {
@@ -101,7 +103,7 @@ class PlanController {
   }
 
   void deletePlan(PlanItemData plan) async {
-    await DBHandler.deletePlan(plan);
+    await DBHandler.deletePlan(plan.id);
   }
 
   /* void update(PlanItemData task) async {

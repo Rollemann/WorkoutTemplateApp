@@ -45,8 +45,7 @@ class TemplatesNavigation extends ConsumerWidget {
     const maxPlans = 25;
     if (plans.length < maxPlans) {
       ref.read(planProvider.notifier).addPlan(
-            PlanItemData(
-                id: plans.length + 1, name: "NewPlan ${plans.length + 1}"),
+            PlanItemData(name: "NewPlan ${plans.length + 1}"),
           );
     } else {
       final snackBar = SnackBar(

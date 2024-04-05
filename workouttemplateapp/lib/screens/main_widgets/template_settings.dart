@@ -55,7 +55,7 @@ class TemplateSettings extends ConsumerWidget {
             menuChildren: List<MenuItemButton>.generate(
               rowTypes.length,
               (int index) => MenuItemButton(
-                onPressed: () => addNewRow(index, context, ref),
+                onPressed: () => addNewRow(currentTabId, index, context, ref),
                 child: Padding(
                   padding: const EdgeInsets.all(15.0),
                   child: Row(
@@ -127,7 +127,7 @@ class TemplateSettings extends ConsumerWidget {
     );
   }
 
-  void addNewRow(int type, BuildContext context, WidgetRef ref) {
+  void addNewRow(int planId, int type, BuildContext context, WidgetRef ref) {
     final bool showHints = ref.read(showHintsProvider);
     final List<RowItemData> rows = ref.read(planProvider)[currentTabId].rows;
     const int maxRows = 100;
@@ -136,6 +136,7 @@ class TemplateSettings extends ConsumerWidget {
       ref.read(planProvider.notifier).addRow(
           currentTabId,
           RowItemData(
+            planId: planId,
             type: type,
             set: (_getNonPauseRowNumber(rows) + 1).toString(),
           ));

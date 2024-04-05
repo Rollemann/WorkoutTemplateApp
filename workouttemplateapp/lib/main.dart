@@ -15,10 +15,42 @@ Future<void> main() async {
   await DBHandler.initDB();
 
 // TestDB
-  PlanItemData testPlan = PlanItemData(id: 0, name: "DBtest");
-  await insertPlan(DBHandler.getDB()!, testPlan);
-  log((await plans(DBHandler.getDB()!))[0].name);
-  log(((await plans(DBHandler.getDB()!))[0].id).toString());
+  PlanItemData testPlan = PlanItemData(name: "Plan1");
+  PlanItemData testPlan2 = PlanItemData(name: "Plan2");
+  DBHandler.insertPlan(testPlan);
+  int plan2ID = await DBHandler.insertPlan(testPlan2);
+  var allPlans = await DBHandler.allPlans();
+  log(allPlans.length.toString());
+  await DBHandler.deletePlan(allPlans[0].id);
+  PlanItemData testPlan3 = PlanItemData(name: "Plan3");
+  PlanItemData testPlan4 = PlanItemData(name: "Plan4");
+  int plan3ID = await DBHandler.insertPlan(testPlan3);
+  await DBHandler.insertPlan(testPlan4);
+  log("----------------------");
+  allPlans = await DBHandler.allPlans();
+  log(allPlans.length.toString());
+  log("----------------------");
+  await DBHandler.swapPlans(2, 4);
+  allPlans = await DBHandler.allPlans();
+  log(allPlans.length.toString());
+
+  log("Row länge: ${(await DBHandler.allRows()).length}");
+  log("Row länge2: $plan2ID und $plan3ID");
+
+  RowItemData row1 = RowItemData(type: 0, planId: plan2ID);
+  RowItemData row2 = RowItemData(type: 2, planId: plan2ID);
+  RowItemData row3 = RowItemData(type: 0, planId: plan3ID);
+  await DBHandler.insertRow(row1);
+  await DBHandler.insertRow(row2);
+  await DBHandler.insertRow(row3);
+  log("----------------------");
+  var allRows = await DBHandler.allRows();
+  log(allRows.length.toString());
+  await DBHandler.deletePlans(-100);
+  log("----------------------");
+  allRows = await DBHandler.allRows();
+  log(allRows.length.toString());
+  DBHandler.deleteRows(-100);
 
   runApp(
     ProviderScope(
@@ -27,14 +59,6 @@ Future<void> main() async {
       ],
       child: const App(),
     ),
-  );
-}
-
-Future<void> insertPlan(Database db, PlanItemData plan) async {
-  await db.insert(
-    'plans',
-    plan.toJsonDB(),
-    conflictAlgorithm: ConflictAlgorithm.replace,
   );
 }
 
