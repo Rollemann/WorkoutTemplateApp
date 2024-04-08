@@ -2,7 +2,7 @@ import 'dart:developer';
 
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
-import 'package:workouttemplateapp/template_data_models.dart';
+import 'package:workouttemplateapp/data_models.dart';
 
 class DBHandler {
   static Database? _db;
@@ -30,15 +30,6 @@ class DBHandler {
   /// Methods for Plans
   ///
 
-  static Future<int> insertPlan(PlanItemData? plan) async {
-    log("Insert function called");
-    return await _db!.insert(
-      _tableNamePlan,
-      plan!.toJsonDB(),
-      conflictAlgorithm: ConflictAlgorithm.replace,
-    );
-  }
-
   static Future<List<PlanItemData>> allPlans() async {
     log("allPlans function called");
     final List<Map<String, Object?>> planMaps =
@@ -49,9 +40,27 @@ class DBHandler {
     ];
   }
 
+  static Future<int> insertPlan(PlanItemData? plan) async {
+    log("Insert function called");
+    return await _db!.insert(
+      _tableNamePlan,
+      plan!.toJsonDB(),
+      conflictAlgorithm: ConflictAlgorithm.replace,
+    );
+  }
+
   static deletePlan(int planId) async {
     log("deletePlan function called");
     await _db!.delete(_tableNamePlan, where: "id=?", whereArgs: [planId]);
+  }
+
+  static updatePlan(PlanItemData plan) async {
+    await _db!.update(
+      _tableNamePlan,
+      plan.toJson(),
+      where: 'id = ?',
+      whereArgs: [plan.id],
+    );
   }
 
   static swapPlans(int planId1, int planId2) async {
@@ -77,17 +86,18 @@ class DBHandler {
     await _db!.delete(_tableNamePlan, where: "id>?", whereArgs: [plan]);
   }
 
-  /* static updatePlan(int id) async {
-    return await _db!.rawUpdate('''
-    UPDATE tasks
-    SET isCompleted = ?
-    WHERE id = ?
-    ''', [1, id]);
-  } */
-
   ///
   /// Methods for Rows
   ///
+
+  static Future<List<RowItemData>> allRows() async {
+    log("allRows function called");
+    final List<Map<String, Object?>> rowMaps = await _db!.query(_tableNameRow);
+    log(rowMaps.toString());
+    return [
+      for (final rowJson in rowMaps) RowItemData.fromJson(rowJson),
+    ];
+  }
 
   static Future<int> insertRow(RowItemData? row) async {
     log("Insert function called");
@@ -99,20 +109,11 @@ class DBHandler {
     );
   }
 
-  static Future<List<RowItemData>> allRows() async {
-    log("allRows function called");
-    final List<Map<String, Object?>> rowMaps = await _db!.query(_tableNameRow);
-    log(rowMaps.toString());
-    return [
-      for (final rowJson in rowMaps) RowItemData.fromJson(rowJson),
-    ];
-  }
-
   static Future<List<RowItemData>> allRowsOfPlan(int planId) async {
     log("allRowsOfPlan function called");
     final List<Map<String, Object?>> rowMaps = await _db!.query(
       _tableNameRow,
-      where: "id=?",
+      where: "planId=?",
       whereArgs: [planId],
     );
     return [
@@ -120,8 +121,35 @@ class DBHandler {
     ];
   }
 
-  static deleteRow(RowItemData row) async {
-    await _db!.delete(_tableNameRow, where: "id=?", whereArgs: [row.id]);
+  static deleteRow(int rowId) async {
+    await _db!.delete(_tableNameRow, where: "id=?", whereArgs: [rowId]);
+  }
+
+  static updateRow(RowItemData row) async {
+    await _db!.update(
+      _tableNamePlan,
+      row.toJson(),
+      where: 'id = ?',
+      whereArgs: [row.id],
+    );
+  }
+
+  static swapRows(int rowId1, int rowId2) async {
+    log("swapRows function called");
+    _db!.execute(
+      '''
+        update $_tableNameRow
+        set id = (case when id = $rowId1 then -$rowId2 else -$rowId1 end)
+        where id in ($rowId1, $rowId2);
+      ''',
+    );
+    _db!.execute(
+      '''
+        update $_tableNameRow
+        set id = - id
+        where id < 0;
+      ''',
+    );
   }
 
   //todo kann weg

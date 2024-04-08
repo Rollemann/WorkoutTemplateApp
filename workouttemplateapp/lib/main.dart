@@ -7,7 +7,7 @@ import 'package:workouttemplateapp/app.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:workouttemplateapp/providers/shared_preference_provider.dart';
 import 'package:workouttemplateapp/screens/DBHandler.dart';
-import 'package:workouttemplateapp/template_data_models.dart';
+import 'package:workouttemplateapp/data_models.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -46,6 +46,7 @@ Future<void> main() async {
   log("----------------------");
   var allRows = await DBHandler.allRows();
   log(allRows.length.toString());
+  log("Alle von 2${await DBHandler.allRowsOfPlan(plan2ID)}");
   await DBHandler.deletePlans(-100);
   log("----------------------");
   allRows = await DBHandler.allRows();

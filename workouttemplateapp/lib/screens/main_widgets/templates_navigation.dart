@@ -1,7 +1,10 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:workouttemplateapp/template_data_models.dart';
+import 'package:workouttemplateapp/screens/DBHandler.dart';
+import 'package:workouttemplateapp/data_models.dart';
 import 'package:workouttemplateapp/providers/plan_provider.dart';
 
 class TemplatesNavigation extends ConsumerWidget {
@@ -41,8 +44,15 @@ class TemplatesNavigation extends ConsumerWidget {
     return tabList;
   }
 
-  void addPlan(WidgetRef ref, List<PlanItemData> plans, BuildContext context) {
+  void addPlan(
+      WidgetRef ref, List<PlanItemData> plans, BuildContext context) async {
     const maxPlans = 25;
+    //TODO
+    log((await DBHandler.allPlans()).length.toString());
+    ref
+        .read(planController)
+        .addPlan(plan: PlanItemData(name: "NewPlan ${plans.length + 1}"));
+    log((await DBHandler.allPlans()).length.toString());
     if (plans.length < maxPlans) {
       ref.read(planProvider.notifier).addPlan(
             PlanItemData(name: "NewPlan ${plans.length + 1}"),
