@@ -14,8 +14,8 @@ Future<void> main() async {
   final sharedPreferences = await SharedPreferences.getInstance();
   await DBHandler.initDB();
 
-// TestDB
-  PlanItemData testPlan = PlanItemData(name: "Plan1");
+// TestDB TODO
+/*   PlanItemData testPlan = PlanItemData(name: "Plan1");
   PlanItemData testPlan2 = PlanItemData(name: "Plan2");
   DBHandler.insertPlan(testPlan);
   int plan2ID = await DBHandler.insertPlan(testPlan2);
@@ -51,7 +51,7 @@ Future<void> main() async {
   log("----------------------");
   allRows = await DBHandler.allRows();
   log(allRows.length.toString());
-  DBHandler.deleteRows(-100);
+  DBHandler.deleteRows(-100); */
 
   runApp(
     ProviderScope(

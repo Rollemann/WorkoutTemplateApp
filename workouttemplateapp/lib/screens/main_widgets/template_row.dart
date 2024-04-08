@@ -7,7 +7,7 @@ import 'package:workouttemplateapp/all_dialogs.dart';
 import 'package:workouttemplateapp/app.dart';
 import 'package:workouttemplateapp/screens/main_widgets/template_row_edit_frame.dart';
 import 'package:workouttemplateapp/screens/main_widgets/template_row_view_frame.dart';
-import 'package:workouttemplateapp/template_data_models.dart';
+import 'package:workouttemplateapp/data_models.dart';
 import 'package:workouttemplateapp/providers/plan_provider.dart';
 import 'package:workouttemplateapp/providers/settings_provider.dart';
 import 'package:workouttemplateapp/screens/settings_widgets/deletion_type_widget.dart';
@@ -49,464 +49,396 @@ class _TemplateRowState extends ConsumerState<TemplateRow> {
   @override
   Widget build(BuildContext context) {
     final DeletionTypes deletionType = ref.watch(deletionTypeProvider);
-    final List<PlanItemData> plans = ref.watch(planProvider);
+    final rows = ref.watch(getRowController);
     final bool lightMode = ref.watch(lightModeProvider);
     final bool vibrate = ref.watch(vibrationProvider);
     final double volume = ref.watch(volumeProvider);
     final String sound = ref.watch(soundProvider);
-    final RowItemData curRowData = plans[widget.tabID].rows[widget.rowID];
-    if (editMode) {
-      if (curRowData.type == 0) {
-        //EDIT REPS
-        return TemplateRowEditFrame(
-          rowID: widget.rowID,
-          saveEdits: () => saveEdits(curRowData),
-          cancelEdits: cancelEdits,
-          copyAction: () => copyRow(curRowData, plans[widget.tabID].rows),
-          deleteRow: () => deleteRow(deletionType, curRowData.exercise),
-          child: Flexible(
-            child: Padding(
-              padding: const EdgeInsets.only(left: 12.0),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    return rows.when(
+      data: (rowsData) {
+        final planRows =
+            rowsData!.where((row) => row.planId == widget.tabID).toList();
+        final curRowData = planRows[widget.rowID];
+        if (editMode) {
+          if (curRowData.type == 0) {
+            //EDIT REPS
+            return TemplateRowEditFrame(
+              rowID: widget.rowID,
+              saveEdits: () => saveEdits(curRowData),
+              cancelEdits: cancelEdits,
+              copyAction: () => copyRow(curRowData, planRows),
+              deleteRow: () => deleteRow(deletionType, curRowData.exercise),
+              child: Flexible(
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 12.0),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
                     children: [
-                      Flexible(
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: SizedBox(
-                            width: 30.0,
-                            child: TextField(
-                              textAlign: TextAlign.center,
-                              keyboardType: TextInputType.number,
-                              controller: TextEditingController(text: tempSet),
-                              decoration: InputDecoration(
-                                labelText: AppLocalizations.of(context)!.set,
-                              ),
-                              inputFormatters: [
-                                FilteringTextInputFormatter.digitsOnly
-                              ],
-                              onChanged: (text) {
-                                tempSet = text;
-                              },
-                            ),
-                          ),
-                        ),
-                      ),
-                      Flexible(
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: TextField(
-                            textAlign: TextAlign.center,
-                            controller: TextEditingController(text: tempWeight),
-                            decoration: InputDecoration(
-                              labelText: AppLocalizations.of(context)!.weight,
-                            ),
-                            onChanged: (text) {
-                              tempWeight = text;
-                            },
-                          ),
-                        ),
-                      ),
-                      Flexible(
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: TextField(
-                            textAlign: TextAlign.center,
-                            keyboardType: TextInputType.number,
-                            controller: TextEditingController(text: tempReps),
-                            decoration: InputDecoration(
-                              labelText: AppLocalizations.of(context)!.reps,
-                            ),
-                            inputFormatters: [
-                              FilteringTextInputFormatter.digitsOnly
-                            ],
-                            onChanged: (text) {
-                              tempReps = text;
-                            },
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  Flexible(
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: TextField(
-                        controller: TextEditingController(text: tempExercise),
-                        decoration: InputDecoration(
-                          labelText: AppLocalizations.of(context)!.exercise,
-                        ),
-                        onChanged: (text) {
-                          tempExercise = text;
-                        },
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        );
-      }
-      if (curRowData.type == 1) {
-        //EDIT TIME
-        return TemplateRowEditFrame(
-          rowID: widget.rowID,
-          saveEdits: () => saveEdits(curRowData),
-          cancelEdits: cancelEdits,
-          copyAction: () => copyRow(curRowData, plans[widget.tabID].rows),
-          deleteRow: () => deleteRow(deletionType, curRowData.exercise),
-          child: Flexible(
-            child: Padding(
-              padding: const EdgeInsets.only(left: 12.0),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Flexible(
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: SizedBox(
-                            width: 30.0,
-                            child: TextField(
-                              textAlign: TextAlign.center,
-                              keyboardType: TextInputType.number,
-                              controller: TextEditingController(text: tempSet),
-                              decoration: InputDecoration(
-                                labelText: AppLocalizations.of(context)!.set,
-                              ),
-                              inputFormatters: [
-                                FilteringTextInputFormatter.digitsOnly
-                              ],
-                              onChanged: (text) {
-                                tempSet = text;
-                              },
-                            ),
-                          ),
-                        ),
-                      ),
-                      Flexible(
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: TextField(
-                            textAlign: TextAlign.center,
-                            controller: TextEditingController(text: tempWeight),
-                            decoration: InputDecoration(
-                              labelText: AppLocalizations.of(context)!.weight,
-                            ),
-                            onChanged: (text) {
-                              tempWeight = text;
-                            },
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      Flexible(
-                        child: TextField(
-                          keyboardType: TextInputType.number,
-                          controller: TextEditingController(
-                              text: (tempMinutes).toString()),
-                          textAlign: TextAlign.center,
-                          decoration: InputDecoration(
-                            labelText: AppLocalizations.of(context)!.min,
-                          ),
-                          inputFormatters: [
-                            FilteringTextInputFormatter.digitsOnly
-                          ],
-                          onChanged: (value) {
-                            if (value != "") {
-                              int intValue = int.parse(value);
-                              tempMinutes = intValue < 999 ? intValue : 999;
-                            } else {
-                              tempMinutes = 0;
-                            }
-                          },
-                        ),
-                      ),
-                      const Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 8.0),
-                        child: Text(":", textScaler: TextScaler.linear(2.0)),
-                      ),
-                      Flexible(
-                        child: TextField(
-                          keyboardType: TextInputType.number,
-                          controller: TextEditingController(
-                              text: (tempSeconds).toString()),
-                          textAlign: TextAlign.center,
-                          decoration: InputDecoration(
-                            labelText: AppLocalizations.of(context)!.sec,
-                          ),
-                          inputFormatters: [
-                            FilteringTextInputFormatter.digitsOnly
-                          ],
-                          onChanged: (value) {
-                            if (value != "") {
-                              int intValue = int.parse(value);
-                              tempSeconds = intValue < 60 ? intValue : 0;
-                            } else {
-                              tempSeconds = 0;
-                            }
-                          },
-                        ),
-                      ),
-                    ],
-                  ),
-                  Flexible(
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: TextField(
-                        controller: TextEditingController(text: tempExercise),
-                        decoration: InputDecoration(
-                          labelText: AppLocalizations.of(context)!.exercise,
-                        ),
-                        onChanged: (text) {
-                          tempExercise = text;
-                        },
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        );
-      }
-      if (curRowData.type == 2) {
-        //EDIT PAUSE
-        return TemplateRowEditFrame(
-          rowID: widget.rowID,
-          saveEdits: () => saveEdits(curRowData),
-          cancelEdits: cancelEdits,
-          copyAction: () => copyRow(curRowData, plans[widget.tabID].rows),
-          deleteRow: () => deleteRow(deletionType, curRowData.exercise),
-          child: Flexible(
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(20, 8, 0, 8),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    AppLocalizations.of(context)!.pause,
-                    textScaler: const TextScaler.linear(1.5),
-                  ),
-                  Row(
-                    children: [
-                      Flexible(
-                        child: TextField(
-                          keyboardType: TextInputType.number,
-                          controller: TextEditingController(
-                              text: (tempMinutes).toString()),
-                          textAlign: TextAlign.center,
-                          decoration: InputDecoration(
-                            labelText: AppLocalizations.of(context)!.min,
-                          ),
-                          inputFormatters: [
-                            FilteringTextInputFormatter.digitsOnly
-                          ],
-                          onChanged: (value) {
-                            if (value != "") {
-                              int intValue = int.parse(value);
-                              tempMinutes = intValue < 999 ? intValue : 999;
-                            } else {
-                              tempMinutes = 0;
-                            }
-                          },
-                        ),
-                      ),
-                      const Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 8.0),
-                        child: Text(":", textScaler: TextScaler.linear(2.0)),
-                      ),
-                      Flexible(
-                        child: TextField(
-                          keyboardType: TextInputType.number,
-                          controller: TextEditingController(
-                              text: (tempSeconds).toString()),
-                          textAlign: TextAlign.center,
-                          decoration: InputDecoration(
-                            labelText: AppLocalizations.of(context)!.sec,
-                          ),
-                          inputFormatters: [
-                            FilteringTextInputFormatter.digitsOnly
-                          ],
-                          onChanged: (value) {
-                            if (value != "") {
-                              int intValue = int.parse(value);
-                              tempSeconds = intValue < 60 ? intValue : 0;
-                            } else {
-                              tempSeconds = 0;
-                            }
-                          },
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-          ),
-        );
-      }
-    } else {
-      if (curRowData.type == 0) {
-        //VIEW REPS
-        return TemplateRowViewFrame(
-          onEdit: () => openEdits(curRowData),
-          rowID: widget.rowID,
-          rowChecked: rowChecked,
-          toggleRowChecked: toggleRowCheck,
-          child: Expanded(
-            child: SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(8, 0, 15, 0),
-                    child: Text(
-                      curRowData.set == "" ? "-" : curRowData.set,
-                      textScaler: const TextScaler.linear(2.5),
-                    ),
-                  ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(top: 2, bottom: 8),
-                        child: Text(
-                          curRowData.exercise == ""
-                              ? AppLocalizations.of(context)!.exercise
-                              : curRowData.exercise,
-                          textScaler: const TextScaler.linear(1.5),
-                          style: const TextStyle(letterSpacing: 1.2),
-                        ),
-                      ),
                       Row(
-                        mainAxisSize: MainAxisSize.max,
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Padding(
-                            padding:
-                                const EdgeInsets.only(right: 15.0, bottom: 2),
-                            child: Container(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                color: lightMode ? onLight : onDark,
-                              ),
-                              child: Padding(
-                                padding: const EdgeInsets.fromLTRB(2, 2, 8, 2),
-                                child: Row(
-                                  children: [
-                                    const Icon(Icons.replay_rounded),
-                                    Text(
-                                      curRowData.reps == ""
-                                          ? "0x"
-                                          : "${curRowData.reps}x",
-                                      textScaler: const TextScaler.linear(1.2),
-                                    ),
+                          Flexible(
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: SizedBox(
+                                width: 30.0,
+                                child: TextField(
+                                  textAlign: TextAlign.center,
+                                  keyboardType: TextInputType.number,
+                                  controller:
+                                      TextEditingController(text: tempSet),
+                                  decoration: InputDecoration(
+                                    labelText:
+                                        AppLocalizations.of(context)!.set,
+                                  ),
+                                  inputFormatters: [
+                                    FilteringTextInputFormatter.digitsOnly
                                   ],
+                                  onChanged: (text) {
+                                    tempSet = text;
+                                  },
                                 ),
                               ),
                             ),
                           ),
-                          Container(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              color: lightMode ? onLight : onDark,
-                            ),
+                          Flexible(
                             child: Padding(
-                              padding: const EdgeInsets.fromLTRB(2, 2, 8, 2),
-                              child: Row(
-                                children: [
-                                  const Icon(Icons.fitness_center),
-                                  Text(
-                                    curRowData.weight == ""
-                                        ? "0"
-                                        : curRowData.weight,
-                                    textScaler: const TextScaler.linear(1.2),
-                                  ),
+                              padding: const EdgeInsets.all(8.0),
+                              child: TextField(
+                                textAlign: TextAlign.center,
+                                controller:
+                                    TextEditingController(text: tempWeight),
+                                decoration: InputDecoration(
+                                  labelText:
+                                      AppLocalizations.of(context)!.weight,
+                                ),
+                                onChanged: (text) {
+                                  tempWeight = text;
+                                },
+                              ),
+                            ),
+                          ),
+                          Flexible(
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: TextField(
+                                textAlign: TextAlign.center,
+                                keyboardType: TextInputType.number,
+                                controller:
+                                    TextEditingController(text: tempReps),
+                                decoration: InputDecoration(
+                                  labelText: AppLocalizations.of(context)!.reps,
+                                ),
+                                inputFormatters: [
+                                  FilteringTextInputFormatter.digitsOnly
                                 ],
+                                onChanged: (text) {
+                                  tempReps = text;
+                                },
                               ),
                             ),
                           ),
                         ],
-                      )
-                    ],
-                  )
-                ],
-              ),
-            ),
-          ),
-        );
-      }
-      if (curRowData.type == 1) {
-        //VIEW TIME
-        return TemplateRowViewFrame(
-          onEdit: () => openEdits(curRowData),
-          rowID: widget.rowID,
-          rowChecked: rowChecked,
-          toggleRowChecked: toggleRowCheck,
-          child: Expanded(
-            child: GestureDetector(
-              onDoubleTap: () {
-                AllDialogs.showCountdownDialog(
-                  context,
-                  curRowData.exercise,
-                  timer,
-                  events,
-                  curRowData.seconds,
-                  null,
-                  vibrate,
-                  volume,
-                  closeTimerAction,
-                  sound,
-                );
-                startTimer(plans);
-              },
-              child: SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(8, 0, 15, 0),
-                      child: Text(
-                        curRowData.set == "" ? "-" : curRowData.set,
-                        textScaler: const TextScaler.linear(2.5),
                       ),
-                    ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(top: 2, bottom: 8),
-                          child: Text(
-                            curRowData.exercise == ""
-                                ? AppLocalizations.of(context)!.exercise
-                                : curRowData.exercise,
-                            textScaler: const TextScaler.linear(1.5),
-                            style: const TextStyle(letterSpacing: 1.2),
+                      Flexible(
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: TextField(
+                            controller:
+                                TextEditingController(text: tempExercise),
+                            decoration: InputDecoration(
+                              labelText: AppLocalizations.of(context)!.exercise,
+                            ),
+                            onChanged: (text) {
+                              tempExercise = text;
+                            },
                           ),
                         ),
-                        Row(
-                          mainAxisSize: MainAxisSize.max,
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            Padding(
-                              padding:
-                                  const EdgeInsets.only(right: 15.0, bottom: 2),
-                              child: Container(
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            );
+          }
+          if (curRowData.type == 1) {
+            //EDIT TIME
+            return TemplateRowEditFrame(
+              rowID: widget.rowID,
+              saveEdits: () => saveEdits(curRowData),
+              cancelEdits: cancelEdits,
+              copyAction: () => copyRow(curRowData, planRows),
+              deleteRow: () => deleteRow(deletionType, curRowData.exercise),
+              child: Flexible(
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 12.0),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Flexible(
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: SizedBox(
+                                width: 30.0,
+                                child: TextField(
+                                  textAlign: TextAlign.center,
+                                  keyboardType: TextInputType.number,
+                                  controller:
+                                      TextEditingController(text: tempSet),
+                                  decoration: InputDecoration(
+                                    labelText:
+                                        AppLocalizations.of(context)!.set,
+                                  ),
+                                  inputFormatters: [
+                                    FilteringTextInputFormatter.digitsOnly
+                                  ],
+                                  onChanged: (text) {
+                                    tempSet = text;
+                                  },
+                                ),
+                              ),
+                            ),
+                          ),
+                          Flexible(
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: TextField(
+                                textAlign: TextAlign.center,
+                                controller:
+                                    TextEditingController(text: tempWeight),
+                                decoration: InputDecoration(
+                                  labelText:
+                                      AppLocalizations.of(context)!.weight,
+                                ),
+                                onChanged: (text) {
+                                  tempWeight = text;
+                                },
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          Flexible(
+                            child: TextField(
+                              keyboardType: TextInputType.number,
+                              controller: TextEditingController(
+                                  text: (tempMinutes).toString()),
+                              textAlign: TextAlign.center,
+                              decoration: InputDecoration(
+                                labelText: AppLocalizations.of(context)!.min,
+                              ),
+                              inputFormatters: [
+                                FilteringTextInputFormatter.digitsOnly
+                              ],
+                              onChanged: (value) {
+                                if (value != "") {
+                                  int intValue = int.parse(value);
+                                  tempMinutes = intValue < 999 ? intValue : 999;
+                                } else {
+                                  tempMinutes = 0;
+                                }
+                              },
+                            ),
+                          ),
+                          const Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 8.0),
+                            child:
+                                Text(":", textScaler: TextScaler.linear(2.0)),
+                          ),
+                          Flexible(
+                            child: TextField(
+                              keyboardType: TextInputType.number,
+                              controller: TextEditingController(
+                                  text: (tempSeconds).toString()),
+                              textAlign: TextAlign.center,
+                              decoration: InputDecoration(
+                                labelText: AppLocalizations.of(context)!.sec,
+                              ),
+                              inputFormatters: [
+                                FilteringTextInputFormatter.digitsOnly
+                              ],
+                              onChanged: (value) {
+                                if (value != "") {
+                                  int intValue = int.parse(value);
+                                  tempSeconds = intValue < 60 ? intValue : 0;
+                                } else {
+                                  tempSeconds = 0;
+                                }
+                              },
+                            ),
+                          ),
+                        ],
+                      ),
+                      Flexible(
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: TextField(
+                            controller:
+                                TextEditingController(text: tempExercise),
+                            decoration: InputDecoration(
+                              labelText: AppLocalizations.of(context)!.exercise,
+                            ),
+                            onChanged: (text) {
+                              tempExercise = text;
+                            },
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            );
+          }
+          if (curRowData.type == 2) {
+            //EDIT PAUSE
+            return TemplateRowEditFrame(
+              rowID: widget.rowID,
+              saveEdits: () => saveEdits(curRowData),
+              cancelEdits: cancelEdits,
+              copyAction: () => copyRow(curRowData, planRows),
+              deleteRow: () => deleteRow(deletionType, curRowData.exercise),
+              child: Flexible(
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(20, 8, 0, 8),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        AppLocalizations.of(context)!.pause,
+                        textScaler: const TextScaler.linear(1.5),
+                      ),
+                      Row(
+                        children: [
+                          Flexible(
+                            child: TextField(
+                              keyboardType: TextInputType.number,
+                              controller: TextEditingController(
+                                  text: (tempMinutes).toString()),
+                              textAlign: TextAlign.center,
+                              decoration: InputDecoration(
+                                labelText: AppLocalizations.of(context)!.min,
+                              ),
+                              inputFormatters: [
+                                FilteringTextInputFormatter.digitsOnly
+                              ],
+                              onChanged: (value) {
+                                if (value != "") {
+                                  int intValue = int.parse(value);
+                                  tempMinutes = intValue < 999 ? intValue : 999;
+                                } else {
+                                  tempMinutes = 0;
+                                }
+                              },
+                            ),
+                          ),
+                          const Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 8.0),
+                            child:
+                                Text(":", textScaler: TextScaler.linear(2.0)),
+                          ),
+                          Flexible(
+                            child: TextField(
+                              keyboardType: TextInputType.number,
+                              controller: TextEditingController(
+                                  text: (tempSeconds).toString()),
+                              textAlign: TextAlign.center,
+                              decoration: InputDecoration(
+                                labelText: AppLocalizations.of(context)!.sec,
+                              ),
+                              inputFormatters: [
+                                FilteringTextInputFormatter.digitsOnly
+                              ],
+                              onChanged: (value) {
+                                if (value != "") {
+                                  int intValue = int.parse(value);
+                                  tempSeconds = intValue < 60 ? intValue : 0;
+                                } else {
+                                  tempSeconds = 0;
+                                }
+                              },
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            );
+          }
+        } else {
+          if (curRowData.type == 0) {
+            //VIEW REPS
+            return TemplateRowViewFrame(
+              onEdit: () => openEdits(curRowData),
+              rowID: widget.rowID,
+              rowChecked: rowChecked,
+              toggleRowChecked: toggleRowCheck,
+              child: Expanded(
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(8, 0, 15, 0),
+                        child: Text(
+                          curRowData.set == "" ? "-" : curRowData.set,
+                          textScaler: const TextScaler.linear(2.5),
+                        ),
+                      ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(top: 2, bottom: 8),
+                            child: Text(
+                              curRowData.exercise == ""
+                                  ? AppLocalizations.of(context)!.exercise
+                                  : curRowData.exercise,
+                              textScaler: const TextScaler.linear(1.5),
+                              style: const TextStyle(letterSpacing: 1.2),
+                            ),
+                          ),
+                          Row(
+                            mainAxisSize: MainAxisSize.max,
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(
+                                    right: 15.0, bottom: 2),
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10),
+                                    color: lightMode ? onLight : onDark,
+                                  ),
+                                  child: Padding(
+                                    padding:
+                                        const EdgeInsets.fromLTRB(2, 2, 8, 2),
+                                    child: Row(
+                                      children: [
+                                        const Icon(Icons.replay_rounded),
+                                        Text(
+                                          curRowData.reps == ""
+                                              ? "0x"
+                                              : "${curRowData.reps}x",
+                                          textScaler:
+                                              const TextScaler.linear(1.2),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              Container(
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(10),
                                   color: lightMode ? onLight : onDark,
@@ -516,9 +448,11 @@ class _TemplateRowState extends ConsumerState<TemplateRow> {
                                       const EdgeInsets.fromLTRB(2, 2, 8, 2),
                                   child: Row(
                                     children: [
-                                      const Icon(Icons.timer_outlined),
+                                      const Icon(Icons.fitness_center),
                                       Text(
-                                        secondsToTimeString(curRowData.seconds),
+                                        curRowData.weight == ""
+                                            ? "0"
+                                            : curRowData.weight,
                                         textScaler:
                                             const TextScaler.linear(1.2),
                                       ),
@@ -526,79 +460,177 @@ class _TemplateRowState extends ConsumerState<TemplateRow> {
                                   ),
                                 ),
                               ),
-                            ),
-                            Container(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                color: lightMode ? onLight : onDark,
-                              ),
-                              child: Padding(
-                                padding: const EdgeInsets.fromLTRB(2, 2, 8, 2),
-                                child: Row(
-                                  children: [
-                                    const Icon(Icons.fitness_center),
-                                    Text(
-                                      curRowData.weight == ""
-                                          ? "0"
-                                          : curRowData.weight,
-                                      textScaler: const TextScaler.linear(1.2),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ],
-                        )
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ),
-        );
-      }
-      if (curRowData.type == 2) {
-        //VIEW PAUSE
-        return TemplateRowViewFrame(
-          onEdit: () => openEdits(curRowData),
-          rowID: widget.rowID,
-          rowChecked: rowChecked,
-          toggleRowChecked: toggleRowCheck,
-          child: Expanded(
-            child: GestureDetector(
-              onDoubleTap: () {
-                AllDialogs.showCountdownDialog(
-                  context,
-                  AppLocalizations.of(context)!.pause,
-                  timer,
-                  events,
-                  curRowData.seconds,
-                  getNextExercise(plans[widget.tabID].rows),
-                  vibrate,
-                  volume,
-                  closeTimerAction,
-                  sound,
-                );
-                startTimer(plans);
-              },
-              child: SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 8.0),
-                  child: Text(
-                    "Pause: ${secondsToTimeString(curRowData.seconds)}",
-                    textScaler: const TextScaler.linear(1.5),
-                    style: const TextStyle(letterSpacing: 1.2),
+                            ],
+                          )
+                        ],
+                      )
+                    ],
                   ),
                 ),
               ),
-            ),
-          ),
-        );
-      }
-    }
-    return const Placeholder();
+            );
+          }
+          if (curRowData.type == 1) {
+            //VIEW TIME
+            return TemplateRowViewFrame(
+              onEdit: () => openEdits(curRowData),
+              rowID: widget.rowID,
+              rowChecked: rowChecked,
+              toggleRowChecked: toggleRowCheck,
+              child: Expanded(
+                child: GestureDetector(
+                  onDoubleTap: () {
+                    AllDialogs.showCountdownDialog(
+                      context,
+                      curRowData.exercise,
+                      timer,
+                      events,
+                      curRowData.seconds,
+                      null,
+                      vibrate,
+                      volume,
+                      closeTimerAction,
+                      sound,
+                    );
+                    startTimer(curRowData);
+                  },
+                  child: SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(8, 0, 15, 0),
+                          child: Text(
+                            curRowData.set == "" ? "-" : curRowData.set,
+                            textScaler: const TextScaler.linear(2.5),
+                          ),
+                        ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(top: 2, bottom: 8),
+                              child: Text(
+                                curRowData.exercise == ""
+                                    ? AppLocalizations.of(context)!.exercise
+                                    : curRowData.exercise,
+                                textScaler: const TextScaler.linear(1.5),
+                                style: const TextStyle(letterSpacing: 1.2),
+                              ),
+                            ),
+                            Row(
+                              mainAxisSize: MainAxisSize.max,
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.only(
+                                      right: 15.0, bottom: 2),
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10),
+                                      color: lightMode ? onLight : onDark,
+                                    ),
+                                    child: Padding(
+                                      padding:
+                                          const EdgeInsets.fromLTRB(2, 2, 8, 2),
+                                      child: Row(
+                                        children: [
+                                          const Icon(Icons.timer_outlined),
+                                          Text(
+                                            secondsToTimeString(
+                                                curRowData.seconds),
+                                            textScaler:
+                                                const TextScaler.linear(1.2),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                Container(
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10),
+                                    color: lightMode ? onLight : onDark,
+                                  ),
+                                  child: Padding(
+                                    padding:
+                                        const EdgeInsets.fromLTRB(2, 2, 8, 2),
+                                    child: Row(
+                                      children: [
+                                        const Icon(Icons.fitness_center),
+                                        Text(
+                                          curRowData.weight == ""
+                                              ? "0"
+                                              : curRowData.weight,
+                                          textScaler:
+                                              const TextScaler.linear(1.2),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            )
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            );
+          }
+          if (curRowData.type == 2) {
+            //VIEW PAUSE
+            return TemplateRowViewFrame(
+              onEdit: () => openEdits(curRowData),
+              rowID: widget.rowID,
+              rowChecked: rowChecked,
+              toggleRowChecked: toggleRowCheck,
+              child: Expanded(
+                child: GestureDetector(
+                  onDoubleTap: () {
+                    AllDialogs.showCountdownDialog(
+                      context,
+                      AppLocalizations.of(context)!.pause,
+                      timer,
+                      events,
+                      curRowData.seconds,
+                      getNextExercise(planRows),
+                      vibrate,
+                      volume,
+                      closeTimerAction,
+                      sound,
+                    );
+                    startTimer(curRowData);
+                  },
+                  child: SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 8.0),
+                      child: Text(
+                        "Pause: ${secondsToTimeString(curRowData.seconds)}",
+                        textScaler: const TextScaler.linear(1.5),
+                        style: const TextStyle(letterSpacing: 1.2),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            );
+          }
+        }
+        return const Placeholder();
+      },
+      error: (error, _) => Center(
+        child: Text(error.toString()),
+      ),
+      loading: () => const Center(
+        child: CircularProgressIndicator(),
+      ),
+    );
   }
 
   void saveEdits(RowItemData curRowData) {
@@ -615,7 +647,8 @@ class _TemplateRowState extends ConsumerState<TemplateRow> {
       exercise: tempExercise,
       seconds: (tempMinutes * 60) + (tempSeconds % 60),
     );
-    ref.read(planProvider.notifier).editRow(widget.tabID, newRow, widget.rowID);
+    ref.read(rowController).updateRow(newRow);
+    ref.refresh(getRowController.future);
     resetEditFields();
   }
 
@@ -639,7 +672,8 @@ class _TemplateRowState extends ConsumerState<TemplateRow> {
       exercise: tempExercise,
       seconds: (tempMinutes * 60) + (tempSeconds % 60),
     );
-    ref.read(planProvider.notifier).addRow(widget.tabID, newRow);
+    ref.read(rowController).addRow(newRow);
+    ref.refresh(getRowController.future);
     resetEditFields();
   }
 
@@ -648,12 +682,14 @@ class _TemplateRowState extends ConsumerState<TemplateRow> {
       AllDialogs.showDeleteDialog(
         context,
         "${AppLocalizations.of(context)!.row} $exercise",
-        () => ref
-            .read(planProvider.notifier)
-            .removeRow(widget.tabID, widget.rowID),
+        () {
+          ref.read(rowController).deleteRow(widget.rowID);
+          ref.refresh(getRowController.future);
+        },
       );
     } else {
-      ref.read(planProvider.notifier).removeRow(widget.tabID, widget.rowID);
+      ref.read(rowController).deleteRow(widget.rowID);
+      ref.refresh(getRowController.future);
     }
   }
 
@@ -678,11 +714,11 @@ class _TemplateRowState extends ConsumerState<TemplateRow> {
     tempSeconds = 0;
   }
 
-  void startTimer(List<PlanItemData> plans) {
+  void startTimer(RowItemData row) {
     if (timer != null) {
       timer!.cancel();
     }
-    curSeconds = plans[widget.tabID].rows[widget.rowID].seconds;
+    curSeconds = row.seconds;
     timer = Timer.periodic(const Duration(seconds: 1), (_) {
       events.add(--curSeconds);
     });

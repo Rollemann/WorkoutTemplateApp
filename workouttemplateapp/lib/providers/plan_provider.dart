@@ -81,15 +81,19 @@ final planProvider =
 /// new provider with db
 ///
 
+// Controller for change data
 final planController = Provider((ref) => PlanController());
-//TODO: rename in planProvider
+// TODO: rename in planProvider
+// Provider for display data
 final getPlanController = FutureProvider<List<PlanItemData>?>((ref) {
   final plans = ref.read(planController).getPlans();
   return plans;
 });
 
+// Controller for change data
 final rowController = Provider((ref) => RowController());
-//TODO: rename in rowProvider
+// TODO: rename in rowProvider
+// Provider for display data
 final getRowController = FutureProvider<List<RowItemData>?>((ref) {
   final rows = ref.read(rowController).getRows();
   return rows;
@@ -108,7 +112,7 @@ class PlanController {
     return null;
   }
 
-  Future<int> addPlan({PlanItemData? plan}) async {
+  Future<int> addPlan(PlanItemData? plan) async {
     return await DBHandler.insertPlan(plan!);
   }
 

@@ -3,7 +3,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:workouttemplateapp/all_dialogs.dart';
 import 'package:workouttemplateapp/screens/plan_settings_screen.dart';
-import 'package:workouttemplateapp/template_data_models.dart';
+import 'package:workouttemplateapp/data_models.dart';
 import 'package:workouttemplateapp/providers/plan_provider.dart';
 import 'package:workouttemplateapp/providers/settings_provider.dart';
 
@@ -19,132 +19,138 @@ class TemplateSettings extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final plans = ref.watch(planProvider);
+    final plans = ref.watch(getPlanController);
     final List<String> rowTypes = [
       AppLocalizations.of(context)!.reps,
       AppLocalizations.of(context)!.time,
       AppLocalizations.of(context)!.pause,
     ];
-    return Padding(
-      padding: const EdgeInsets.all(2.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: [
-          MenuAnchor(
-            style: MenuStyle(
-              backgroundColor: MaterialStatePropertyAll(
-                  Theme.of(context).colorScheme.secondaryContainer),
-            ),
-            builder: (context, controller, child) {
-              return TextButton(
-                onPressed: () {
-                  if (controller.isOpen) {
-                    controller.close();
-                  } else {
-                    controller.open();
-                  }
-                },
-                child: Column(
-                  children: [
-                    const Icon(Icons.add),
-                    Text(AppLocalizations.of(context)!.row),
-                  ],
-                ),
-              );
-            },
-            menuChildren: List<MenuItemButton>.generate(
-              rowTypes.length,
-              (int index) => MenuItemButton(
-                onPressed: () => addNewRow(currentTabId, index, context, ref),
-                child: Padding(
-                  padding: const EdgeInsets.all(15.0),
-                  child: Row(
+    return plans.when(
+      data: (plansData) => Padding(
+        padding: const EdgeInsets.all(2.0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            MenuAnchor(
+              style: MenuStyle(
+                backgroundColor: MaterialStatePropertyAll(
+                    Theme.of(context).colorScheme.secondaryContainer),
+              ),
+              builder: (context, controller, child) {
+                return TextButton(
+                  onPressed: () {
+                    if (controller.isOpen) {
+                      controller.close();
+                    } else {
+                      controller.open();
+                    }
+                  },
+                  child: Column(
                     children: [
-                      Padding(
-                        padding: const EdgeInsets.only(right: 8.0),
-                        child: Icon(
-                          menuIcons[index],
-                          color: Theme.of(context)
-                              .colorScheme
-                              .onSecondaryContainer,
-                        ),
-                      ),
-                      Text(
-                        rowTypes[index],
-                        textScaler: const TextScaler.linear(2),
-                        style: Theme.of(context).textTheme.bodyMedium,
-                      ),
+                      const Icon(Icons.add),
+                      Text(AppLocalizations.of(context)!.row),
                     ],
+                  ),
+                );
+              },
+              menuChildren: List<MenuItemButton>.generate(
+                rowTypes.length,
+                (int index) => MenuItemButton(
+                  onPressed: () => addNewRow(index, context, ref),
+                  child: Padding(
+                    padding: const EdgeInsets.all(15.0),
+                    child: Row(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(right: 8.0),
+                          child: Icon(
+                            menuIcons[index],
+                            color: Theme.of(context)
+                                .colorScheme
+                                .onSecondaryContainer,
+                          ),
+                        ),
+                        Text(
+                          rowTypes[index],
+                          textScaler: const TextScaler.linear(2),
+                          style: Theme.of(context).textTheme.bodyMedium,
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
             ),
-          ),
-          TextButton(
-            onPressed: () {
-              final String title = plans[currentTabId].name;
-              AllDialogs.showEditDialog(
-                context,
-                '${AppLocalizations.of(context)!.newNameFor} "$title"',
-                (String newName) {
-                  ref
-                      .read(planProvider.notifier)
-                      .renamePlan(currentTabId, newName);
-                },
-              );
-            },
-            style: TextButton.styleFrom(
-              disabledForegroundColor: const Color.fromARGB(255, 150, 150, 150),
+            TextButton(
+              onPressed: () {
+                final String title = plansData![currentTabId].name;
+                AllDialogs.showEditDialog(
+                  context,
+                  '${AppLocalizations.of(context)!.newNameFor} "$title"',
+                  (String newName) async {
+                    final plans = await ref.read(getPlanController.future);
+                    PlanItemData plan = plans![currentTabId];
+                    plan.name = newName;
+                    ref.read(planController).updatePlan(plan);
+                    ref.refresh(getPlanController.future);
+                  },
+                );
+              },
+              style: TextButton.styleFrom(
+                disabledForegroundColor:
+                    const Color.fromARGB(255, 150, 150, 150),
+              ),
+              child: Column(
+                children: [
+                  const Icon(Icons.border_color),
+                  Text(AppLocalizations.of(context)!.rename),
+                ],
+              ),
             ),
-            child: Column(
-              children: [
-                const Icon(Icons.border_color),
-                Text(AppLocalizations.of(context)!.rename),
-              ],
-            ),
-          ),
-          TextButton(
-            onPressed: () => {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => PlanSettingsScreen(
-                    currentPlanIndex: currentTabId,
-                    planLength: plans.length,
+            TextButton(
+              onPressed: () => {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => PlanSettingsScreen(
+                      currentPlanIndex: currentTabId,
+                      planLength: plansData!.length,
+                    ),
                   ),
-                ),
-              )
-            },
-            child: Column(
-              children: [
-                const Icon(Icons.edit),
-                Text(AppLocalizations.of(context)!.edit),
-              ],
+                )
+              },
+              child: Column(
+                children: [
+                  const Icon(Icons.edit),
+                  Text(AppLocalizations.of(context)!.edit),
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
+      ),
+      error: (error, _) => Center(
+        child: Text(error.toString()),
+      ),
+      loading: () => const Center(
+        child: CircularProgressIndicator(),
       ),
     );
   }
 
-  void addNewRow(int planId, int type, BuildContext context, WidgetRef ref) {
+  void addNewRow(int type, BuildContext context, WidgetRef ref) async {
     final bool showHints = ref.read(showHintsProvider);
-    final List<RowItemData> rows = ref.read(planProvider)[currentTabId].rows;
-    const int maxRows = 100;
+    final rows = await ref.read(getRowController.future);
+    final curRows = rows!.where((row) => row.planId == currentTabId).toList();
 
-    if (rows.length < maxRows) {
-      ref.read(planProvider.notifier).addRow(
-          currentTabId,
+    ref.read(rowController).addRow(
           RowItemData(
-            planId: planId,
+            planId: currentTabId,
             type: type,
-            set: (_getNonPauseRowNumber(rows) + 1).toString(),
-          ));
-    } else {
-      _showSnackBar(
-          AppLocalizations.of(context)!.limitReachedRows(maxRows), context);
-      return;
-    }
+            set: (_getNonPauseRowNumber(curRows) + 1).toString(),
+          ),
+        );
+    ref.refresh(getRowController.future);
     if (showHints && type > 0) {
       _showSnackBar(AppLocalizations.of(context)!.startTimerInfo, context);
     }

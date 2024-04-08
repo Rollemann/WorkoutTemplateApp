@@ -12,24 +12,32 @@ class TemplatesNavigation extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final List<PlanItemData> plans = ref.watch(planProvider);
-    return Row(
-      children: [
-        Expanded(
-          child: TabBar(
-            tabAlignment: TabAlignment.start,
-            isScrollable: true,
-            tabs: createPlans(plans),
+    final plans = ref.watch(getPlanController);
+    return plans.when(
+      data: (planData) => Row(
+        children: [
+          Expanded(
+            child: TabBar(
+              tabAlignment: TabAlignment.start,
+              isScrollable: true,
+              tabs: createPlans(planData!),
+            ),
           ),
-        ),
-        IconButton(
-          tooltip: AppLocalizations.of(context)!.addPlan,
-          onPressed: () => addPlan(ref, plans, context),
-          style: const ButtonStyle(
-              shape: MaterialStatePropertyAll(CircleBorder())),
-          icon: const Icon(Icons.add, size: 35),
-        ),
-      ],
+          IconButton(
+            tooltip: AppLocalizations.of(context)!.addPlan,
+            onPressed: () => addPlan(ref, planData, context),
+            style: const ButtonStyle(
+                shape: MaterialStatePropertyAll(CircleBorder())),
+            icon: const Icon(Icons.add, size: 35),
+          ),
+        ],
+      ),
+      error: (error, _) => Center(
+        child: Text(error.toString()),
+      ),
+      loading: () => const Center(
+        child: CircularProgressIndicator(),
+      ),
     );
   }
 
@@ -46,14 +54,14 @@ class TemplatesNavigation extends ConsumerWidget {
 
   void addPlan(
       WidgetRef ref, List<PlanItemData> plans, BuildContext context) async {
-    const maxPlans = 25;
+    //const maxPlans = 25;
     //TODO
     log((await DBHandler.allPlans()).length.toString());
-    ref
-        .read(planController)
-        .addPlan(plan: PlanItemData(name: "NewPlan ${plans.length + 1}"));
+    final newPlan = PlanItemData(name: "NewPlan ${plans.length + 1}");
+    final planId = ref.read(planController).addPlan(newPlan);
+    ref.refresh(getPlanController.future);
     log((await DBHandler.allPlans()).length.toString());
-    if (plans.length < maxPlans) {
+    /* if (plans.length < maxPlans) {
       ref.read(planProvider.notifier).addPlan(
             PlanItemData(name: "NewPlan ${plans.length + 1}"),
           );
@@ -71,6 +79,6 @@ class TemplatesNavigation extends ConsumerWidget {
         ),
       );
       ScaffoldMessenger.of(context).showSnackBar(snackBar);
-    }
+    } */
   }
 }

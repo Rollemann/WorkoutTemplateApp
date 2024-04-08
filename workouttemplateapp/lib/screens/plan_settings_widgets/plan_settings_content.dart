@@ -10,7 +10,7 @@ import 'package:workouttemplateapp/providers/plan_provider.dart';
 import 'package:workouttemplateapp/providers/settings_provider.dart';
 import 'package:workouttemplateapp/screens/plan_settings_widgets/plan_settings_row.dart';
 import 'package:workouttemplateapp/screens/settings_widgets/deletion_type_widget.dart';
-import 'package:workouttemplateapp/template_data_models.dart';
+import 'package:workouttemplateapp/data_models.dart';
 
 class PlanSettingsContent extends ConsumerStatefulWidget {
   final int currentPlanIndex;

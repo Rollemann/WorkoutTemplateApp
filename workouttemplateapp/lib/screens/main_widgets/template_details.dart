@@ -4,7 +4,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:receive_sharing_intent/receive_sharing_intent.dart';
-import 'package:workouttemplateapp/template_data_models.dart';
+import 'package:workouttemplateapp/data_models.dart';
 import 'package:workouttemplateapp/providers/plan_provider.dart';
 import 'package:workouttemplateapp/screens/main_widgets/template_row.dart';
 import 'package:workouttemplateapp/screens/main_widgets/template_settings.dart';
@@ -60,44 +60,52 @@ class _TemplateDetailsState extends ConsumerState<TemplateDetails> {
 
   @override
   Widget build(BuildContext context) {
-    final List<PlanItemData> plans = ref.watch(planProvider);
-    return Column(
-      children: [
-        Expanded(
-          child: ReorderableListView.builder(
-            itemCount: plans[widget.id].rows.length,
-            onReorder: (oldIndex, newIndex) {
-              setState(() {
-                if (newIndex > oldIndex) {
-                  --newIndex;
-                }
-                final row = ref
-                    .read(planProvider.notifier)
-                    .removeRow(widget.id, oldIndex);
-                ref
-                    .read(planProvider.notifier)
-                    .addRow(widget.id, row, newIndex);
-              });
-            },
-            itemBuilder: (context, index) => Column(
-              key: ObjectKey(plans[widget.id].rows[index]),
-              children: [
-                TemplateRow(
-                  tabID: widget.id,
-                  rowID: index,
+    final rows = ref.watch(getRowController);
+    return rows.when(
+      data: (rowData) {
+        final curRowData =
+            rowData!.where((row) => row.planId == widget.id).toList();
+        return Column(
+          children: [
+            Expanded(
+              child: ReorderableListView.builder(
+                itemCount: curRowData.length,
+                onReorder: (oldIndex, newIndex) {
+                  setState(() {
+                    if (newIndex > oldIndex) {
+                      --newIndex;
+                    }
+                    ref.read(rowController).swapRows(newIndex, oldIndex);
+                    ref.refresh(getRowController.future);
+                  });
+                },
+                itemBuilder: (context, index) => Column(
+                  key: ObjectKey(curRowData[index]),
+                  children: [
+                    TemplateRow(
+                      tabID: widget.id,
+                      rowID: index,
+                    ),
+                    const Divider(
+                      indent: 25,
+                      endIndent: 25,
+                    )
+                  ],
                 ),
-                const Divider(
-                  indent: 25,
-                  endIndent: 25,
-                )
-              ],
+              ),
             ),
-          ),
-        ),
-        TemplateSettings(
-          currentTabId: widget.id,
-        ),
-      ],
+            TemplateSettings(
+              currentTabId: widget.id,
+            ),
+          ],
+        );
+      },
+      error: (error, _) => Center(
+        child: Text(error.toString()),
+      ),
+      loading: () => const Center(
+        child: CircularProgressIndicator(),
+      ),
     );
   }
 }
