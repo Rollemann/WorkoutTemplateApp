@@ -13,11 +13,11 @@ import 'package:workouttemplateapp/screens/settings_widgets/deletion_type_widget
 import 'package:workouttemplateapp/data_models.dart';
 
 class PlanSettingsContent extends ConsumerStatefulWidget {
-  final int currentPlanIndex;
+  final int planId;
   final int planLength;
   const PlanSettingsContent({
     super.key,
-    required this.currentPlanIndex,
+    required this.planId,
     required this.planLength,
   });
 
@@ -28,120 +28,137 @@ class PlanSettingsContent extends ConsumerStatefulWidget {
 class _PlanSettingsListState extends ConsumerState<PlanSettingsContent> {
   final List<bool> checkedPlans = [];
 
+//TODO Anpassen weil planId ist nicht mehr Index
   @override
   void initState() {
     for (var i = 0; i < widget.planLength; i++) {
-      checkedPlans.add(i == widget.currentPlanIndex);
+      checkedPlans.add(i == widget.planId);
     }
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    final List<PlanItemData> plans = ref.watch(planProvider);
+    final plans = ref.watch(getPlanController);
     final DeletionTypes deletionType = ref.watch(deletionTypeProvider);
-    return Column(
-      children: [
-        Text(
-          AppLocalizations.of(context)!.planSettingsDescription,
-          style: Theme.of(context).textTheme.titleMedium,
-          textAlign: TextAlign.center,
-        ),
-        Expanded(
-          child: ReorderableListView.builder(
-            itemCount: plans.length,
-            itemBuilder: (context, index) => PlanSettingsRow(
-              key: ObjectKey(plans[index]),
-              title: plans[index].name,
-              index: index,
-              checked: checkedPlans[index],
-              onCheck: (bool? checked) => onCheck(index, checked),
+    return plans.when(
+      data: (plansData) => Column(
+        children: [
+          Text(
+            AppLocalizations.of(context)!.planSettingsDescription,
+            style: Theme.of(context).textTheme.titleMedium,
+            textAlign: TextAlign.center,
+          ),
+          Expanded(
+            child: ReorderableListView.builder(
+              itemCount: plansData!.length,
+              itemBuilder: (context, index) => PlanSettingsRow(
+                key: ObjectKey(plansData[index]),
+                title: plansData[index].name,
+                index: index,
+                checked: checkedPlans[index],
+                onCheck: (bool? checked) => onCheck(index, checked),
+              ),
+              onReorder: (oldIndex, newIndex) {
+                setState(() {
+                  if (newIndex > oldIndex) {
+                    --newIndex;
+                  }
+                  ref.read(planController).swapPlans(
+                      plansData[newIndex].id, plansData[oldIndex].id);
+                  ref.refresh(getPlanController.future);
+                  //TODO
+                  /* final bool tempCheck = checkedPlans[oldIndex];
+                  checkedPlans.removeAt(oldIndex);
+                  checkedPlans.insert(newIndex, tempCheck); */
+                });
+              },
             ),
-            onReorder: (oldIndex, newIndex) {
-              setState(() {
-                if (newIndex > oldIndex) {
-                  --newIndex;
-                }
-                final plan =
-                    ref.read(planProvider.notifier).removePlan(oldIndex);
-                ref.read(planProvider.notifier).addPlan(plan, newIndex);
-                final bool tempCheck = checkedPlans[oldIndex];
-                checkedPlans.removeAt(oldIndex);
-                checkedPlans.insert(newIndex, tempCheck);
-              });
-            },
           ),
-        ),
-        //Bottom Bar
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              TextButton(
-                onPressed: () => addPlan(ref, plans, context),
-                style: TextButton.styleFrom(
-                  disabledForegroundColor:
-                      const Color.fromARGB(255, 150, 150, 150),
+          //Bottom Bar
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                TextButton(
+                  onPressed: () => addPlan(ref, plansData, context),
+                  style: TextButton.styleFrom(
+                    disabledForegroundColor:
+                        const Color.fromARGB(255, 150, 150, 150),
+                  ),
+                  child: Column(
+                    children: [
+                      const Icon(Icons.add),
+                      Text(AppLocalizations.of(context)!.add),
+                    ],
+                  ),
                 ),
-                child: Column(
-                  children: [
-                    const Icon(Icons.add),
-                    Text(AppLocalizations.of(context)!.add),
-                  ],
+                TextButton(
+                  onPressed: allCheckedIndexes(plansData).isNotEmpty
+                      ? () =>
+                          {sharePlans(plansData, allCheckedIndexes(plansData))}
+                      : null,
+                  style: TextButton.styleFrom(
+                    disabledForegroundColor:
+                        const Color.fromARGB(255, 150, 150, 150),
+                  ),
+                  child: Column(
+                    children: [
+                      const Icon(Icons.share),
+                      Text(AppLocalizations.of(context)!.share),
+                    ],
+                  ),
                 ),
-              ),
-              TextButton(
-                onPressed: allCheckedIndexes().isNotEmpty
-                    ? () => {sharePlans(plans, allCheckedIndexes())}
-                    : null,
-                style: TextButton.styleFrom(
-                  disabledForegroundColor:
-                      const Color.fromARGB(255, 150, 150, 150),
+                TextButton(
+                  onPressed: allCheckedIndexes(plansData).isNotEmpty
+                      ? () {
+                          final List<int> allChecked =
+                              allCheckedIndexes(plansData);
+                          final String description = allChecked.length == 1
+                              ? plansData[allChecked[0]].name
+                              : "${allChecked.length} ${AppLocalizations.of(context)!.plans}";
+                          deletionType == DeletionTypes.never
+                              ? removePlans(allCheckedIndexes(plansData), ref)
+                              : AllDialogs.showDeleteDialog(
+                                  context,
+                                  description,
+                                  () => {
+                                        removePlans(
+                                            allCheckedIndexes(plansData), ref)
+                                      });
+                        }
+                      : null,
+                  style: TextButton.styleFrom(
+                    disabledForegroundColor:
+                        const Color.fromARGB(255, 150, 150, 150),
+                  ),
+                  child: Column(
+                    children: [
+                      const Icon(Icons.delete),
+                      Text(AppLocalizations.of(context)!.delete),
+                    ],
+                  ),
                 ),
-                child: Column(
-                  children: [
-                    const Icon(Icons.share),
-                    Text(AppLocalizations.of(context)!.share),
-                  ],
-                ),
-              ),
-              TextButton(
-                onPressed: allCheckedIndexes().isNotEmpty
-                    ? () {
-                        final List<int> allChecked = allCheckedIndexes();
-                        final String description = allChecked.length == 1
-                            ? plans[allChecked[0]].name
-                            : "${allChecked.length} ${AppLocalizations.of(context)!.plans}";
-                        deletionType == DeletionTypes.never
-                            ? removePlans(allCheckedIndexes(), ref)
-                            : AllDialogs.showDeleteDialog(context, description,
-                                () => {removePlans(allCheckedIndexes(), ref)});
-                      }
-                    : null,
-                style: TextButton.styleFrom(
-                  disabledForegroundColor:
-                      const Color.fromARGB(255, 150, 150, 150),
-                ),
-                child: Column(
-                  children: [
-                    const Icon(Icons.delete),
-                    Text(AppLocalizations.of(context)!.delete),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        )
-      ],
+              ],
+            ),
+          )
+        ],
+      ),
+      error: (error, _) => Center(
+        child: Text(error.toString()),
+      ),
+      loading: () => const Center(
+        child: CircularProgressIndicator(),
+      ),
     );
   }
 
-  List<int> allCheckedIndexes() {
+  List<int> allCheckedIndexes(List<PlanItemData> plans) {
     final List<int> indexList = [];
     for (var i = 0; i < checkedPlans.length; i++) {
       if (checkedPlans[i]) {
-        indexList.add(i);
+        indexList.add(plans[i].id);
       }
     }
     return indexList;
@@ -150,7 +167,8 @@ class _PlanSettingsListState extends ConsumerState<PlanSettingsContent> {
   removePlans(List<int> indexList, WidgetRef ref) {
     indexList.sort();
     for (var i = indexList.length - 1; i >= 0; i--) {
-      ref.read(planProvider.notifier).removePlan(indexList[i]);
+      ref.read(planController).deletePlan(indexList[i]);
+      ref.refresh(getPlanController.future);
       checkedPlans.removeAt(indexList[i]);
     }
   }
@@ -164,9 +182,9 @@ class _PlanSettingsListState extends ConsumerState<PlanSettingsContent> {
   void addPlan(WidgetRef ref, List<PlanItemData> plans, BuildContext context) {
     const maxPlans = 25;
     if (plans.length < maxPlans) {
-      ref.read(planProvider.notifier).addPlan(
-            PlanItemData(name: "NewPlan ${plans.length + 1}"),
-          );
+      final newPlan = PlanItemData(name: "NewPlan ${plans.length + 1}");
+      ref.read(planController).addPlan(newPlan);
+      ref.refresh(getPlanController.future);
       checkedPlans.add(false);
     } else {
       final snackBar = SnackBar(

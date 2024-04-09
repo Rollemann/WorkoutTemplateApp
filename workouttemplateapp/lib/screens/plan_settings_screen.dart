@@ -22,7 +22,7 @@ class PlanSettingsScreen extends StatelessWidget {
         backgroundColor: Theme.of(context).colorScheme.primaryContainer,
       ),
       body: PlanSettingsContent(
-        currentPlanIndex: currentPlanIndex,
+        planId: currentPlanIndex,
         planLength: planLength,
       ),
     );

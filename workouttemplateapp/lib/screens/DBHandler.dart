@@ -36,7 +36,7 @@ class DBHandler {
         await _db!.query(_tableNamePlan);
     log(planMaps.toString());
     return [
-      for (final planJson in planMaps) PlanItemData.fromJsonDB(planJson),
+      for (final planJson in planMaps) PlanItemData.fromJson(planJson),
     ];
   }
 
@@ -44,7 +44,7 @@ class DBHandler {
     log("Insert function called");
     return await _db!.insert(
       _tableNamePlan,
-      plan!.toJsonDB(),
+      plan!.toJson(),
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
   }

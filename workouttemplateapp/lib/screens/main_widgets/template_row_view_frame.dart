@@ -5,7 +5,6 @@ import 'package:workouttemplateapp/providers/settings_provider.dart';
 
 class TemplateRowViewFrame extends ConsumerStatefulWidget {
   final Widget child;
-  final int rowID;
   final Function onEdit;
   final bool rowChecked;
   final Function toggleRowChecked;
@@ -13,7 +12,6 @@ class TemplateRowViewFrame extends ConsumerStatefulWidget {
   const TemplateRowViewFrame({
     super.key,
     required this.child,
-    required this.rowID,
     required this.onEdit,
     required this.rowChecked,
     required this.toggleRowChecked,

@@ -16,30 +16,10 @@ class PlanItemData {
     return PlanItemData(
       id: planJson['id'],
       name: planJson['name'],
-      rows: planJson['rows']
-          .map<RowItemData>(
-              (rowItem) => RowItemData.fromJson(json.decode(rowItem)))
-          .toList(),
-    );
-  }
-
-  factory PlanItemData.fromJsonDB(Map<String, dynamic> planJson) {
-    return PlanItemData(
-      id: planJson['id'],
-      name: planJson['name'],
     );
   }
 
   Map<String, dynamic> toJson() {
-    List<String> stringRows =
-        rows.map((row) => jsonEncode(row.toJson())).toList();
-    Map<String, dynamic> json = id > 0
-        ? {'id': id, 'name': name, 'rows': stringRows}
-        : {'name': name, 'rows': stringRows};
-    return json;
-  }
-
-  Map<String, dynamic> toJsonDB() {
     return id > 0 ? {'id': id, 'name': name} : {'name': name};
   }
 }

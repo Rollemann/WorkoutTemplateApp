@@ -3,7 +3,6 @@ import 'package:workouttemplateapp/screens/main_widgets/row_edit_controls.dart';
 
 class TemplateRowEditFrame extends StatelessWidget {
   final Widget child;
-  final int rowID;
   final Function saveEdits;
   final Function cancelEdits;
   final Function deleteRow;
@@ -12,7 +11,6 @@ class TemplateRowEditFrame extends StatelessWidget {
   const TemplateRowEditFrame({
     super.key,
     required this.child,
-    required this.rowID,
     required this.saveEdits,
     required this.cancelEdits,
     required this.deleteRow,

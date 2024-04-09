@@ -93,7 +93,7 @@ class MainScreen extends ConsumerWidget {
     final List<TemplateDetails> allTemplateDetails = [];
     for (var i = 0; i < plans.length; i++) {
       allTemplateDetails.add(TemplateDetails(
-        id: plans[i].id,
+        planId: plans[i].id,
       ));
     }
     return allTemplateDetails;

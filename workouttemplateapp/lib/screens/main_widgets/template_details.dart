@@ -10,10 +10,10 @@ import 'package:workouttemplateapp/screens/main_widgets/template_row.dart';
 import 'package:workouttemplateapp/screens/main_widgets/template_settings.dart';
 
 class TemplateDetails extends ConsumerStatefulWidget {
-  final int id;
+  final int planId;
   const TemplateDetails({
     super.key,
-    required this.id,
+    required this.planId,
   });
 
   @override
@@ -63,28 +63,30 @@ class _TemplateDetailsState extends ConsumerState<TemplateDetails> {
     final rows = ref.watch(getRowController);
     return rows.when(
       data: (rowData) {
-        final curRowData =
-            rowData!.where((row) => row.planId == widget.id).toList();
+        final planRows =
+            rowData!.where((row) => row.planId == widget.planId).toList();
         return Column(
           children: [
             Expanded(
               child: ReorderableListView.builder(
-                itemCount: curRowData.length,
+                itemCount: planRows.length,
                 onReorder: (oldIndex, newIndex) {
                   setState(() {
                     if (newIndex > oldIndex) {
                       --newIndex;
                     }
-                    ref.read(rowController).swapRows(newIndex, oldIndex);
+                    ref
+                        .read(rowController)
+                        .swapRows(planRows[newIndex].id, planRows[oldIndex].id);
                     ref.refresh(getRowController.future);
                   });
                 },
                 itemBuilder: (context, index) => Column(
-                  key: ObjectKey(curRowData[index]),
+                  key: ObjectKey(planRows[index]),
                   children: [
                     TemplateRow(
-                      tabID: widget.id,
-                      rowID: index,
+                      planId: widget.planId,
+                      rowId: planRows[index].id,
                     ),
                     const Divider(
                       indent: 25,
@@ -95,7 +97,7 @@ class _TemplateDetailsState extends ConsumerState<TemplateDetails> {
               ),
             ),
             TemplateSettings(
-              currentTabId: widget.id,
+              planId: widget.planId,
             ),
           ],
         );

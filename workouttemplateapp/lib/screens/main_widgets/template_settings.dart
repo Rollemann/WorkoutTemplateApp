@@ -8,14 +8,17 @@ import 'package:workouttemplateapp/providers/plan_provider.dart';
 import 'package:workouttemplateapp/providers/settings_provider.dart';
 
 class TemplateSettings extends ConsumerWidget {
-  final int currentTabId;
+  final int planId;
   final List<IconData> menuIcons = const [
     Icons.replay_outlined,
     Icons.timer_outlined,
     Icons.hourglass_empty_rounded
   ];
 
-  const TemplateSettings({super.key, required this.currentTabId});
+  const TemplateSettings({
+    super.key,
+    required this.planId,
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -83,13 +86,13 @@ class TemplateSettings extends ConsumerWidget {
             ),
             TextButton(
               onPressed: () {
-                final String title = plansData![currentTabId].name;
+                final String title = plansData![planId].name;
                 AllDialogs.showEditDialog(
                   context,
                   '${AppLocalizations.of(context)!.newNameFor} "$title"',
                   (String newName) async {
                     final plans = await ref.read(getPlanController.future);
-                    PlanItemData plan = plans![currentTabId];
+                    PlanItemData plan = plans![planId];
                     plan.name = newName;
                     ref.read(planController).updatePlan(plan);
                     ref.refresh(getPlanController.future);
@@ -113,7 +116,7 @@ class TemplateSettings extends ConsumerWidget {
                   context,
                   MaterialPageRoute(
                     builder: (context) => PlanSettingsScreen(
-                      currentPlanIndex: currentTabId,
+                      currentPlanIndex: planId,
                       planLength: plansData!.length,
                     ),
                   ),
@@ -141,11 +144,11 @@ class TemplateSettings extends ConsumerWidget {
   void addNewRow(int type, BuildContext context, WidgetRef ref) async {
     final bool showHints = ref.read(showHintsProvider);
     final rows = await ref.read(getRowController.future);
-    final curRows = rows!.where((row) => row.planId == currentTabId).toList();
+    final curRows = rows!.where((row) => row.planId == planId).toList();
 
     ref.read(rowController).addRow(
           RowItemData(
-            planId: currentTabId,
+            planId: planId,
             type: type,
             set: (_getNonPauseRowNumber(curRows) + 1).toString(),
           ),

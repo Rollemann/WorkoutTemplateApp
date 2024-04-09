@@ -7,11 +7,11 @@ import 'package:workouttemplateapp/screens/DBHandler.dart';
 import 'package:workouttemplateapp/data_models.dart';
 import 'package:workouttemplateapp/providers/shared_preference_provider.dart';
 
-class PlanNotifier extends StateNotifier<List<PlanItemData>> {
+/* class PlanNotifier extends StateNotifier<List<PlanItemData>> {
   final SharedPreferences prefs;
   PlanNotifier(this.prefs) : super([]);
 
-  _initialize() {
+/*   _initialize() {
     if (!prefs.containsKey("plans")) {
       return;
     }
@@ -21,7 +21,7 @@ class PlanNotifier extends StateNotifier<List<PlanItemData>> {
     state = stringPlans
         .map((plan) => PlanItemData.fromJson(json.decode(plan)))
         .toList();
-  }
+  } */
 
   void addPlan(PlanItemData plan, [int newPlanIndex = -1]) {
     newPlanIndex < 0 ? state.add(plan) : state.insert(newPlanIndex, plan);
@@ -63,19 +63,19 @@ class PlanNotifier extends StateNotifier<List<PlanItemData>> {
     _savePlans();
   }
 
-  void _savePlans() {
+  /* void _savePlans() {
     List<String> stringPlans =
         state.map((plan) => json.encode(plan.toJson())).toList();
     prefs.setStringList("plans", stringPlans);
-  }
-}
+  } */
+} */
 
-final planProvider =
+/* final planProvider =
     StateNotifierProvider<PlanNotifier, List<PlanItemData>>((ref) {
   final pn = PlanNotifier(ref.watch(sharedPreferencesProvider));
   pn._initialize();
   return pn;
-});
+}); */
 
 ///
 /// new provider with db

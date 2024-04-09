@@ -13,13 +13,13 @@ import 'package:workouttemplateapp/providers/settings_provider.dart';
 import 'package:workouttemplateapp/screens/settings_widgets/deletion_type_widget.dart';
 
 class TemplateRow extends ConsumerStatefulWidget {
-  final int tabID;
-  final int rowID;
+  final int planId;
+  final int rowId;
 
   const TemplateRow({
     super.key,
-    required this.tabID,
-    required this.rowID,
+    required this.planId,
+    required this.rowId,
   });
 
   @override
@@ -57,13 +57,13 @@ class _TemplateRowState extends ConsumerState<TemplateRow> {
     return rows.when(
       data: (rowsData) {
         final planRows =
-            rowsData!.where((row) => row.planId == widget.tabID).toList();
-        final curRowData = planRows[widget.rowID];
+            rowsData!.where((row) => row.planId == widget.planId).toList();
+        final curRowData =
+            planRows.where((row) => row.id == widget.rowId).toList()[0];
         if (editMode) {
           if (curRowData.type == 0) {
             //EDIT REPS
             return TemplateRowEditFrame(
-              rowID: widget.rowID,
               saveEdits: () => saveEdits(curRowData),
               cancelEdits: cancelEdits,
               copyAction: () => copyRow(curRowData, planRows),
@@ -164,7 +164,6 @@ class _TemplateRowState extends ConsumerState<TemplateRow> {
           if (curRowData.type == 1) {
             //EDIT TIME
             return TemplateRowEditFrame(
-              rowID: widget.rowID,
               saveEdits: () => saveEdits(curRowData),
               cancelEdits: cancelEdits,
               copyAction: () => copyRow(curRowData, planRows),
@@ -298,7 +297,6 @@ class _TemplateRowState extends ConsumerState<TemplateRow> {
           if (curRowData.type == 2) {
             //EDIT PAUSE
             return TemplateRowEditFrame(
-              rowID: widget.rowID,
               saveEdits: () => saveEdits(curRowData),
               cancelEdits: cancelEdits,
               copyAction: () => copyRow(curRowData, planRows),
@@ -378,7 +376,6 @@ class _TemplateRowState extends ConsumerState<TemplateRow> {
             //VIEW REPS
             return TemplateRowViewFrame(
               onEdit: () => openEdits(curRowData),
-              rowID: widget.rowID,
               rowChecked: rowChecked,
               toggleRowChecked: toggleRowCheck,
               child: Expanded(
@@ -474,7 +471,6 @@ class _TemplateRowState extends ConsumerState<TemplateRow> {
             //VIEW TIME
             return TemplateRowViewFrame(
               onEdit: () => openEdits(curRowData),
-              rowID: widget.rowID,
               rowChecked: rowChecked,
               toggleRowChecked: toggleRowCheck,
               child: Expanded(
@@ -586,7 +582,6 @@ class _TemplateRowState extends ConsumerState<TemplateRow> {
             //VIEW PAUSE
             return TemplateRowViewFrame(
               onEdit: () => openEdits(curRowData),
-              rowID: widget.rowID,
               rowChecked: rowChecked,
               toggleRowChecked: toggleRowCheck,
               child: Expanded(
@@ -683,12 +678,12 @@ class _TemplateRowState extends ConsumerState<TemplateRow> {
         context,
         "${AppLocalizations.of(context)!.row} $exercise",
         () {
-          ref.read(rowController).deleteRow(widget.rowID);
+          ref.read(rowController).deleteRow(widget.rowId);
           ref.refresh(getRowController.future);
         },
       );
     } else {
-      ref.read(rowController).deleteRow(widget.rowID);
+      ref.read(rowController).deleteRow(widget.rowId);
       ref.refresh(getRowController.future);
     }
   }
@@ -743,10 +738,10 @@ class _TemplateRowState extends ConsumerState<TemplateRow> {
   }
 
   String? getNextExercise(List<RowItemData> rows) {
-    if (widget.rowID == rows.length - 1) {
+    if (widget.rowId == rows.length - 1) {
       return null;
     }
-    RowItemData nextRowData = rows[widget.rowID + 1];
+    RowItemData nextRowData = rows[widget.rowId + 1];
     return "${AppLocalizations.of(context)!.next}: ${nextRowData.exercise}";
   }
 
