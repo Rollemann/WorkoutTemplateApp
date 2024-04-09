@@ -49,7 +49,7 @@ class _TemplateRowState extends ConsumerState<TemplateRow> {
   @override
   Widget build(BuildContext context) {
     final DeletionTypes deletionType = ref.watch(deletionTypeProvider);
-    final rows = ref.watch(getRowController);
+    final rows = ref.watch(rowProvider);
     final bool lightMode = ref.watch(lightModeProvider);
     final bool vibrate = ref.watch(vibrationProvider);
     final double volume = ref.watch(volumeProvider);
@@ -643,7 +643,7 @@ class _TemplateRowState extends ConsumerState<TemplateRow> {
       seconds: (tempMinutes * 60) + (tempSeconds % 60),
     );
     ref.read(rowController).updateRow(newRow);
-    ref.refresh(getRowController.future);
+    ref.invalidate(rowProvider);
     resetEditFields();
   }
 
@@ -668,7 +668,7 @@ class _TemplateRowState extends ConsumerState<TemplateRow> {
       seconds: (tempMinutes * 60) + (tempSeconds % 60),
     );
     ref.read(rowController).addRow(newRow);
-    ref.refresh(getRowController.future);
+    ref.invalidate(rowProvider);
     resetEditFields();
   }
 
@@ -679,12 +679,12 @@ class _TemplateRowState extends ConsumerState<TemplateRow> {
         "${AppLocalizations.of(context)!.row} $exercise",
         () {
           ref.read(rowController).deleteRow(widget.rowId);
-          ref.refresh(getRowController.future);
+          ref.invalidate(rowProvider);
         },
       );
     } else {
       ref.read(rowController).deleteRow(widget.rowId);
-      ref.refresh(getRowController.future);
+      ref.invalidate(rowProvider);
     }
   }
 

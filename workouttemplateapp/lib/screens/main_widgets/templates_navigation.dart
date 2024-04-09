@@ -12,7 +12,7 @@ class TemplatesNavigation extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final plans = ref.watch(getPlanController);
+    final plans = ref.watch(planProvider);
     return plans.when(
       data: (planData) => Row(
         children: [
@@ -58,8 +58,8 @@ class TemplatesNavigation extends ConsumerWidget {
     //TODO
     log((await DBHandler.allPlans()).length.toString());
     final newPlan = PlanItemData(name: "NewPlan ${plans.length + 1}");
-    final planId = ref.read(planController).addPlan(newPlan);
-    ref.refresh(getPlanController.future);
+    ref.read(planController).addPlan(newPlan);
+    ref.invalidate(planProvider);
     log((await DBHandler.allPlans()).length.toString());
     /* if (plans.length < maxPlans) {
       ref.read(planProvider.notifier).addPlan(

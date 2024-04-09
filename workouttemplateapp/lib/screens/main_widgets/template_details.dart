@@ -60,7 +60,7 @@ class _TemplateDetailsState extends ConsumerState<TemplateDetails> {
 
   @override
   Widget build(BuildContext context) {
-    final rows = ref.watch(getRowController);
+    final rows = ref.watch(rowProvider);
     return rows.when(
       data: (rowData) {
         final planRows =
@@ -78,7 +78,7 @@ class _TemplateDetailsState extends ConsumerState<TemplateDetails> {
                     ref
                         .read(rowController)
                         .swapRows(planRows[newIndex].id, planRows[oldIndex].id);
-                    ref.refresh(getRowController.future);
+                    ref.refresh(rowProvider.future);
                   });
                 },
                 itemBuilder: (context, index) => Column(

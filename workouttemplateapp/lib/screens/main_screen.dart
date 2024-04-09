@@ -12,7 +12,7 @@ class MainScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final plans = ref.watch(getPlanController);
+    final plans = ref.watch(planProvider);
     return GestureDetector(
       onTap: () {
         FocusManager.instance.primaryFocus?.unfocus();

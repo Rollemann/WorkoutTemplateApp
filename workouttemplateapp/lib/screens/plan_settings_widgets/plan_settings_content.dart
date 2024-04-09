@@ -39,7 +39,7 @@ class _PlanSettingsListState extends ConsumerState<PlanSettingsContent> {
 
   @override
   Widget build(BuildContext context) {
-    final plans = ref.watch(getPlanController);
+    final plans = ref.watch(planProvider);
     final DeletionTypes deletionType = ref.watch(deletionTypeProvider);
     return plans.when(
       data: (plansData) => Column(
@@ -66,7 +66,7 @@ class _PlanSettingsListState extends ConsumerState<PlanSettingsContent> {
                   }
                   ref.read(planController).swapPlans(
                       plansData[newIndex].id, plansData[oldIndex].id);
-                  ref.refresh(getPlanController.future);
+                  ref.refresh(planProvider.future);
                   //TODO
                   /* final bool tempCheck = checkedPlans[oldIndex];
                   checkedPlans.removeAt(oldIndex);
@@ -168,7 +168,7 @@ class _PlanSettingsListState extends ConsumerState<PlanSettingsContent> {
     indexList.sort();
     for (var i = indexList.length - 1; i >= 0; i--) {
       ref.read(planController).deletePlan(indexList[i]);
-      ref.refresh(getPlanController.future);
+      ref.invalidate(planProvider);
       checkedPlans.removeAt(indexList[i]);
     }
   }
@@ -184,7 +184,7 @@ class _PlanSettingsListState extends ConsumerState<PlanSettingsContent> {
     if (plans.length < maxPlans) {
       final newPlan = PlanItemData(name: "NewPlan ${plans.length + 1}");
       ref.read(planController).addPlan(newPlan);
-      ref.refresh(getPlanController.future);
+      ref.invalidate(planProvider);
       checkedPlans.add(false);
     } else {
       final snackBar = SnackBar(

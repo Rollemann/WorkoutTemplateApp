@@ -22,7 +22,7 @@ class TemplateSettings extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final plans = ref.watch(getPlanController);
+    final plans = ref.watch(planProvider);
     final List<String> rowTypes = [
       AppLocalizations.of(context)!.reps,
       AppLocalizations.of(context)!.time,
@@ -91,11 +91,11 @@ class TemplateSettings extends ConsumerWidget {
                   context,
                   '${AppLocalizations.of(context)!.newNameFor} "$title"',
                   (String newName) async {
-                    final plans = await ref.read(getPlanController.future);
+                    final plans = await ref.read(planProvider.future);
                     PlanItemData plan = plans![planId];
                     plan.name = newName;
                     ref.read(planController).updatePlan(plan);
-                    ref.refresh(getPlanController.future);
+                    ref.invalidate(planProvider);
                   },
                 );
               },
@@ -143,7 +143,7 @@ class TemplateSettings extends ConsumerWidget {
 
   void addNewRow(int type, BuildContext context, WidgetRef ref) async {
     final bool showHints = ref.read(showHintsProvider);
-    final rows = await ref.read(getRowController.future);
+    final rows = await ref.read(rowProvider.future);
     final curRows = rows!.where((row) => row.planId == planId).toList();
 
     ref.read(rowController).addRow(
@@ -153,7 +153,7 @@ class TemplateSettings extends ConsumerWidget {
             set: (_getNonPauseRowNumber(curRows) + 1).toString(),
           ),
         );
-    ref.refresh(getRowController.future);
+    ref.invalidate(rowProvider);
     if (showHints && type > 0) {
       _showSnackBar(AppLocalizations.of(context)!.startTimerInfo, context);
     }
