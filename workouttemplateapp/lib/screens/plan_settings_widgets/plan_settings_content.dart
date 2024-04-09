@@ -67,10 +67,10 @@ class _PlanSettingsListState extends ConsumerState<PlanSettingsContent> {
                   ref.read(planController).swapPlans(
                       plansData[newIndex].id, plansData[oldIndex].id);
                   ref.refresh(planProvider.future);
-                  //TODO
-                  /* final bool tempCheck = checkedPlans[oldIndex];
+
+                  final bool tempCheck = checkedPlans[oldIndex];
                   checkedPlans.removeAt(oldIndex);
-                  checkedPlans.insert(newIndex, tempCheck); */
+                  checkedPlans.insert(newIndex, tempCheck);
                 });
               },
             ),
@@ -182,7 +182,8 @@ class _PlanSettingsListState extends ConsumerState<PlanSettingsContent> {
   void addPlan(WidgetRef ref, List<PlanItemData> plans, BuildContext context) {
     const maxPlans = 25;
     if (plans.length < maxPlans) {
-      final newPlan = PlanItemData(name: "NewPlan ${plans.length + 1}");
+      final newPlan = PlanItemData(
+          name: "NewPlan ${plans.length + 1}", position: plans.length);
       ref.read(planController).addPlan(newPlan);
       ref.invalidate(planProvider);
       checkedPlans.add(false);
@@ -229,14 +230,3 @@ class _PlanSettingsListState extends ConsumerState<PlanSettingsContent> {
     } */
   }
 }
-
-/*
-
-    <intent-filter>
-        <action android:name="android.intent.action.VIEW" />
-        <category android:name="android.intent.category.DEFAULT" />
-        <data android:scheme="file" />
-        <data android:host="*" />
-        <data android:pathPattern=".*\\.ptpjson" />
-    </intent-filter>
- */

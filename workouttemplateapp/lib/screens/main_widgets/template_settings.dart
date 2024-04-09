@@ -93,8 +93,9 @@ class TemplateSettings extends ConsumerWidget {
                   (String newName) async {
                     final plans = await ref.read(planProvider.future);
                     PlanItemData plan = plans![planId];
-                    plan.name = newName;
-                    ref.read(planController).updatePlan(plan);
+                    ref
+                        .read(planController)
+                        .updatePlan(plan.renamePlan(newName));
                     ref.invalidate(planProvider);
                   },
                 );
@@ -151,6 +152,7 @@ class TemplateSettings extends ConsumerWidget {
             planId: planId,
             type: type,
             set: (_getNonPauseRowNumber(curRows) + 1).toString(),
+            position: curRows.length,
           ),
         );
     ref.invalidate(rowProvider);

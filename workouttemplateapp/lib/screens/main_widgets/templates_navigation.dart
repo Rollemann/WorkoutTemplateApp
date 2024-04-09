@@ -51,7 +51,8 @@ class TemplatesNavigation extends ConsumerWidget {
 
   void addPlan(
       WidgetRef ref, List<PlanItemData> plans, BuildContext context) async {
-    final newPlan = PlanItemData(name: "NewPlan ${plans.length + 1}");
+    final newPlan = PlanItemData(
+        name: "NewPlan ${plans.length + 1}", position: plans.length);
     ref.read(planController).addPlan(newPlan);
     ref.invalidate(planProvider);
   }

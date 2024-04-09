@@ -641,6 +641,7 @@ class _TemplateRowState extends ConsumerState<TemplateRow> {
       reps: tempReps,
       exercise: tempExercise,
       seconds: (tempMinutes * 60) + (tempSeconds % 60),
+      position: curRowData.position,
     );
     ref.read(rowController).updateRow(newRow);
     ref.invalidate(rowProvider);
@@ -666,6 +667,7 @@ class _TemplateRowState extends ConsumerState<TemplateRow> {
       reps: tempReps,
       exercise: tempExercise,
       seconds: (tempMinutes * 60) + (tempSeconds % 60),
+      position: rows.length,
     );
     ref.read(rowController).addRow(newRow);
     ref.invalidate(rowProvider);

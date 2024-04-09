@@ -33,7 +33,7 @@ class DBHandler {
   static Future<List<PlanItemData>> allPlans() async {
     log("allPlans function called");
     final List<Map<String, Object?>> planMaps =
-        await _db!.query(_tableNamePlan);
+        await _db!.query(_tableNamePlan, orderBy: 'position');
     log(planMaps.toString());
     return [
       for (final planJson in planMaps) PlanItemData.fromJson(planJson),
@@ -87,7 +87,8 @@ class DBHandler {
 
   static Future<List<RowItemData>> allRows() async {
     log("allRows function called");
-    final List<Map<String, Object?>> rowMaps = await _db!.query(_tableNameRow);
+    final List<Map<String, Object?>> rowMaps =
+        await _db!.query(_tableNameRow, orderBy: 'position');
     log(rowMaps.toString());
     return [
       for (final rowJson in rowMaps) RowItemData.fromJson(rowJson),
@@ -159,7 +160,8 @@ class DBHandler {
       '''
       CREATE TABLE $_tableNamePlan (
         id INTEGER PRIMARY KEY AUTOINCREMENT, 
-        name TEXT NOT NULL
+        name TEXT NOT NULL,
+        position INTEGER NOT NULL
       )''',
     );
     await db.execute(
@@ -173,6 +175,7 @@ class DBHandler {
         reps TEXT, 
         exercise TEXT, 
         seconds INTEGER,
+        position INTEGER NOT NULL,
         FOREIGN KEY(planId) REFERENCES $_tableNamePlan(id) ON DELETE CASCADE ON UPDATE CASCADE
       )''',
     );

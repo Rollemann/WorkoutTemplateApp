@@ -75,9 +75,7 @@ class _TemplateDetailsState extends ConsumerState<TemplateDetails> {
                     if (newIndex > oldIndex) {
                       --newIndex;
                     }
-                    ref
-                        .read(rowController)
-                        .swapRows(planRows[newIndex].id, planRows[oldIndex].id);
+                    ref.read(rowController).reorderRows(oldIndex, newIndex);
                     ref.refresh(rowProvider.future);
                   });
                 },

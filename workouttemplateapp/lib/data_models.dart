@@ -1,26 +1,28 @@
-import 'dart:convert';
 import 'package:flutter/material.dart';
 
 class PlanItemData {
   final int id;
-  String name;
+  final String name;
+  final int position;
   final Icon icon = const Icon(Icons.fitness_center);
-  final List<RowItemData> rows;
 
-  PlanItemData({required this.name, this.id = -1, List<RowItemData>? rows})
-      : rows = rows ?? [] {
-    rows ?? this.rows.add(RowItemData(type: 0, set: "1", id: 0, planId: id));
+  PlanItemData({required this.name, required this.position, this.id = -1});
+
+  PlanItemData renamePlan(String newName) {
+    return PlanItemData(name: newName, id: id, position: position);
   }
 
   factory PlanItemData.fromJson(Map<String, dynamic> planJson) {
     return PlanItemData(
-      id: planJson['id'],
-      name: planJson['name'],
-    );
+        id: planJson['id'],
+        name: planJson['name'],
+        position: planJson['position']);
   }
 
   Map<String, dynamic> toJson() {
-    return id > 0 ? {'id': id, 'name': name} : {'name': name};
+    return id > 0
+        ? {'id': id, 'name': name, 'position': position}
+        : {'name': name, 'position': position};
   }
 }
 
@@ -33,10 +35,12 @@ class RowItemData {
   String reps;
   String exercise;
   int seconds;
+  int position;
 
   RowItemData({
     required this.type,
     required this.planId,
+    required this.position,
     this.id = -1,
     this.set = '',
     this.weight = '',
@@ -53,7 +57,8 @@ class RowItemData {
         weight = json['weight'],
         reps = json['reps'],
         exercise = json['exercise'],
-        seconds = json['seconds'];
+        seconds = json['seconds'],
+        position = json['position'];
 
   Map<String, dynamic> toJson() => id > 0
       ? {
@@ -65,6 +70,7 @@ class RowItemData {
           'reps': reps,
           'exercise': exercise,
           'seconds': seconds,
+          'position': position,
         }
       : {
           'planId': planId,
@@ -74,5 +80,6 @@ class RowItemData {
           'reps': reps,
           'exercise': exercise,
           'seconds': seconds,
+          'position': position,
         };
 }

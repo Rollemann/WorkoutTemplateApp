@@ -1,57 +1,14 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:sqflite/sqflite.dart';
 import 'package:workouttemplateapp/app.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:workouttemplateapp/providers/shared_preference_provider.dart';
 import 'package:workouttemplateapp/screens/DBHandler.dart';
-import 'package:workouttemplateapp/data_models.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final sharedPreferences = await SharedPreferences.getInstance();
   await DBHandler.initDB();
-
-// TestDB TODO
-/*   PlanItemData testPlan = PlanItemData(name: "Plan1");
-  PlanItemData testPlan2 = PlanItemData(name: "Plan2");
-  DBHandler.insertPlan(testPlan);
-  int plan2ID = await DBHandler.insertPlan(testPlan2);
-  var allPlans = await DBHandler.allPlans();
-  log(allPlans.length.toString());
-  await DBHandler.deletePlan(allPlans[0].id);
-  PlanItemData testPlan3 = PlanItemData(name: "Plan3");
-  PlanItemData testPlan4 = PlanItemData(name: "Plan4");
-  int plan3ID = await DBHandler.insertPlan(testPlan3);
-  await DBHandler.insertPlan(testPlan4);
-  log("----------------------");
-  allPlans = await DBHandler.allPlans();
-  log(allPlans.length.toString());
-  log("----------------------");
-  await DBHandler.swapPlans(2, 4);
-  allPlans = await DBHandler.allPlans();
-  log(allPlans.length.toString());
-
-  log("Row länge: ${(await DBHandler.allRows()).length}");
-  log("Row länge2: $plan2ID und $plan3ID");
-
-  RowItemData row1 = RowItemData(type: 0, planId: plan2ID);
-  RowItemData row2 = RowItemData(type: 2, planId: plan2ID);
-  RowItemData row3 = RowItemData(type: 0, planId: plan3ID);
-  await DBHandler.insertRow(row1);
-  await DBHandler.insertRow(row2);
-  await DBHandler.insertRow(row3);
-  log("----------------------");
-  var allRows = await DBHandler.allRows();
-  log(allRows.length.toString());
-  log("Alle von 2${await DBHandler.allRowsOfPlan(plan2ID)}");
-  await DBHandler.deletePlans(-100);
-  log("----------------------");
-  allRows = await DBHandler.allRows();
-  log(allRows.length.toString());
-  DBHandler.deleteRows(-100); */
 
   runApp(
     ProviderScope(
@@ -61,18 +18,6 @@ Future<void> main() async {
       child: const App(),
     ),
   );
-}
-
-Future<List<PlanItemData>> plans(Database db) async {
-  final List<Map<String, Object?>> planMaps = await db.query('plans');
-
-  return [
-    for (final {
-          'id': id as int,
-          'name': name as String,
-        } in planMaps)
-      PlanItemData(id: id, name: name),
-  ];
 }
 
 ///////////////////////////////////

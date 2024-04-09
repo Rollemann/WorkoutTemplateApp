@@ -75,7 +75,31 @@ class RowController {
     await DBHandler.updateRow(row);
   }
 
-  void swapRows(int rowId1, int rowId2) async {
-    await DBHandler.swapRows(rowId1, rowId2);
+  void reorderRows(int oldIndex, int newIndex) async {
+    final allRows = await DBHandler.allRows();
+    List<RowItemData> rows = allRows
+        .where(
+            (row) => (row.position >= oldIndex) && (row.position <= newIndex))
+        .toList();
+    if (newIndex - oldIndex > 0) {
+      for (var i = 1; i < rows.length - 1; i++) {
+        RowItemData newRow = rows[i];
+        newRow.position = newRow.position - 1;
+        DBHandler.updateRow(newRow);
+      }
+      RowItemData newRow = rows[0];
+      newRow.position = newIndex;
+      DBHandler.updateRow(newRow);
+    }
+    if (newIndex - oldIndex < 0) {
+      for (var i = 0; i < rows.length - 2; i++) {
+        RowItemData newRow = rows[i];
+        newRow.position = newRow.position + 1;
+        DBHandler.updateRow(newRow);
+      }
+      RowItemData newRow = rows[rows.length - 1];
+      newRow.position = newIndex;
+      DBHandler.updateRow(newRow);
+    }
   }
 }
