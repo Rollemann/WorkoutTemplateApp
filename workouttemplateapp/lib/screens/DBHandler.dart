@@ -81,11 +81,6 @@ class DBHandler {
     );
   }
 
-//todo kann weg
-  static deletePlans(int plan) async {
-    await _db!.delete(_tableNamePlan, where: "id>?", whereArgs: [plan]);
-  }
-
   ///
   /// Methods for Rows
   ///
@@ -150,11 +145,6 @@ class DBHandler {
         where id < 0;
       ''',
     );
-  }
-
-  //todo kann weg
-  static deleteRows(int rowId) async {
-    await _db!.delete(_tableNameRow, where: "id>?", whereArgs: [rowId]);
   }
 
   ///

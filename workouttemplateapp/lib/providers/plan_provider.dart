@@ -6,7 +6,6 @@ import 'package:workouttemplateapp/data_models.dart';
 
 // Controller for change data
 final planController = Provider((ref) => PlanController());
-// TODO: rename in planProvider
 // Provider for display data
 final planProvider = FutureProvider<List<PlanItemData>?>((ref) {
   final plans = ref.read(planController).getPlans();
@@ -15,7 +14,6 @@ final planProvider = FutureProvider<List<PlanItemData>?>((ref) {
 
 // Controller for change data
 final rowController = Provider((ref) => RowController());
-// TODO: rename in rowProvider
 // Provider for display data
 final rowProvider = FutureProvider<List<RowItemData>?>((ref) {
   final rows = ref.read(rowController).getRows();
