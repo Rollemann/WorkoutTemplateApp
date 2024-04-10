@@ -45,8 +45,16 @@ class PlanController {
     await DBHandler.updatePlan(plan);
   }
 
-  void swapPlans(int planId1, int planId2) async {
-    await DBHandler.swapPlans(planId1, planId2);
+  void reorderPlans(List<PlanItemData> plans, int oldIndex, int newIndex) {
+    final PlanItemData curPlan = plans.removeAt(oldIndex);
+    plans.insert(newIndex, curPlan);
+    for (var i = 0; i < plans.length; i++) {
+      PlanItemData plan = plans[i];
+      if (plan.position != i) {
+        PlanItemData newPlan = plan.repositionPlan(i);
+        DBHandler.updatePlan(newPlan);
+      }
+    }
   }
 }
 

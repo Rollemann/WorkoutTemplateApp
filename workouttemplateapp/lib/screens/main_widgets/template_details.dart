@@ -4,7 +4,6 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:receive_sharing_intent/receive_sharing_intent.dart';
-import 'package:workouttemplateapp/data_models.dart';
 import 'package:workouttemplateapp/providers/plan_provider.dart';
 import 'package:workouttemplateapp/screens/main_widgets/template_row.dart';
 import 'package:workouttemplateapp/screens/main_widgets/template_settings.dart';
@@ -78,7 +77,7 @@ class _TemplateDetailsState extends ConsumerState<TemplateDetails> {
                     ref
                         .read(rowController)
                         .reorderRows(planRows, oldIndex, newIndex);
-                    ref.refresh(rowProvider.future);
+                    ref.invalidate(rowProvider);
                   });
                 },
                 itemBuilder: (context, index) => Column(

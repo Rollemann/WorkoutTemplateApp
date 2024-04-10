@@ -64,9 +64,10 @@ class _PlanSettingsListState extends ConsumerState<PlanSettingsContent> {
                   if (newIndex > oldIndex) {
                     --newIndex;
                   }
-                  ref.read(planController).swapPlans(
-                      plansData[newIndex].id, plansData[oldIndex].id);
-                  ref.refresh(planProvider.future);
+                  ref
+                      .read(planController)
+                      .reorderPlans(plansData, oldIndex, newIndex);
+                  ref.invalidate(planProvider);
 
                   final bool tempCheck = checkedPlans[oldIndex];
                   checkedPlans.removeAt(oldIndex);

@@ -12,6 +12,10 @@ class PlanItemData {
     return PlanItemData(name: newName, id: id, position: position);
   }
 
+  PlanItemData repositionPlan(int newPosition) {
+    return PlanItemData(name: name, id: id, position: newPosition);
+  }
+
   factory PlanItemData.fromJson(Map<String, dynamic> planJson) {
     return PlanItemData(
         id: planJson['id'],
