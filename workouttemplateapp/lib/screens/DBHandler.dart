@@ -123,7 +123,7 @@ class DBHandler {
 
   static updateRow(RowItemData row) async {
     await _db!.update(
-      _tableNamePlan,
+      _tableNameRow,
       row.toJson(),
       where: 'id = ?',
       whereArgs: [row.id],
