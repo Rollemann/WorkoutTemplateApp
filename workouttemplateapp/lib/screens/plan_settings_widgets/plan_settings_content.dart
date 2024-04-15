@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -31,10 +30,8 @@ class _PlanSettingsListState extends ConsumerState<PlanSettingsContent> {
 
   @override
   void initState() {
-    log("init");
     for (var i = 0; i < widget.plansLength; i++) {
       checkedPlans.add(i == widget.planPosition);
-      log(checkedPlans.length.toString());
     }
     super.initState();
   }
@@ -56,21 +53,15 @@ class _PlanSettingsListState extends ConsumerState<PlanSettingsContent> {
               child: ReorderableListView.builder(
                 itemCount: plansData!.length,
                 itemBuilder: (context, index) {
-                  log("build check: ${checkedPlans.length}");
-                  log("build plans: ${plansData.length}");
-                  if (checkedPlans.length == plansData.length) {
-                    return PlanSettingsRow(
-                      key: ObjectKey(plansData[index]),
-                      title: plansData[index].name,
-                      index: index,
-                      checked: checkedPlans[index],
-                      onCheck: (bool? checked) => onCheck(index, checked),
-                    );
-                  }
-                  return Icon(
-                    // TODO: das hier noch schick machen
-                    Icons.hourglass_empty,
+                  final bool isChecked = checkedPlans.length == plansData.length
+                      ? checkedPlans[index]
+                      : false;
+                  return PlanSettingsRow(
                     key: ObjectKey(plansData[index]),
+                    title: plansData[index].name,
+                    index: index,
+                    checked: isChecked,
+                    onCheck: (bool? checked) => onCheck(index, checked),
                   );
                 },
                 onReorder: (oldIndex, newIndex) {
