@@ -4,22 +4,25 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:receive_sharing_intent/receive_sharing_intent.dart';
+import 'package:workouttemplateapp/data/data_models.dart';
 import 'package:workouttemplateapp/providers/plan_provider.dart';
-import 'package:workouttemplateapp/screens/main_widgets/template_row.dart';
-import 'package:workouttemplateapp/screens/main_widgets/template_settings.dart';
+import 'package:workouttemplateapp/screens/main_widgets/plan_row.dart';
+import 'package:workouttemplateapp/screens/main_widgets/plan_bottom_bar.dart';
 
-class TemplateDetails extends ConsumerStatefulWidget {
-  final int planId;
-  const TemplateDetails({
+class PlanDetails extends ConsumerStatefulWidget {
+  final PlanItemData plan;
+  final int plansLength;
+  const PlanDetails({
     super.key,
-    required this.planId,
+    required this.plan,
+    required this.plansLength,
   });
 
   @override
-  ConsumerState<TemplateDetails> createState() => _TemplateDetailsState();
+  ConsumerState<PlanDetails> createState() => _PlanDetailsState();
 }
 
-class _TemplateDetailsState extends ConsumerState<TemplateDetails> {
+class _PlanDetailsState extends ConsumerState<PlanDetails> {
   /* late StreamSubscription _intentSub;
   final _sharedFiles = <SharedMediaFile>[];
   
@@ -63,7 +66,7 @@ class _TemplateDetailsState extends ConsumerState<TemplateDetails> {
     return rows.when(
       data: (rowData) {
         final planRows =
-            rowData!.where((row) => row.planId == widget.planId).toList();
+            rowData!.where((row) => row.planId == widget.plan.id).toList();
         return Column(
           children: [
             Expanded(
@@ -83,8 +86,8 @@ class _TemplateDetailsState extends ConsumerState<TemplateDetails> {
                 itemBuilder: (context, index) => Column(
                   key: ObjectKey(planRows[index]),
                   children: [
-                    TemplateRow(
-                      planId: widget.planId,
+                    PlanRow(
+                      planId: widget.plan.id,
                       rowId: planRows[index].id,
                     ),
                     const Divider(
@@ -95,8 +98,9 @@ class _TemplateDetailsState extends ConsumerState<TemplateDetails> {
                 ),
               ),
             ),
-            TemplateSettings(
-              planId: widget.planId,
+            PlanBottomBar(
+              plan: widget.plan,
+              plansLength: widget.plansLength,
             ),
           ],
         );

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:workouttemplateapp/data_models.dart';
+import 'package:workouttemplateapp/data/data_models.dart';
 import 'package:workouttemplateapp/providers/plan_provider.dart';
 
-class TemplatesNavigation extends ConsumerWidget {
-  const TemplatesNavigation({super.key});
+class PlanNavigation extends ConsumerWidget {
+  const PlanNavigation({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

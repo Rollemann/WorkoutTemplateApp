@@ -12,7 +12,7 @@ class PlanItemData {
     return PlanItemData(name: newName, id: id, position: position);
   }
 
-  PlanItemData repositionPlan(int newPosition) {
+  PlanItemData setPosition(int newPosition) {
     return PlanItemData(name: name, id: id, position: newPosition);
   }
 

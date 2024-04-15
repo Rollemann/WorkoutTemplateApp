@@ -5,28 +5,28 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:workouttemplateapp/all_dialogs.dart';
 import 'package:workouttemplateapp/app.dart';
-import 'package:workouttemplateapp/screens/main_widgets/template_row_edit_frame.dart';
-import 'package:workouttemplateapp/screens/main_widgets/template_row_view_frame.dart';
-import 'package:workouttemplateapp/data_models.dart';
+import 'package:workouttemplateapp/screens/main_widgets/row_edit_frame.dart';
+import 'package:workouttemplateapp/screens/main_widgets/row_view_frame.dart';
+import 'package:workouttemplateapp/data/data_models.dart';
 import 'package:workouttemplateapp/providers/plan_provider.dart';
 import 'package:workouttemplateapp/providers/settings_provider.dart';
 import 'package:workouttemplateapp/screens/settings_widgets/deletion_type_widget.dart';
 
-class TemplateRow extends ConsumerStatefulWidget {
+class PlanRow extends ConsumerStatefulWidget {
   final int planId;
   final int rowId;
 
-  const TemplateRow({
+  const PlanRow({
     super.key,
     required this.planId,
     required this.rowId,
   });
 
   @override
-  ConsumerState<TemplateRow> createState() => _TemplateRowState();
+  ConsumerState<PlanRow> createState() => _PlanRowState();
 }
 
-class _TemplateRowState extends ConsumerState<TemplateRow> {
+class _PlanRowState extends ConsumerState<PlanRow> {
   Timer? timer;
   StreamController<int> events = StreamController<int>.broadcast();
   late int curSeconds = 0;
@@ -63,7 +63,7 @@ class _TemplateRowState extends ConsumerState<TemplateRow> {
         if (editMode) {
           if (curRowData.type == 0) {
             //EDIT REPS
-            return TemplateRowEditFrame(
+            return RowEditFrame(
               saveEdits: () => saveEdits(curRowData),
               cancelEdits: cancelEdits,
               copyAction: () => copyRow(curRowData, planRows),
@@ -163,7 +163,7 @@ class _TemplateRowState extends ConsumerState<TemplateRow> {
           }
           if (curRowData.type == 1) {
             //EDIT TIME
-            return TemplateRowEditFrame(
+            return RowEditFrame(
               saveEdits: () => saveEdits(curRowData),
               cancelEdits: cancelEdits,
               copyAction: () => copyRow(curRowData, planRows),
@@ -296,7 +296,7 @@ class _TemplateRowState extends ConsumerState<TemplateRow> {
           }
           if (curRowData.type == 2) {
             //EDIT PAUSE
-            return TemplateRowEditFrame(
+            return RowEditFrame(
               saveEdits: () => saveEdits(curRowData),
               cancelEdits: cancelEdits,
               copyAction: () => copyRow(curRowData, planRows),
@@ -374,7 +374,7 @@ class _TemplateRowState extends ConsumerState<TemplateRow> {
         } else {
           if (curRowData.type == 0) {
             //VIEW REPS
-            return TemplateRowViewFrame(
+            return RowViewFrame(
               onEdit: () => openEdits(curRowData),
               rowChecked: rowChecked,
               toggleRowChecked: toggleRowCheck,
@@ -469,7 +469,7 @@ class _TemplateRowState extends ConsumerState<TemplateRow> {
           }
           if (curRowData.type == 1) {
             //VIEW TIME
-            return TemplateRowViewFrame(
+            return RowViewFrame(
               onEdit: () => openEdits(curRowData),
               rowChecked: rowChecked,
               toggleRowChecked: toggleRowCheck,
@@ -580,7 +580,7 @@ class _TemplateRowState extends ConsumerState<TemplateRow> {
           }
           if (curRowData.type == 2) {
             //VIEW PAUSE
-            return TemplateRowViewFrame(
+            return RowViewFrame(
               onEdit: () => openEdits(curRowData),
               rowChecked: rowChecked,
               toggleRowChecked: toggleRowCheck,
@@ -593,7 +593,7 @@ class _TemplateRowState extends ConsumerState<TemplateRow> {
                       timer,
                       events,
                       curRowData.seconds,
-                      getNextExercise(planRows),
+                      getNextExercise(planRows, curRowData),
                       vibrate,
                       volume,
                       closeTimerAction,
@@ -634,6 +634,7 @@ class _TemplateRowState extends ConsumerState<TemplateRow> {
     });
 
     final RowItemData newRow = RowItemData(
+      id: curRowData.id,
       planId: curRowData.planId,
       set: tempSet,
       weight: tempWeight,
@@ -739,11 +740,14 @@ class _TemplateRowState extends ConsumerState<TemplateRow> {
     return "${(sec ~/ 60).toString().padLeft(2, "0")}:${(sec % 60).toString().padLeft(2, "0")}";
   }
 
-  String? getNextExercise(List<RowItemData> rows) {
-    if (widget.rowId == rows.length - 1) {
+  String? getNextExercise(List<RowItemData> planRows, RowItemData curRow) {
+    if (curRow.position == planRows.length - 1) {
       return null;
     }
-    RowItemData nextRowData = rows[widget.rowId + 1];
+
+    RowItemData nextRowData = planRows
+        .where((row) => row.position == curRow.position + 1)
+        .toList()[0];
     return "${AppLocalizations.of(context)!.next}: ${nextRowData.exercise}";
   }
 

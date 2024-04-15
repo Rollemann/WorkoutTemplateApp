@@ -2,7 +2,7 @@ import 'dart:developer';
 
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
-import 'package:workouttemplateapp/data_models.dart';
+import 'package:workouttemplateapp/data/data_models.dart';
 
 class DBHandler {
   static Database? _db;
@@ -63,24 +63,6 @@ class DBHandler {
     );
   }
 
-  static swapPlans(int planId1, int planId2) async {
-    log("swapPlans function called");
-    _db!.execute(
-      '''
-        update $_tableNamePlan
-        set id = (case when id = $planId1 then -$planId2 else -$planId1 end)
-        where id in ($planId1, $planId2);
-      ''',
-    );
-    _db!.execute(
-      '''
-        update $_tableNamePlan
-        set id = - id
-        where id < 0;
-      ''',
-    );
-  }
-
   ///
   /// Methods for Rows
   ///
@@ -127,24 +109,6 @@ class DBHandler {
       row.toJson(),
       where: 'id = ?',
       whereArgs: [row.id],
-    );
-  }
-
-  static swapRows(int rowId1, int rowId2) async {
-    log("swapRows function called");
-    _db!.execute(
-      '''
-        update $_tableNameRow
-        set id = (case when id = $rowId1 then -$rowId2 else -$rowId1 end)
-        where id in ($rowId1, $rowId2);
-      ''',
-    );
-    _db!.execute(
-      '''
-        update $_tableNameRow
-        set id = - id
-        where id < 0;
-      ''',
     );
   }
 

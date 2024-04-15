@@ -3,12 +3,12 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:workouttemplateapp/screens/plan_settings_widgets/plan_settings_content.dart';
 
 class PlanSettingsScreen extends StatelessWidget {
-  final int currentPlanIndex;
-  final int planLength;
+  final int planPosition;
+  final int plansLength;
   const PlanSettingsScreen({
     super.key,
-    required this.currentPlanIndex,
-    required this.planLength,
+    required this.planPosition,
+    required this.plansLength,
   });
 
   @override
@@ -22,8 +22,8 @@ class PlanSettingsScreen extends StatelessWidget {
         backgroundColor: Theme.of(context).colorScheme.primaryContainer,
       ),
       body: PlanSettingsContent(
-        planId: currentPlanIndex,
-        planLength: planLength,
+        planPosition: planPosition,
+        plansLength: plansLength,
       ),
     );
   }

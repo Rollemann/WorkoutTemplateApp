@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:workouttemplateapp/data_models.dart';
+import 'package:workouttemplateapp/data/data_models.dart';
 import 'package:workouttemplateapp/providers/plan_provider.dart';
-import 'package:workouttemplateapp/screens/main_widgets/template_details.dart';
-import 'package:workouttemplateapp/screens/main_widgets/templates_navigation.dart';
+import 'package:workouttemplateapp/screens/main_widgets/plan_details.dart';
+import 'package:workouttemplateapp/screens/main_widgets/plan_navigation.dart';
 import 'package:workouttemplateapp/screens/settings_screen.dart';
 
 class MainScreen extends ConsumerWidget {
@@ -18,9 +18,9 @@ class MainScreen extends ConsumerWidget {
         FocusManager.instance.primaryFocus?.unfocus();
       },
       child: plans.when(
-        data: (planData) {
+        data: (plansData) {
           return DefaultTabController(
-            length: planData!.length,
+            length: plansData!.length,
             child: Scaffold(
               appBar: AppBar(
                 title: Text(
@@ -45,11 +45,11 @@ class MainScreen extends ConsumerWidget {
               ),
               body: Column(
                 children: [
-                  const TemplatesNavigation(),
-                  planData.isNotEmpty
+                  const PlanNavigation(),
+                  plansData.isNotEmpty
                       ? Expanded(
                           child: TabBarView(
-                            children: createTabViews(planData),
+                            children: createTabViews(plansData),
                           ),
                         )
                       : Padding(
@@ -89,13 +89,14 @@ class MainScreen extends ConsumerWidget {
     );
   }
 
-  List<TemplateDetails> createTabViews(List<PlanItemData> plans) {
-    final List<TemplateDetails> allTemplateDetails = [];
+  List<PlanDetails> createTabViews(List<PlanItemData> plans) {
+    final List<PlanDetails> allPlanDetails = [];
     for (var i = 0; i < plans.length; i++) {
-      allTemplateDetails.add(TemplateDetails(
-        planId: plans[i].id,
+      allPlanDetails.add(PlanDetails(
+        plan: plans[i],
+        plansLength: plans.length,
       ));
     }
-    return allTemplateDetails;
+    return allPlanDetails;
   }
 }

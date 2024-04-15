@@ -3,13 +3,13 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:workouttemplateapp/providers/settings_provider.dart';
 
-class TemplateRowViewFrame extends ConsumerStatefulWidget {
+class RowViewFrame extends ConsumerStatefulWidget {
   final Widget child;
   final Function onEdit;
   final bool rowChecked;
   final Function toggleRowChecked;
 
-  const TemplateRowViewFrame({
+  const RowViewFrame({
     super.key,
     required this.child,
     required this.onEdit,
@@ -18,11 +18,10 @@ class TemplateRowViewFrame extends ConsumerStatefulWidget {
   });
 
   @override
-  ConsumerState<TemplateRowViewFrame> createState() =>
-      _TemplateRowViewFrameState();
+  ConsumerState<RowViewFrame> createState() => RowViewFrameState();
 }
 
-class _TemplateRowViewFrameState extends ConsumerState<TemplateRowViewFrame> {
+class RowViewFrameState extends ConsumerState<RowViewFrame> {
   @override
   Widget build(BuildContext context) {
     final lightMode = ref.watch(lightModeProvider);

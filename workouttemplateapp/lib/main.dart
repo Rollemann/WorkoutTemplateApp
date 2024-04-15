@@ -3,7 +3,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:workouttemplateapp/app.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:workouttemplateapp/providers/shared_preference_provider.dart';
-import 'package:workouttemplateapp/screens/DBHandler.dart';
+import 'package:workouttemplateapp/data/db_handler.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -23,7 +23,7 @@ Future<void> main() async {
 ///////////////////////////////////
 // Test
 ///////////////////////////////////
-class MyApp extends StatelessWidget {
+/* class MyApp extends StatelessWidget {
   const MyApp({super.key});
   static const String _title = 'Flutter Stateful Clicker Counter';
   // This widget is the root of your application.
@@ -93,3 +93,4 @@ List<Text> createTabViews(int tabs) {
   }
   return allTabs;
 }
+ */

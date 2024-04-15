@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -10,15 +11,15 @@ import 'package:workouttemplateapp/providers/plan_provider.dart';
 import 'package:workouttemplateapp/providers/settings_provider.dart';
 import 'package:workouttemplateapp/screens/plan_settings_widgets/plan_settings_row.dart';
 import 'package:workouttemplateapp/screens/settings_widgets/deletion_type_widget.dart';
-import 'package:workouttemplateapp/data_models.dart';
+import 'package:workouttemplateapp/data/data_models.dart';
 
 class PlanSettingsContent extends ConsumerStatefulWidget {
-  final int planId;
-  final int planLength;
+  final int planPosition;
+  final int plansLength;
   const PlanSettingsContent({
     super.key,
-    required this.planId,
-    required this.planLength,
+    required this.planPosition,
+    required this.plansLength,
   });
 
   @override
@@ -28,11 +29,12 @@ class PlanSettingsContent extends ConsumerStatefulWidget {
 class _PlanSettingsListState extends ConsumerState<PlanSettingsContent> {
   final List<bool> checkedPlans = [];
 
-//TODO Anpassen weil planId ist nicht mehr Index
   @override
   void initState() {
-    for (var i = 0; i < widget.planLength; i++) {
-      checkedPlans.add(i == widget.planId);
+    log("init");
+    for (var i = 0; i < widget.plansLength; i++) {
+      checkedPlans.add(i == widget.planPosition);
+      log(checkedPlans.length.toString());
     }
     super.initState();
   }
@@ -42,110 +44,128 @@ class _PlanSettingsListState extends ConsumerState<PlanSettingsContent> {
     final plans = ref.watch(planProvider);
     final DeletionTypes deletionType = ref.watch(deletionTypeProvider);
     return plans.when(
-      data: (plansData) => Column(
-        children: [
-          Text(
-            AppLocalizations.of(context)!.planSettingsDescription,
-            style: Theme.of(context).textTheme.titleMedium,
-            textAlign: TextAlign.center,
-          ),
-          Expanded(
-            child: ReorderableListView.builder(
-              itemCount: plansData!.length,
-              itemBuilder: (context, index) => PlanSettingsRow(
-                key: ObjectKey(plansData[index]),
-                title: plansData[index].name,
-                index: index,
-                checked: checkedPlans[index],
-                onCheck: (bool? checked) => onCheck(index, checked),
-              ),
-              onReorder: (oldIndex, newIndex) {
-                setState(() {
-                  if (newIndex > oldIndex) {
-                    --newIndex;
+      data: (plansData) {
+        return Column(
+          children: [
+            Text(
+              AppLocalizations.of(context)!.planSettingsDescription,
+              style: Theme.of(context).textTheme.titleMedium,
+              textAlign: TextAlign.center,
+            ),
+            Expanded(
+              child: ReorderableListView.builder(
+                itemCount: plansData!.length,
+                itemBuilder: (context, index) {
+                  log("build check: ${checkedPlans.length}");
+                  log("build plans: ${plansData.length}");
+                  if (checkedPlans.length == plansData.length) {
+                    return PlanSettingsRow(
+                      key: ObjectKey(plansData[index]),
+                      title: plansData[index].name,
+                      index: index,
+                      checked: checkedPlans[index],
+                      onCheck: (bool? checked) => onCheck(index, checked),
+                    );
                   }
-                  ref
-                      .read(planController)
-                      .reorderPlans(plansData, oldIndex, newIndex);
-                  ref.invalidate(planProvider);
+                  return Icon(
+                    // TODO: das hier noch schick machen
+                    Icons.hourglass_empty,
+                    key: ObjectKey(plansData[index]),
+                  );
+                },
+                onReorder: (oldIndex, newIndex) {
+                  setState(() {
+                    if (newIndex > oldIndex) {
+                      --newIndex;
+                    }
+                    ref
+                        .read(planController)
+                        .reorderPlans(plansData, oldIndex, newIndex);
+                    ref.invalidate(planProvider);
 
-                  final bool tempCheck = checkedPlans[oldIndex];
-                  checkedPlans.removeAt(oldIndex);
-                  checkedPlans.insert(newIndex, tempCheck);
-                });
-              },
+                    final bool tempCheck = checkedPlans[oldIndex];
+                    checkedPlans.removeAt(oldIndex);
+                    checkedPlans.insert(newIndex, tempCheck);
+                  });
+                },
+              ),
             ),
-          ),
-          //Bottom Bar
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                TextButton(
-                  onPressed: () => addPlan(ref, plansData, context),
-                  style: TextButton.styleFrom(
-                    disabledForegroundColor:
-                        const Color.fromARGB(255, 150, 150, 150),
+            //Bottom Bar
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  TextButton(
+                    onPressed: () => addPlan(ref, plansData, context),
+                    style: TextButton.styleFrom(
+                      disabledForegroundColor:
+                          const Color.fromARGB(255, 150, 150, 150),
+                    ),
+                    child: Column(
+                      children: [
+                        const Icon(Icons.add),
+                        Text(AppLocalizations.of(context)!.add),
+                      ],
+                    ),
                   ),
-                  child: Column(
-                    children: [
-                      const Icon(Icons.add),
-                      Text(AppLocalizations.of(context)!.add),
-                    ],
+                  TextButton(
+                    onPressed: allCheckedIndexes(plansData).isNotEmpty
+                        ? () => {
+                              sharePlans(
+                                  plansData, allCheckedIndexes(plansData))
+                            }
+                        : null,
+                    style: TextButton.styleFrom(
+                      disabledForegroundColor:
+                          const Color.fromARGB(255, 150, 150, 150),
+                    ),
+                    child: Column(
+                      children: [
+                        const Icon(Icons.share),
+                        Text(AppLocalizations.of(context)!.share),
+                      ],
+                    ),
                   ),
-                ),
-                TextButton(
-                  onPressed: allCheckedIndexes(plansData).isNotEmpty
-                      ? () =>
-                          {sharePlans(plansData, allCheckedIndexes(plansData))}
-                      : null,
-                  style: TextButton.styleFrom(
-                    disabledForegroundColor:
-                        const Color.fromARGB(255, 150, 150, 150),
+                  TextButton(
+                    onPressed: allCheckedIndexes(plansData).isNotEmpty
+                        ? () {
+                            final List<int> allChecked =
+                                allCheckedIndexes(plansData);
+                            final String description = allChecked.length == 1
+                                ? plansData[allChecked[0]].name
+                                : "${allChecked.length} ${AppLocalizations.of(context)!.plans}";
+                            deletionType == DeletionTypes.never
+                                ? removePlans(allCheckedIndexes(plansData), ref,
+                                    plansData)
+                                : AllDialogs.showDeleteDialog(
+                                    context,
+                                    description,
+                                    () => {
+                                          removePlans(
+                                              allCheckedIndexes(plansData),
+                                              ref,
+                                              plansData)
+                                        });
+                          }
+                        : null,
+                    style: TextButton.styleFrom(
+                      disabledForegroundColor:
+                          const Color.fromARGB(255, 150, 150, 150),
+                    ),
+                    child: Column(
+                      children: [
+                        const Icon(Icons.delete),
+                        Text(AppLocalizations.of(context)!.delete),
+                      ],
+                    ),
                   ),
-                  child: Column(
-                    children: [
-                      const Icon(Icons.share),
-                      Text(AppLocalizations.of(context)!.share),
-                    ],
-                  ),
-                ),
-                TextButton(
-                  onPressed: allCheckedIndexes(plansData).isNotEmpty
-                      ? () {
-                          final List<int> allChecked =
-                              allCheckedIndexes(plansData);
-                          final String description = allChecked.length == 1
-                              ? plansData[allChecked[0]].name
-                              : "${allChecked.length} ${AppLocalizations.of(context)!.plans}";
-                          deletionType == DeletionTypes.never
-                              ? removePlans(allCheckedIndexes(plansData), ref)
-                              : AllDialogs.showDeleteDialog(
-                                  context,
-                                  description,
-                                  () => {
-                                        removePlans(
-                                            allCheckedIndexes(plansData), ref)
-                                      });
-                        }
-                      : null,
-                  style: TextButton.styleFrom(
-                    disabledForegroundColor:
-                        const Color.fromARGB(255, 150, 150, 150),
-                  ),
-                  child: Column(
-                    children: [
-                      const Icon(Icons.delete),
-                      Text(AppLocalizations.of(context)!.delete),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          )
-        ],
-      ),
+                ],
+              ),
+            )
+          ],
+        );
+      },
       error: (error, _) => Center(
         child: Text(error.toString()),
       ),
@@ -159,18 +179,18 @@ class _PlanSettingsListState extends ConsumerState<PlanSettingsContent> {
     final List<int> indexList = [];
     for (var i = 0; i < checkedPlans.length; i++) {
       if (checkedPlans[i]) {
-        indexList.add(plans[i].id);
+        indexList.add(i);
       }
     }
     return indexList;
   }
 
-  removePlans(List<int> indexList, WidgetRef ref) {
+  removePlans(List<int> indexList, WidgetRef ref, List<PlanItemData> plans) {
     indexList.sort();
     for (var i = indexList.length - 1; i >= 0; i--) {
-      ref.read(planController).deletePlan(indexList[i]);
-      ref.invalidate(planProvider);
       checkedPlans.removeAt(indexList[i]);
+      ref.read(planController).deletePlan(plans[indexList[i]].id);
+      ref.invalidate(planProvider);
     }
   }
 
@@ -180,29 +200,13 @@ class _PlanSettingsListState extends ConsumerState<PlanSettingsContent> {
     });
   }
 
-  void addPlan(WidgetRef ref, List<PlanItemData> plans, BuildContext context) {
-    const maxPlans = 25;
-    if (plans.length < maxPlans) {
-      final newPlan = PlanItemData(
-          name: "NewPlan ${plans.length + 1}", position: plans.length);
-      ref.read(planController).addPlan(newPlan);
-      ref.invalidate(planProvider);
-      checkedPlans.add(false);
-    } else {
-      final snackBar = SnackBar(
-        content: Text(AppLocalizations.of(context)!.limitReachedPlans(maxPlans),
-            textScaler: const TextScaler.linear(1.5)),
-        action: SnackBarAction(
-          backgroundColor: const Color.fromARGB(255, 255, 235, 150),
-          textColor: Colors.black,
-          label: 'X',
-          onPressed: () {
-            ScaffoldMessenger.of(context).hideCurrentSnackBar();
-          },
-        ),
-      );
-      ScaffoldMessenger.of(context).showSnackBar(snackBar);
-    }
+  Future<void> addPlan(
+      WidgetRef ref, List<PlanItemData> plans, BuildContext context) async {
+    final newPlan = PlanItemData(
+        name: "NewPlan ${plans.length + 1}", position: plans.length);
+    ref.read(planController).addPlan(newPlan);
+    ref.invalidate(planProvider);
+    checkedPlans.add(false);
   }
 
   Future<void> sharePlans(

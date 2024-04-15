@@ -1,8 +1,8 @@
 import 'dart:developer';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:workouttemplateapp/screens/DBHandler.dart';
-import 'package:workouttemplateapp/data_models.dart';
+import 'package:workouttemplateapp/data/db_handler.dart';
+import 'package:workouttemplateapp/data/data_models.dart';
 
 // Controller for change data
 final planController = Provider((ref) => PlanController());
@@ -39,6 +39,7 @@ class PlanController {
 
   void deletePlan(int planId) async {
     await DBHandler.deletePlan(planId);
+    _reorderPositions();
   }
 
   void updatePlan(PlanItemData plan) async {
@@ -48,10 +49,14 @@ class PlanController {
   void reorderPlans(List<PlanItemData> plans, int oldIndex, int newIndex) {
     final PlanItemData curPlan = plans.removeAt(oldIndex);
     plans.insert(newIndex, curPlan);
+    _reorderPositions();
+  }
+
+  void _reorderPositions() {
     for (var i = 0; i < plans.length; i++) {
       PlanItemData plan = plans[i];
       if (plan.position != i) {
-        PlanItemData newPlan = plan.repositionPlan(i);
+        PlanItemData newPlan = plan.setPosition(i);
         DBHandler.updatePlan(newPlan);
       }
     }

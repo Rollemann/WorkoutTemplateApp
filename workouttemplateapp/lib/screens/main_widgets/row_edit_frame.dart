@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:workouttemplateapp/screens/main_widgets/row_edit_controls.dart';
 
-class TemplateRowEditFrame extends StatelessWidget {
+class RowEditFrame extends StatelessWidget {
   final Widget child;
   final Function saveEdits;
   final Function cancelEdits;
   final Function deleteRow;
   final Function copyAction;
 
-  const TemplateRowEditFrame({
+  const RowEditFrame({
     super.key,
     required this.child,
     required this.saveEdits,
