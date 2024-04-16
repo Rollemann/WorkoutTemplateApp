@@ -661,7 +661,7 @@ class _PlanRowState extends ConsumerState<PlanRow> {
       editMode = !editMode;
     });
     final RowItemData newRow = RowItemData(
-      planId: curRowData.id,
+      planId: curRowData.planId,
       set: (_getNonPauseRowNumber(rows) + 1).toString(),
       weight: tempWeight,
       type: curRowData.type,
