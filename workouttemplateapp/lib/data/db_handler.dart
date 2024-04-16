@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:workouttemplateapp/data/data_models.dart';
@@ -31,17 +29,14 @@ class DBHandler {
   ///
 
   static Future<List<PlanItemData>> allPlans() async {
-    log("allPlans function called");
     final List<Map<String, Object?>> planMaps =
         await _db!.query(_tableNamePlan, orderBy: 'position');
-    log(planMaps.toString());
     return [
       for (final planJson in planMaps) PlanItemData.fromJson(planJson),
     ];
   }
 
   static Future<int> insertPlan(PlanItemData? plan) async {
-    log("Insert function called");
     return await _db!.insert(
       _tableNamePlan,
       plan!.toJson(),
@@ -50,7 +45,6 @@ class DBHandler {
   }
 
   static deletePlan(int planId) async {
-    log("deletePlan function called");
     await _db!.delete(_tableNamePlan, where: "id=?", whereArgs: [planId]);
   }
 
@@ -68,27 +62,22 @@ class DBHandler {
   ///
 
   static Future<List<RowItemData>> allRows() async {
-    log("allRows function called");
     final List<Map<String, Object?>> rowMaps =
         await _db!.query(_tableNameRow, orderBy: 'position');
-    log(rowMaps.toString());
     return [
       for (final rowJson in rowMaps) RowItemData.fromJson(rowJson),
     ];
   }
 
   static Future<int> insertRow(RowItemData? row) async {
-    log("Insert function called");
-    log(row!.toJson().toString());
     return await _db!.insert(
       _tableNameRow,
-      row.toJson(),
+      row!.toJson(),
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
   }
 
   static Future<List<RowItemData>> allRowsOfPlan(int planId) async {
-    log("allRowsOfPlan function called");
     final List<Map<String, Object?>> rowMaps = await _db!.query(
       _tableNameRow,
       where: "planId=?",
