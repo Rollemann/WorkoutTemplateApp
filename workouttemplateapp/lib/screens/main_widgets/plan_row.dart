@@ -681,12 +681,12 @@ class _PlanRowState extends ConsumerState<PlanRow> {
         context,
         "${AppLocalizations.of(context)!.row} $exercise",
         () {
-          ref.read(rowController).deleteRow(widget.rowId);
+          ref.read(rowController).deleteRow(widget.rowId, widget.planId);
           ref.invalidate(rowProvider);
         },
       );
     } else {
-      ref.read(rowController).deleteRow(widget.rowId);
+      ref.read(rowController).deleteRow(widget.rowId, widget.planId);
       ref.invalidate(rowProvider);
     }
   }

@@ -80,17 +80,26 @@ class RowController {
     await DBHandler.insertRow(row);
   }
 
-  void deleteRow(int rowId) async {
+  void deleteRow(int rowId, int planId) async {
     await DBHandler.deleteRow(rowId);
+    List<RowItemData> planRows = (await DBHandler.allRows())
+        .where((row) => row.planId == planId)
+        .toList();
+    _reorderPositions(planRows);
   }
 
   void updateRow(RowItemData row) async {
     await DBHandler.updateRow(row);
   }
 
-  void reorderRows(List<RowItemData> planRows, int oldIndex, int newIndex) {
+  void reorderRows(
+      List<RowItemData> planRows, int oldIndex, int newIndex, int planId) {
     final RowItemData curRow = planRows.removeAt(oldIndex);
     planRows.insert(newIndex, curRow);
+    _reorderPositions(planRows);
+  }
+
+  void _reorderPositions(List<RowItemData> planRows) {
     for (var i = 0; i < planRows.length; i++) {
       RowItemData row = planRows[i];
       if (row.position != i) {

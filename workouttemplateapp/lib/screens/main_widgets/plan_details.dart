@@ -77,9 +77,8 @@ class _PlanDetailsState extends ConsumerState<PlanDetails> {
                     if (newIndex > oldIndex) {
                       --newIndex;
                     }
-                    ref
-                        .read(rowController)
-                        .reorderRows(planRows, oldIndex, newIndex);
+                    ref.read(rowController).reorderRows(
+                        planRows, oldIndex, newIndex, widget.plan.id);
                     ref.invalidate(rowProvider);
                   });
                 },
