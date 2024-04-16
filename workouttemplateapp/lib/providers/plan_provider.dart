@@ -39,7 +39,8 @@ class PlanController {
 
   void deletePlan(int planId) async {
     await DBHandler.deletePlan(planId);
-    _reorderPositions();
+    final List<PlanItemData> plans = await DBHandler.allPlans();
+    _reorderPositions(plans);
   }
 
   void updatePlan(PlanItemData plan) async {
@@ -49,10 +50,10 @@ class PlanController {
   void reorderPlans(List<PlanItemData> plans, int oldIndex, int newIndex) {
     final PlanItemData curPlan = plans.removeAt(oldIndex);
     plans.insert(newIndex, curPlan);
-    _reorderPositions();
+    _reorderPositions(plans);
   }
 
-  void _reorderPositions() {
+  void _reorderPositions(plans) {
     for (var i = 0; i < plans.length; i++) {
       PlanItemData plan = plans[i];
       if (plan.position != i) {
