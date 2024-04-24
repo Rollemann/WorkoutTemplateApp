@@ -139,10 +139,10 @@ class _AppState extends ConsumerState<App> {
 - Alle übersetzungen checken
 - Beschreibungen der Settings checken
 - scroll down wenn man ein element edit macht
+- auto focus tab wenn man den neu erstellt
 
 (- Verschiedene Farben als Themes)
 (- Verschiedene Farben für verschiedene Pläne)
-(Room (Floor) statt shared prefs)
 (Wenn Zeit ende: Lied anhalten oder so (Wiedergabe stoppen))
 
 
