@@ -1,10 +1,10 @@
-import 'dart:io';
+//import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:share_plus/share_plus.dart';
+//import 'package:path_provider/path_provider.dart';
+//import 'package:share_plus/share_plus.dart';
 import 'package:workouttemplateapp/all_dialogs.dart';
 import 'package:workouttemplateapp/providers/plan_provider.dart';
 import 'package:workouttemplateapp/providers/settings_provider.dart';
@@ -204,7 +204,7 @@ class _PlanSettingsListState extends ConsumerState<PlanSettingsContent> {
     List<PlanItemData> plans,
     List<int> checkedIndexes,
   ) async {
-    final List<XFile> files = [];
+    /* final List<XFile> files = [];
     final List<String> planNames = [];
     for (int i = 0; i < plans.length; i++) {
       if (checkedIndexes.contains(i)) {
@@ -223,6 +223,6 @@ class _PlanSettingsListState extends ConsumerState<PlanSettingsContent> {
     await Share.shareXFiles(files);
     /* if (result.status == ShareResultStatus.success) {
       log('Thank you for sharing my website!');
-    } */
+    } */ */
   }
 }
